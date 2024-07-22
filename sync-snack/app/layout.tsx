@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Lora } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const lora = Lora({ style: 'normal', subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${lora.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>
