@@ -44,20 +44,21 @@ export default function InProgressEvents() {
       status: "InProgress",
       eventType: "Entertainment",
     },
+    {
+      _id: "5",
+      creatorId: "5",
+      description: "I'm going to the movies",
+      groupId: "2",
+      status: "InProgress",
+      eventType: "Entertainment",
+    },
   ];
 
   return (
-    <Box
-      w="100%"
-      h="100vh"
-      overflowY="auto"
-      p={4}
-    >
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={4}>
-        {inprogressevents.map((event) => (
-          <InProgressEventCard key={event._id} event={event} />
-        ))}
-      </SimpleGrid>
-    </Box>
+    <SimpleGrid columns={3} spacing={10}>
+      {inprogressevents.map((event) => (
+        <InProgressEventCard key={event._id} event={event} />
+      ))}
+    </SimpleGrid>
   );
 }

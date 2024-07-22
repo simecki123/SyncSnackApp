@@ -70,13 +70,13 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
       justifyContent="center"
       alignItems="center" // Center content horizontally
     >
-      <Image 
-        src={logo.src} 
-        alt="App Logo" 
+      <Image
+        src={logo.src}
+        alt="App Logo"
         w="50px"
         h="50px"
         mb={4}
-        animation={`${blink} 3s infinite`} // Apply blinking animation
+        animation={`${blink} 5s infinite`} // Apply blinking animation
       />
       {userProfile ? (
         <Text fontWeight="bold">
