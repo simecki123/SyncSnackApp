@@ -3,14 +3,14 @@ import { ChakraProvider, Box, Button} from '@chakra-ui/react';
 
 export default function BrewComponent() {
   return (
-    <ChakraProvider>
+    <ChakraProvider >
         <Box
           w="100vw"
           h="20vh"
           display="flex"
           alignItems="center"
           justifyContent="center"
-          bg="gray.100">
+          >
             <Button colorScheme='orange'>
                 Create Event
             </Button>

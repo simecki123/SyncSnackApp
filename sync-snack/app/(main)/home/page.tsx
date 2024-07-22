@@ -1,3 +1,12 @@
+import BrewComponent from "@/app/components/submit-button-components/brew";
+import { Box } from "@chakra-ui/react";
+
 export default function HomePage() {
-  return 'home page'
+  return (
+    <Box >
+      <Box>
+        <BrewComponent></BrewComponent>
+      </Box>
+    </Box>
+  );
 }

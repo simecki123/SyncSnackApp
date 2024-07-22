@@ -6,8 +6,6 @@ import BrewComponent from "./components/submit-button-components/brew";
 
 export default function Home() {
   return (
-    <Box>
-      <BrewComponent></BrewComponent>
-    </Box>
+    <div>Hello</div>
   );
 }
