@@ -3,8 +3,8 @@ import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 
 export default function OrdersPage() {
 
-  const cards = mockData.map((data) => (
-    <Card className=''>
+  const cards = mockData.map((data, index) => (
+    <Card key={index}>
       <CardBody>
         <Text>{data.firstName} {data.lastName}</Text>
         <Text>View a summary of all your customers over the last month.</Text>

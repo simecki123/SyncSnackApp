@@ -5,14 +5,9 @@ import { Box } from "@chakra-ui/react";
 export default function HomePage() {
   return (
     <Box >
-      <Box>
-        <BrewComponent></BrewComponent>
-      </Box>
-      <Box
-      
-      display="flex"
-      alignItems="center"
-      justifyContent="center">
+      <BrewComponent></BrewComponent>
+
+      <Box className="flex items-center justify-center">
         <InProgressEvents></InProgressEvents>
       </Box>
     </Box>

@@ -51,7 +51,7 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
 
   // Keyframes for blinking animation
   const blink = keyframes`
-    50% { opacity: 0; }
+    50% { opacity: 0.5; }
   `;
 
   return (
@@ -64,7 +64,6 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
       bg={cardBgColor}
       _hover={{ bg: hoverBgColor, cursor: 'pointer' }}
       transition="background 0.2s"
-      h="200px" // Fixed height for all cards
       display="flex"
       flexDirection="column"
       justifyContent="center"
