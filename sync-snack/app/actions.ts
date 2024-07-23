@@ -1,33 +1,51 @@
 'use server'
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { z } from "zod"
 
-export async function loginUser(formData: FormData) {
-
-  console.log('inside server action..');
+export async function loginUser(prevState: any, formData: FormData) {
 
   const schema = z.object({
     email: z.string().email(),
-    password: z.string(),
+    password: z.string().min(3),
   });
 
-  const data = schema.parse({
+  const validatedFields = schema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   });
 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: null,
+    };
+  }
+
   try {
-    // here a we make the post request do the backend
-    fetch(`${process.env.BACKEND_URL}/login`)
+    const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
+      method: 'POST',
+      body: JSON.stringify(validatedFields.data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const json = await res.json();
+
+    cookies().set('jwt', json.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    });
 
     revalidatePath('/')
-
-    return { message: 'Logged in user' }
   } catch (e) {
-    return { message: 'Failed to log in' }
+    console.log('failed to log in error: ', e)
+    return { message: 'Failed to log in', errors: null }
   }
+  redirect('/home')
 }
-
-
 
