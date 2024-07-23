@@ -1,8 +1,7 @@
 'use client'
 import { loginUser } from "@/app/actions"
 import { useFormState, useFormStatus } from "react-dom"
-import { Box, Button, ButtonGroup, Card, CardBody, CardHeader, FormLabel, Input, Link, Text } from '@chakra-ui/react'
-import { useActionState } from "react"
+import { Box, Button, Card, CardBody, CardHeader, Input, Link, Text } from '@chakra-ui/react'
 
 const initialState: any = {
   message: null,
@@ -13,13 +12,11 @@ export default function LoginForm() {
 
   const [state, formAction] = useFormState(loginUser, initialState);
 
-  console.log(state)
-
   return (
     <Card className="w-96">
       <CardHeader>
         <Box className="flex justify-center items-center">
-          <Text className="font-bold text-xl">Log Into SnackSync</Text>
+          <Text className="font-bold text-xl">Log Into SyncSnack</Text>
         </Box>
       </CardHeader>
       <CardBody>
@@ -30,6 +27,9 @@ export default function LoginForm() {
             </Box>
             <Box className="my-4">
               <PasswordInput state={state} />
+            </Box>
+            <Box className="flex justify-center items-center my-4">
+              <Text className="text-red-500">{state.message}</Text>
             </Box>
             <Box className="flex justify-center items-center">
               <SubmitButton />
@@ -58,7 +58,7 @@ function EmailInput({ state }: { state: any }) {
   return (
     <>
       <Input type="email" id="email" name="email" placeholder="Email" />
-      {state.errors?.email ?
+      {state.errors?.email && !state.message ?
         state.errors.email.map((error: string) => (
           <p className="mt-2 text-sm text-red-500" key={error}>
             {error}
@@ -73,7 +73,7 @@ function PasswordInput({ state }: { state: any }) {
   return (
     <>
       <Input type="password" id="password" name="password" placeholder="Password" />
-      {state.errors?.password ?
+      {state.errors?.password && !state.message ?
         state.errors.password.map((error: string) => (
           <p className="mt-2 text-sm text-red-500" key={error}>
             {error}

@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod"
 
 export async function loginUser(prevState: any, formData: FormData) {
@@ -19,12 +18,12 @@ export async function loginUser(prevState: any, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Please fill out the form',
+      message: null,
     };
   }
 
   try {
-    await fetch(`${process.env.BACKEND_URL}/login`, {
+    const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
       method: 'POST',
       body: JSON.stringify(validatedFields.data),
       headers: {
@@ -32,9 +31,15 @@ export async function loginUser(prevState: any, formData: FormData) {
       },
     });
 
+    const json = await res.json();
+
+    console.log(json)
+
+    console.log(res.headers)
+
     revalidatePath('/')
-    redirect('/home')
   } catch (e) {
+    console.log('failed to log in error: ', e)
     return { message: 'Failed to log in', errors: null }
   }
 }
