@@ -2,6 +2,8 @@
 import { Box, Image, Text, useColorModeValue, keyframes } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import logo from '@/public/logo.png';
+import Modal from '../../modals/Modal';
+import OrderFood from '../../order-food/OrderFood';
 
 interface Event {
   _id: string;
@@ -18,6 +20,7 @@ interface InProgressEventCardProps {
 
 export default function InProgressEventCard({ event }: InProgressEventCardProps) {
   const [userProfile, setUserProfile] = useState<{ firstName: string; lastName: string } | null>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   // Dummy user profiles
   const userProfiles = [
@@ -55,36 +58,42 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
   `;
 
   return (
-    <Box
-      onClick={handleMakeOrder}
-      p={4}
-      borderWidth={1}
-      borderRadius="md"
-      boxShadow="md"
-      bg={cardBgColor}
-      _hover={{ bg: hoverBgColor, cursor: 'pointer' }}
-      transition="background 0.2s"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center" // Center content horizontally
-    >
-      <Image
-        src={logo.src}
-        alt="App Logo"
-        w="50px"
-        h="50px"
-        mb={4}
-        animation={`${blink} 5s infinite`} // Apply blinking animation
-      />
-      {userProfile ? (
-        <Text fontWeight="bold">
-          Event by {userProfile.firstName} {userProfile.lastName}
-        </Text>
-      ) : (
-        <Text fontWeight="bold">Loading...</Text>
-      )}
-      <Text mt={2}>{event.description}</Text>
-    </Box>
+    <>
+        <Box
+          onClick={() => setModalOpen(true)}
+          p={4}
+          borderWidth={1}
+          borderRadius="md"
+          boxShadow="md"
+          bg={cardBgColor}
+          _hover={{ bg: hoverBgColor, cursor: 'pointer' }}
+          transition="background 0.2s"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center" // Center content horizontally
+        >
+          <Image
+            src={logo.src}
+            alt="App Logo"
+            w="50px"
+            h="50px"
+            mb={4}
+            animation={`${blink} 5s infinite`} // Apply blinking animation
+          />
+          {userProfile ? (
+            <Text fontWeight="bold">
+              Event by {userProfile.firstName} {userProfile.lastName}
+            </Text>
+          ) : (
+            <Text fontWeight="bold">Loading...</Text>
+          )}
+          <Text mt={2}>{event.description}</Text>
+        </Box>
+
+        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} >
+          <OrderFood />
+        </Modal>
+    </>
   );
 }
