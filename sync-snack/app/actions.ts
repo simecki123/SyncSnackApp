@@ -1,6 +1,8 @@
 'use server'
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { z } from "zod"
 
 export async function loginUser(prevState: any, formData: FormData) {
@@ -33,14 +35,17 @@ export async function loginUser(prevState: any, formData: FormData) {
 
     const json = await res.json();
 
-    console.log(json)
-
-    console.log(res.headers)
+    cookies().set('jwt', json.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    });
 
     revalidatePath('/')
   } catch (e) {
     console.log('failed to log in error: ', e)
     return { message: 'Failed to log in', errors: null }
   }
+  redirect('/home')
 }
 
