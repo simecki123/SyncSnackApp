@@ -1,8 +1,4 @@
-import Image from "next/image";
-import { chakra, Box } from "@chakra-ui/react";
-import SubmitButtonComponent from "./components/submit-button-components/brew";
-import BrewComponent from "./components/submit-button-components/brew";
-
+import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
