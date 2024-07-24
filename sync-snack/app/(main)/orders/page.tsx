@@ -1,123 +1,20 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-  Button,
-  Box,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react';
+import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
+
 
 export default function OrdersPage() {
-
-  const listElements = mockedData.map((data, index) => (
-    <Tr key={index}>
-      <Td>{data._id}</Td>
-      <Td><OrderTypePretty orderType={data.orderType} /></Td>
-      <Td>{data.createdAt.toLocaleString()}</Td>
-      <Td>{data.completedAt?.toLocaleString() || '-'}</Td>
-      <Td className='flex'><StatusPretty statusType={data.status} /></Td>
-      <Td><Button>Description</Button></Td>
-      <Td>
-        {data.rating && <RatingPretty rating={data.rating} /> || <Button>Rate</Button>}
-      </Td>
-    </Tr>
-  ))
-
   return (
-    <div className='h-screen mx-12'>
-      <TableContainer>
-        <Table>
-          <TableCaption>Orders history</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Type</Th>
-              <Th>Created At</Th>
-              <Th>Completed At</Th>
-              <Th>Status</Th>
-              <Th>Description</Th>
-              <Th>Rating</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {listElements}
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Type</Th>
-              <Th>Created At</Th>
-              <Th>Completed At</Th>
-              <Th>Status</Th>
-              <Th>Description</Th>
-              <Th>Rating</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
-    </div>
-  )
-}
-
-function OrderTypePretty({ orderType }: { orderType: string }) {
-
-  switch (orderType) {
-    case "coffee":
-      return (
-        <Box className='px-4 py-2 bg-stone-300 rounded-md'>
-          <Text>Coffee</Text>
+    <Box className='min-h-screen p-8 bg-gray-100'>
+      <Box className='max-w-7xl mx-auto'>
+        <Heading as="h1" size="xl" mb={8} textAlign="center">
+          Orders Management
+        </Heading>
+        <Box bg="white" rounded="lg" shadow="md" overflow="hidden">
+          <OrdersTable orders={mockedData} />
         </Box>
-      )
-    case "outside":
-      return (
-        <Box className='px-4 py-2 bg-stone-400 rounded-md text-white'>
-          <Text>Outside</Text>
-        </Box>
-      )
-  }
-}
-
-function StatusPretty({ statusType }: { statusType: string }) {
-
-  switch (statusType) {
-    case "In Progress":
-      return (
-        <Box className='px-4 py-2 bg-yellow-500 rounded-md text-white'>
-          <Text>In Progress</Text>
-        </Box>
-      )
-    case "Done":
-      return (
-        <Box className='px-4 py-2 bg-green-500 rounded-md text-white'>
-          <Text>Done</Text>
-        </Box>
-      )
-    case "Canceled":
-      return (
-        <Box className='px-4 py-2 bg-red-600 rounded-md text-white'>
-          <Text>Canceled</Text>
-        </Box>
-      )
-  }
-}
-
-function RatingPretty({ rating }: { rating: number }) {
-
-  return (
-    <Box>
-      {[...Array(rating)].map((_, index) => (
-        <Text key={index} as="span">
-          {index < rating ? '★' : '☆'}
-        </Text>
-      ))}
+      </Box>
     </Box>
-  )
+  );
 }
 
 const mockedData = [
