@@ -22,7 +22,7 @@ export const getEvents = cache(fetchEvents);
 const inprogresseventsCoffee: Event[] = [
     {
       _id: "2",
-      creatorId: "Karlo",
+      creatorId: "3",
       description: "I'm going to make coffee",
       groupId: "1",
       status: "InProgress",
