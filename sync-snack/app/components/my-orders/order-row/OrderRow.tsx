@@ -5,14 +5,20 @@ import StatusPretty from '../status-preatty/StatusPreatty';
 import RatingPretty from '../rating-preatty/RatingPreatty';
 import { useState } from 'react';
 import Modal from '../../modals/Modal';
-import OrderModalComponent from '../order-modal-component/OrderModalComponent';
+import OrderRateModalComponent from '../order-modal-component/OrderRateModalComponent';
+import OrderDescriptionModalComponent from '../order-modal-component/OrderDescriptionModalComponent';
 
 export default function OrderRow({ order }: any) {
-  const [isModalOpened, setModalOpen] = useState(false);
+  const [isRateModalOpened, setRateModalOpen] = useState(false);
+  const [isDescriptionModalOpened, setDescriptionModalOpen] = useState(false);
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleRateCloseModal = () => {
+    setRateModalOpen(false);
   };
+
+  const handleDescriptionCloseModal = () => {
+    setDescriptionModalOpen(false);
+  }
 
   return (
     <>
@@ -22,14 +28,20 @@ export default function OrderRow({ order }: any) {
         <Td>{order.createdAt.toLocaleString()}</Td>
         <Td>{order.completedAt?.toLocaleString() || '-'}</Td>
         <Td className='flex'><StatusPretty statusType={order.status} /></Td>
-        <Td><Button>Description</Button></Td>
+        <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
         <Td>
-          {order.rating ? <RatingPretty rating={order.rating} /> : <Button onClick={() => setModalOpen(true)}>Rate</Button>}
+          {order.rating ? <RatingPretty rating={order.rating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
         </Td>
       </Tr>
-      {isModalOpened && (
-        <Modal isOpen={isModalOpened} onClose={handleCloseModal}>
-          <OrderModalComponent coffeeOrderId={order._id} onClose={handleCloseModal} />
+      {isRateModalOpened && (
+        <Modal isOpen={isRateModalOpened} onClose={handleRateCloseModal}>
+          <OrderRateModalComponent coffeeOrderId={order._id} onClose={handleRateCloseModal} />
+        </Modal>
+      )}
+
+      {isDescriptionModalOpened && (
+        <Modal isOpen={isDescriptionModalOpened} onClose={handleDescriptionCloseModal}>
+          <OrderDescriptionModalComponent description={order.additionalOptions} onClose={handleDescriptionCloseModal}></OrderDescriptionModalComponent>
         </Modal>
       )}
     </>

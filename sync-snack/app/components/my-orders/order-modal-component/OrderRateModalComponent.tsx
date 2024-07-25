@@ -26,7 +26,7 @@ interface OrderModalComponentProps {
   onClose: () => void;
 }
 
-export default function OrderModalComponent({ coffeeOrderId, onClose }: OrderModalComponentProps) {
+export default function OrderRateModalComponent({ coffeeOrderId, onClose }: OrderModalComponentProps) {
   const [givenStars, setGivenStars] = useState<number | null>(null)
   const starsValues = [1, 2, 3, 4, 5];
   const toast = useToast();
