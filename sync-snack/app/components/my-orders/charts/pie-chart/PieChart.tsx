@@ -17,7 +17,7 @@ interface MockedData {
 }
 
 export default function PieChart({ data, option, setOption }: { data: MockedData[], option: string, setOption: (option: string) => void }) {
-  const chartRef = useRef<ChartJS>(null);
+  const chartRef = useRef<ChartJS<"pie", number[], unknown>>(null);
 
   useEffect(() => {
     if (chartRef.current) {
