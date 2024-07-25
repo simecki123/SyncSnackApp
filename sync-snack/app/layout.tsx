@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Lora } from "next/font/google";
-import { redirect } from "next/navigation";
 
 const lora = Lora({ style: 'normal', subsets: ["latin"], weight: ["400"] });
 
