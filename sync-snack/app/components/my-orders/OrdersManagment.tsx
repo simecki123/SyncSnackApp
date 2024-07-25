@@ -24,7 +24,7 @@ export default function OrdersManagement({ orders }: { orders: any[] }) {
   };
 
   return (
-    <Flex width="100%" minHeight="calc(100vh - 100px)"> {/* Adjust the 100px based on your header height */}
+    <Flex width="100%"> {/* Adjust the 100px based on your header height */}
       <Box width="200px" mr={4} flexShrink={0}>
         <ChooseChart setView={setView} />
       </Box>

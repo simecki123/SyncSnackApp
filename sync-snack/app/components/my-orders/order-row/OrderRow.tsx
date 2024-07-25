@@ -23,7 +23,6 @@ export default function OrderRow({ order }: any) {
   return (
     <>
       <Tr>
-        <Td>{order._id}</Td>
         <Td><OrderTypePretty orderType={order.orderType} /></Td>
         <Td>{order.createdAt.toLocaleString()}</Td>
         <Td>{order.completedAt?.toLocaleString() || '-'}</Td>

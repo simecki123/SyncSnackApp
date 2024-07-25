@@ -13,9 +13,6 @@ export default async function InProgressEvents({
 
   return (
     <Box p={6} bg="gray.50" borderRadius="lg">
-      <Heading mb={6} textAlign="center" color="orange.600">
-        Currently pending events
-      </Heading>
       <FilteredEvents initialEvents={events} initialFilter={filter} />
     </Box>
   );

@@ -45,13 +45,10 @@ export default function EventPage() {
       }
     }
   ];
- 
+
   return (
     <Container maxW="container.xl" py={8}>
       <VStack spacing={8} align="stretch">
-        <Heading as="h1" size="2xl" textAlign="center" color="orange.600">
-          Event Details
-        </Heading>
         <EventDetails event={event} orders={orders} />
         <Divider my={6} borderColor="orange.300" />
         <Heading as="h2" size="xl" color="orange.600" mb={4}>

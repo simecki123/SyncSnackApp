@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   const [state, formAction] = useFormState(loginUser, initialState);
 
-  const { data: session, status } = useSession();
+  const { data: session, status }: any = useSession();
 
   console.log(session, status)
   console.log(session?.user?.email, '-- user mail')

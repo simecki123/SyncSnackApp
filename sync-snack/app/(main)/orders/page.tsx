@@ -1,17 +1,11 @@
-import { Box, Heading } from '@chakra-ui/react';
-import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
+import { Box, calc, Heading } from '@chakra-ui/react';
 import OrdersManagement from '@/app/components/my-orders/OrdersManagment';
 
 
 export default function OrdersPage() {
   return (
-    <Box className='min-h-screen p-8 bg-gray-100'>
-      <Box className='w-full'>
-        <Heading as="h1" size="xl" mb={8} textAlign="center">
-          Orders Management
-        </Heading>
-        <OrdersManagement orders={mockedData} />
-      </Box>
+    <Box className='p-8 bg-gray-100' style={{ height: 'calc(100vh - 100px)' }}>
+      <OrdersManagement orders={mockedData} />
     </Box>
   );
 }
@@ -24,7 +18,6 @@ const mockedData = [
     status: "In Progress",
     orderType: "coffee",
     additionalOptions: "bring it in a yellow cup",
-    
     rating: 3
   },
   {
@@ -60,7 +53,7 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions:  "add a stirrer",
+    additionalOptions: "add a stirrer",
     rating: null
   },
   {
@@ -240,7 +233,7 @@ const mockedData = [
     status: "Canceled",
     orderType: "coffee",
     additionalOptions: "extra hot",
-    
+
     rating: null
   }
 ];

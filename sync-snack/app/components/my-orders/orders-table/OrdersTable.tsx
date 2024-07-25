@@ -1,15 +1,16 @@
 "use client";
 import React, { useState } from 'react';
-import { 
+import {
   Table, Thead, Tbody, Tfoot, Tr, Th, TableCaption, TableContainer,
-  Button, Flex, HStack, IconButton
+  Button, Flex, HStack, IconButton,
+  Box,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import OrderRow from '../order-row/OrderRow';
 
 export default function OrdersTable({ orders }: any) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 6;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -46,41 +47,30 @@ export default function OrdersTable({ orders }: any) {
   };
 
   return (
-    <>
-      <TableContainer>
-        <Table variant="simple" colorScheme="gray">
-          <TableCaption>Orders history</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Type</Th>
-              <Th>Created At</Th>
-              <Th>Completed At</Th>
-              <Th>Status</Th>
-              <Th>Description</Th>
-              <Th>Rating</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {currentItems.map((order: any, index: number) => (
-              <OrderRow key={index} order={order} />
-            ))}
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Type</Th>
-              <Th>Created At</Th>
-              <Th>Completed At</Th>
-              <Th>Status</Th>
-              <Th>Description</Th>
-              <Th>Rating</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
-      
-      <Flex justifyContent="flex-end" mt={4}>
+    <Box className='flex flex-col justify-between'>
+      <Box style={{ flex: 1 }} className='p-4'>
+        <TableContainer>
+          <Table variant="simple" colorScheme="gray">
+            <Thead>
+              <Tr>
+                <Th>Type</Th>
+                <Th>Created At</Th>
+                <Th>Completed At</Th>
+                <Th>Status</Th>
+                <Th>Description</Th>
+                <Th>Rating</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {currentItems.map((order: any, index: number) => (
+                <OrderRow key={index} order={order} />
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+
+      <Flex style={{ flexShrink: 0 }} justifyContent="flex-end" mt={4} className='mr-4 mb-4'>
         <HStack spacing={2}>
           <IconButton
             aria-label="Previous page"
@@ -99,6 +89,6 @@ export default function OrdersTable({ orders }: any) {
           />
         </HStack>
       </Flex>
-    </>
+    </Box>
   );
 }
