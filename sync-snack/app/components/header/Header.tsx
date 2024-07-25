@@ -1,5 +1,6 @@
 import { Link } from "@chakra-ui/react";
 import HeaderMenu from "./HeaderMenu";
+import { SignOutButton } from "./SignOutButton";
 
 export default function Header() {
   return (
@@ -15,6 +16,9 @@ export default function Header() {
           <Link href="/leaderboard" className="mr-8 ">Leaderboard</Link>
           <Link href="/event" className="mr-8">My Event</Link>
           <Link href="/orders" className="mr-8">My Orders</Link>
+          <div className="mr-4">
+            <SignOutButton />
+          </div>
         </div>
         <div className="flex items-center md:hidden">
           <HeaderMenu />
