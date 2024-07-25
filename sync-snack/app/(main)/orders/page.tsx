@@ -1,17 +1,16 @@
 import { Box, Heading } from '@chakra-ui/react';
 import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
+import OrdersManagement from '@/app/components/my-orders/OrdersManagment';
 
 
 export default function OrdersPage() {
   return (
     <Box className='min-h-screen p-8 bg-gray-100'>
-      <Box className='max-w-7xl mx-auto'>
+      <Box className='w-full'>
         <Heading as="h1" size="xl" mb={8} textAlign="center">
           Orders Management
         </Heading>
-        <Box bg="white" rounded="lg" shadow="md" overflow="hidden">
-          <OrdersTable orders={mockedData} />
-        </Box>
+        <OrdersManagement orders={mockedData} />
       </Box>
     </Box>
   );
@@ -24,11 +23,8 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 3,
-      sugarAmount: 4,
-      description: "bring it in a yellow cup"
-    },
+    additionalOptions: "bring it in a yellow cup",
+    
     rating: 3
   },
   {
@@ -55,11 +51,7 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 2,
-      sugarAmount: 5,
-      description: "use a large cup"
-    },
+    additionalOptions: "use a large cup",
     rating: null
   },
   {
@@ -68,11 +60,7 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 4,
-      sugarAmount: 2,
-      description: "add a stirrer"
-    },
+    additionalOptions:  "add a stirrer",
     rating: null
   },
   {
@@ -81,11 +69,7 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 5,
-      sugarAmount: 1,
-      description: "extra hot"
-    },
+    additionalOptions: "extra hot",
     rating: null
   },
   {
@@ -103,11 +87,7 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 3,
-      sugarAmount: 4,
-      description: "extra frothy"
-    },
+    additionalOptions: "extra frothy",
     rating: 3
   },
   {
@@ -125,11 +105,7 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 1,
-      sugarAmount: 3,
-      description: "bring it in a blue cup"
-    },
+    additionalOptions: "bring it in a blue cup",
     rating: null
   },
   {
@@ -147,11 +123,7 @@ const mockedData = [
     completedAt: new Date("2023-07-20T15:20:40Z"),
     status: "Done",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 4,
-      sugarAmount: 3,
-      description: "bring it in a red cup"
-    },
+    additionalOptions: "bring it in a red cup",
     rating: 3
   },
   {
@@ -187,11 +159,7 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 2,
-      sugarAmount: 2,
-      description: "decaf"
-    },
+    additionalOptions: "decaf",
     rating: null
   },
   {
@@ -200,11 +168,7 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 1,
-      sugarAmount: 5,
-      description: "extra strong"
-    },
+    additionalOptions: "extra strong",
     rating: null
   },
   {
@@ -222,12 +186,7 @@ const mockedData = [
     completedAt: new Date("2023-03-25T09:15:40Z"),
     status: "Done",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 2,
-      sugarAmount: 1,
-      description: "no foam"
-    },
-    rating: 5
+    additionalOptions: "no foam",
   },
   {
     _id: "7sT8uV9w",
@@ -244,11 +203,7 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 5,
-      sugarAmount: 3,
-      description: "bring it in a green cup"
-    },
+    additionalOptions: "bring it in a green cup",
     rating: 2
   },
   {
@@ -266,11 +221,7 @@ const mockedData = [
     completedAt: null,
     status: "In Progress",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 4,
-      sugarAmount: 2,
-      description: "bring it with a lid"
-    },
+    additionalOptions: "bring it with a lid",
     rating: null
   },
   {
@@ -288,11 +239,8 @@ const mockedData = [
     completedAt: null,
     status: "Canceled",
     orderType: "coffee",
-    additionalOptions: {
-      milkAmount: 1,
-      sugarAmount: 4,
-      description: "extra hot"
-    },
+    additionalOptions: "extra hot",
+    
     rating: null
   }
 ];
