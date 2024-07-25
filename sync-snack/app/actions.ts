@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod"
+import { signIn, signOut } from "@/app/auth";
 
 export async function loginUser(prevState: any, formData: FormData) {
 
@@ -41,15 +42,21 @@ export async function loginUser(prevState: any, formData: FormData) {
       path: '/',
     });
 
+
+    console.log('working like charm')
+    await signIn("credentials", validatedFields.data)
+    console.log('working like wood')
+
     revalidatePath('/')
   } catch (e) {
-    console.log('failed to log in error: ', e)
-    return { message: 'Failed to log in', errors: null }
+    let message = null;
+    setTimeout(() => {
+      message = 'Failed to log in'
+    }, 500)
+    return { message: message, errors: null }
   }
   redirect('/home')
 }
-
-
 
 interface RegisterForm {
   email: string,
@@ -60,22 +67,22 @@ export async function registerUser(registerForm: RegisterForm) {
   try {
     fetch(`${process.env.BACKEND_URL}/api/auth/register`);
     revalidatePath('/');
-    return {message: "User registered"}
+    return { message: "User registered" }
   } catch (e) {
-    return {message: 'Failed to register'}
+    return { message: 'Failed to register' }
   }
 }
 
 interface ProfileForm {
   firstName: string,
-  lastName:string
+  lastName: string
 }
 interface JoinGroupForm {
   groupName: string,
   groupPassword: string,
 }
 
-export async function patchUserProfile(userProfileForm:ProfileForm, JoinGroupForm: JoinGroupForm ) {
+export async function patchUserProfile(userProfileForm: ProfileForm, JoinGroupForm: JoinGroupForm) {
   const groupResponse = await fetch(`${process.env.BACKEND_URL}/getGroup`);
   //const groupId = groupResponse.data._id;
   await fetch(`${process.env.BACKEND_URL}/updateUserProfile`);
@@ -86,7 +93,7 @@ interface CreateGroupForm {
   groupPassword: string,
   groupDescription: string,
 }
-export async function createNewGroup(groupForm:CreateGroupForm) {
+export async function createNewGroup(groupForm: CreateGroupForm) {
   await fetch(`${process.env.BACKEND_URL}/createNewGroup`);
 }
 

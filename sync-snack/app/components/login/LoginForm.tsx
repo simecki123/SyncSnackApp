@@ -2,6 +2,9 @@
 import { loginUser } from "@/app/actions"
 import { useFormState, useFormStatus } from "react-dom"
 import { Box, Button, Card, CardBody, CardHeader, Input, Link, Text } from '@chakra-ui/react'
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
+import { useEffect, useState } from "react"
 
 const initialState: any = {
   message: null,
@@ -11,6 +14,32 @@ const initialState: any = {
 export default function LoginForm() {
 
   const [state, formAction] = useFormState(loginUser, initialState);
+
+  const { data: session, status } = useSession();
+  console.log('component init', status)
+
+  useEffect(() => {
+    console.log('effect auth from effect', status)
+    if (status === "authenticated") {
+      redirect('/home')
+    }
+  }, [status])
+
+  function handleClick() {
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
+  }
+
+  function SubmitButton() {
+    const { pending } = useFormStatus()
+    return (
+      <Button colorScheme='blue' type="submit" aria-disabled={pending}
+        className="w-full" onClick={handleClick}>
+        Login
+      </Button>
+    )
+  }
 
   return (
     <Card className="w-96">
@@ -41,16 +70,6 @@ export default function LoginForm() {
         </form>
       </CardBody>
     </Card>
-  )
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <Button colorScheme='blue' type="submit" aria-disabled={pending}
-      className="w-full">
-      Login
-    </Button>
   )
 }
 
