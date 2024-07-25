@@ -5,6 +5,7 @@ import { Box, Button, Card, CardBody, CardHeader, Input, Link, Text } from '@cha
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import { useEffect, useState } from "react"
+import { auth } from "@/app/auth"
 
 const initialState: any = {
   message: null,
@@ -16,10 +17,12 @@ export default function LoginForm() {
   const [state, formAction] = useFormState(loginUser, initialState);
 
   const { data: session, status } = useSession();
-  console.log('component init', status)
+
+  console.log(session, status)
+  console.log(session?.user?.email, '-- user mail')
+  console.log(session?.user?.accessToken)
 
   useEffect(() => {
-    console.log('effect auth from effect', status)
     if (status === "authenticated") {
       redirect('/home')
     }

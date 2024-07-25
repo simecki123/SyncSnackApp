@@ -1,15 +1,19 @@
 import { redirect } from "next/navigation";
 import Header from "../components/header/Header";
+import { auth } from "../auth";
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
   const accessDenied = false;
-  // here implement the logic is the jwt valid by fetching some basic user data
-  if (accessDenied) {
+  const session = await auth();
+  console.log(session, 'session inside layout')
+  console.log(session?.user, ' -- nul or no')
+  console.log(!session?.user, ' -- nul or no')
+  if (!session?.user) {
     redirect('/login')
   }
 

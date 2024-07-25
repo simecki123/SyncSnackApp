@@ -97,6 +97,3 @@ export async function createNewGroup(groupForm: CreateGroupForm) {
   await fetch(`${process.env.BACKEND_URL}/createNewGroup`);
 }
 
-
-
-
