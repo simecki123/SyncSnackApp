@@ -47,15 +47,14 @@ export default function OrdersTable({ orders }: any) {
   };
 
   return (
-    <Box className='flex flex-col'>
-      <Box className='p-4 flex-none border-black'>
+    <Box className='flex flex-col grow'>
+      <Box className='p-4 flex-none'>
         <TableContainer>
           <Table variant="simple" colorScheme="gray">
             <Thead>
               <Tr>
                 <Th>Type</Th>
-                <Th>Created At</Th>
-                <Th>Completed At</Th>
+                <Th>Created</Th>
                 <Th>Status</Th>
                 <Th>Description</Th>
                 <Th>Rating</Th>
