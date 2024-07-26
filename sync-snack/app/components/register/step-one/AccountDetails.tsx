@@ -6,7 +6,7 @@ const AccountDetails = ({ formData, handleInputChange }: any) => (
   <>
     <FormControl className="mb-4">
       <FormLabel>Email</FormLabel>
-      <Input
+      <Input 
         name="email"
         value={formData.email}
         onChange={handleInputChange}
