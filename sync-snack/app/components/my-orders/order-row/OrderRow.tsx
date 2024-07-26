@@ -24,7 +24,7 @@ export default function OrderRow({ order }: any) {
     <>
       <Tr>
         <Td><OrderTypePretty orderType={order.orderType} /></Td>
-        <Td>{convertTimeToString(order.createdAt)}</Td>
+        <Td className='w-96'>{convertTimeToString(order.createdAt)}</Td>
         <Td className='flex'><StatusPretty statusType={order.status} /></Td>
         <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
         <Td>
