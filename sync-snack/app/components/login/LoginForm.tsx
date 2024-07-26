@@ -45,7 +45,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="w-96">
+    <Card className="w-96" colorScheme="red">
       <CardHeader>
         <Box className="flex justify-center items-center">
           <Text className="font-bold text-xl">Log Into SyncSnack</Text>

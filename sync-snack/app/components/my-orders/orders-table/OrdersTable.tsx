@@ -10,7 +10,7 @@ import OrderRow from '../order-row/OrderRow';
 
 export default function OrdersTable({ orders }: any) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -47,8 +47,8 @@ export default function OrdersTable({ orders }: any) {
   };
 
   return (
-    <Box className='flex flex-col justify-between'>
-      <Box style={{ flex: 1 }} className='p-4'>
+    <Box className='flex flex-col'>
+      <Box className='p-4 flex-none border-black'>
         <TableContainer>
           <Table variant="simple" colorScheme="gray">
             <Thead>
@@ -70,7 +70,7 @@ export default function OrdersTable({ orders }: any) {
         </TableContainer>
       </Box>
 
-      <Flex style={{ flexShrink: 0 }} justifyContent="flex-end" mt={4} className='mr-4 mb-4'>
+      <Flex justifyContent="flex-end" alignItems="flex-end" mt={4} className='mr-4 mb-2 grow'>
         <HStack spacing={2}>
           <IconButton
             aria-label="Previous page"

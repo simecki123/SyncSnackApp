@@ -4,7 +4,7 @@ import OrdersManagement from '@/app/components/my-orders/OrdersManagment';
 
 export default function OrdersPage() {
   return (
-    <Box className='p-8 bg-gray-100' style={{ height: 'calc(100vh - 100px)' }}>
+    <Box className='p-8 bg-gray-100 flex flex-col' style={{ height: 'calc(100vh - 100px)' }}>
       <OrdersManagement orders={mockedData} />
     </Box>
   );

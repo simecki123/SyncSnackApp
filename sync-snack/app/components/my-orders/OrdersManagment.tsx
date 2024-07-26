@@ -24,11 +24,12 @@ export default function OrdersManagement({ orders }: { orders: any[] }) {
   };
 
   return (
-    <Flex width="100%"> {/* Adjust the 100px based on your header height */}
-      <Box width="200px" mr={4} flexShrink={0}>
+    <Flex className='flex w-full grow border-black'> {/* Adjust the 100px based on your header height */}
+      <Box width="200px" mr={4}>
         <ChooseChart setView={setView} />
       </Box>
-      <Box flex={1} bg="white" rounded="lg" shadow="md" overflow="hidden" maxWidth="calc(100% - 224px)"> {/* 200px + 24px margin */}
+      <Box className='flex grow border-black' bg="white" rounded="lg" shadow="md"
+        overflow="hidden">
         {renderView()}
       </Box>
     </Flex>
