@@ -4,8 +4,8 @@ import { VStack, Button, Image, Text } from '@chakra-ui/react';
 
 const chartOptions = [
   { name: 'Table', image: '/table_image.png', value: 'table' },
-  { name: 'Column Chart', image: '/angular-column-chart.png', value: 'column' },
-  { name: 'Pie Chart', image: '/pie_default_full_circle.png', value: 'pie' },
+  { name: 'Statistics', image: '/angular-column-chart.png', value: 'column' },
+  // { name: 'Pie Chart', image: '/pie_default_full_circle.png', value: 'pie' },
 ];
 
 export default function ChooseChart({ setView }: any) {

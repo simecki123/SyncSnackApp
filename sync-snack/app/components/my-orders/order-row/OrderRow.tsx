@@ -24,8 +24,7 @@ export default function OrderRow({ order }: any) {
     <>
       <Tr>
         <Td><OrderTypePretty orderType={order.orderType} /></Td>
-        <Td>{order.createdAt.toLocaleString()}</Td>
-        <Td>{order.completedAt?.toLocaleString() || '-'}</Td>
+        <Td className='w-96'>{convertTimeToString(order.createdAt)}</Td>
         <Td className='flex'><StatusPretty statusType={order.status} /></Td>
         <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
         <Td>
@@ -46,3 +45,31 @@ export default function OrderRow({ order }: any) {
     </>
   );
 }
+
+function convertTimeToString(time: Date | null): string {
+  if (!time) {
+    return "-";
+  }
+  const now = new Date();
+  const diffTime = now.getTime() - time.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
+  const diffMonths = (now.getFullYear() - time.getFullYear()) * 12 + now.getMonth() - time.getMonth();
+  const diffYears = now.getFullYear() - time.getFullYear();
+
+  if (diffDays === 0) {
+    return "today";
+  } else if (diffDays === 1) {
+    return "yesterday";
+  } else if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  } else if (diffDays < 30) {
+    return "A week ago";
+  } else if (diffMonths < 12) {
+    return "A month ago";
+  } else if (diffYears === 1) {
+    return "A year ago";
+  } else {
+    return `${diffYears} years ago`;
+  }
+}
+

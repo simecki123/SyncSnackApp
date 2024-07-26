@@ -22,7 +22,7 @@ export default async function Layout({
       <header className="fixed top-0 left-0 right-0 z-50">
         <Header />
       </header>
-      <div className="mt-24">
+      <div className="mt-20">
         {children}
       </div>
     </div>
