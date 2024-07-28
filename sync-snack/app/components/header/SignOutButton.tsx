@@ -8,8 +8,10 @@ export function SignOutButton() {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    router.push('/login');
+    await signOut({
+      redirect: true,
+      callbackUrl: '/login',
+    });
   };
 
   return (

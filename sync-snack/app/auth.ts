@@ -9,6 +9,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
+
         const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
           method: "POST",
           headers: {
@@ -45,10 +46,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn() {
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }

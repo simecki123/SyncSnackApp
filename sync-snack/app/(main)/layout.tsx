@@ -8,11 +8,7 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
 
-  const accessDenied = false;
   const session = await auth();
-  console.log(session, 'session inside layout')
-  console.log(session?.user, ' -- nul or no')
-  console.log(!session?.user, ' -- nul or no')
   if (!session?.user) {
     redirect('/login')
   }
