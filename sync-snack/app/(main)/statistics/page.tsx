@@ -1,12 +1,11 @@
-import Statistics from '@/app/components/my-orders/charts/column-chart/Statistics';
-import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box } from '@chakra-ui/react'
+import Statistics from "@/app/components/my-orders/charts/column-chart/Statistics";
 
-export default function OrdersPage() {
+export default function() {
   return (
-    <OrdersTable orders={sortDataByCreatedAtDescending(mockedData)} />
-  );
+    <Statistics stats={calculateStatistics(sortDataByCreatedAtDescending(mockedData))} />
+  )
 }
+
 
 function sortDataByCreatedAtDescending(data: any[]) {
   return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

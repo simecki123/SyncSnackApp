@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
-import Header from "../components/header/Header";
 import { auth } from "../auth";
+import NavLinks from "../components/header/NavLinks";
+import HeaderLogo from "../components/header/HeaderLogo";
+import { SignOutButton } from "../components/header/SignOutButton";
+import { Box } from "@chakra-ui/react";
 
 export default async function Layout({
   children,
@@ -14,11 +17,22 @@ export default async function Layout({
   }
 
   return (
-    <div>
+    <div className="flex min-h-screen">
+      <div className="flex flex-col">
+        <HeaderLogo />
+        <NavLinks />
+        <Box className="grow flex items-end">
+          <Box className="w-full flex justify-center p-2">
+            <SignOutButton />
+          </Box>
+        </Box>
+      </div>
+      {/*
       <header className="fixed top-0 left-0 right-0 z-50">
         <Header />
       </header>
-      <div className="mt-20">
+       */}
+      <div className="grow">
         {children}
       </div>
     </div>

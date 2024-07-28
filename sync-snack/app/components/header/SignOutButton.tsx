@@ -15,7 +15,7 @@ export function SignOutButton() {
   };
 
   return (
-    <Button colorScheme={"orange"} onClick={handleSignOut}>Sign Out</Button>
+    <Button className="grow" colorScheme={"orange"} onClick={handleSignOut}>Sign Out</Button>
   );
 }
 
