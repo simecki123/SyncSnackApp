@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Box, Button, Flex, Step, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
+import { Box, useToast, Button, Flex, Step, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import AccountDetails from './step-one/AccountDetails';
 import UserProfile from './step-two/UserProfile';
@@ -14,7 +14,7 @@ const steps = [
 
 const RegisterComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const toast = useToast();
   const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const RegisterComponent = () => {
   const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e: any) => {
     if (e.target) {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
@@ -41,58 +41,61 @@ const RegisterComponent = () => {
     }
   };
 
-  //______________________________________________________________________
-  // function for submiting data to database
+  const showToast = (title: string, description: string, status: 'success' | 'error' | 'warning' | 'info') => {
+    toast({
+      title,
+      description,
+      status,
+      duration: 5000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
-    setErrorMessage(null);  // Clear any previous error messages
-    const isemailValid =  await isUserEmailValid();
-    console.log("is email valid: ",isemailValid);
-
-    if(isemailValid) {
-      setErrorMessage("That user already exist. Can't register this account");
-      setIsLoading(false);
+    
+    try {
+      const isEmailValid = await isUserEmailValid();
       
-    } else {
-      try {
-        let groupId;
-
-        if (formData.groupChoice === 'create') {
-          groupId = await createGroup();
-        } else {
-          groupId = await joinGroup();
-        }
-
-        if (!groupId) {
-          throw new Error('Failed to create or join group');
-        }
-
-        const userData = await registerUser();
-
-        if (!userData.userId) {
-          throw new Error('Failed to register user');
-        }
-
-        await createUserProfile(userData.userId, groupId);
-
-        setErrorMessage('Registration successful!');
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);  // Redirect after 2 seconds
-      } catch (error) {
-        console.error('Registration error:', error);
-        if (error instanceof Error) {
-          setErrorMessage(`Registration failed: User profile cant be made`);
-        } else {
-          setErrorMessage('An unexpected error occurred. Please try again.');
-        }
-      } finally {
-        setIsLoading(false);
+      if (isEmailValid) {
+        showToast('Error', "That user already exists. Can't register this account", 'error');
+        return;
       }
+
+      let groupId;
+      if (formData.groupChoice === 'create') {
+        groupId = await createGroup();
+      } else {
+        groupId = await joinGroup();
+      }
+
+      if (!groupId) {
+        showToast('Error', 'Failed to create or join group', 'error');
+        return;
+      }
+
+      const userData = await registerUser();
+
+      if (!userData.userId) {
+        showToast('Error', 'Failed to register user', 'error');
+        return;
+      }
+
+      await createUserProfile(userData.userId, groupId);
+
+      showToast('Success', 'Registration successful!', 'success');
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);  // Redirect after 2 seconds
+    } catch (error) {
+      console.error('Registration error:', error);
+      showToast('Error', 'An unexpected error occurred. Please try again.', 'error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Create group for user
   const createGroup = async (): Promise<string> => {
     const response = await fetch('http://localhost:8080/api/groups/create', {
       method: 'POST',
@@ -105,15 +108,13 @@ const RegisterComponent = () => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create group');
+      throw new Error('Failed to create group');
     }
 
     const groupData = await response.json();
     return groupData.id;
   };
 
-  //Join user to specific group
   const joinGroup = async (): Promise<string> => {
     const response = await fetch('http://localhost:8080/api/groups/join', {
       method: 'POST',
@@ -125,15 +126,13 @@ const RegisterComponent = () => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to join group');
+      throw new Error('Failed to join group');
     }
 
     const groupData = await response.json();
     return groupData.id;
   };
 
-  // Register user
   const registerUser = async () => {
     const response = await fetch('http://localhost:8080/api/auth/register', {
       method: 'POST',
@@ -145,14 +144,12 @@ const RegisterComponent = () => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to register user');
+      throw new Error('Failed to register user');
     }
 
     return response.json();
   };
 
-  // create user profile
   const createUserProfile = async (userId: string, groupId: string) => {
     const userProfileData = new FormData();
     const jsonBlob = new Blob([JSON.stringify({
@@ -170,29 +167,23 @@ const RegisterComponent = () => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create user profile');
+      throw new Error('Failed to create user profile');
     }
   };
 
+  const isUserEmailValid = async (): Promise<boolean> => {
+    try {
+      const response = await fetch('http://localhost:8080/api/users/check', {
+        method: 'GET',
+        body: formData.email
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  };
 
-  // Check if userEmail is valid
-  const isUserEmailValid = async () => {
-    try{
-    const isemailValid = await fetch('http://localhost:8080/api/users/check', {
-      method: 'GET',
-      body: formData.email
-    });
-    return isemailValid;
-  } catch {
-    return true;
-  }
-    
-  }
-
-//_______________________________________________________________________________________________
-
-  const isStepComplete =   (step: any) => {
+  const isStepComplete = (step: number) => {
     const isValidEmail = (email: string) => {
       const emailRegex = /@syncsnack/i;
       return emailRegex.test(email);
@@ -200,14 +191,12 @@ const RegisterComponent = () => {
 
     switch (step) {
       case 0:
-        
         return (
           formData.email &&
           isValidEmail(formData.email) &&
           formData.password &&
           formData.confirmPassword &&
           (formData.password === formData.confirmPassword) 
-          
         );
       case 1:
         return formData.firstName && formData.lastName;
@@ -227,17 +216,10 @@ const RegisterComponent = () => {
 
   return (
     <Box className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      {errorMessage && (
-        <Alert status={errorMessage.includes('successful') ? 'success' : 'error'} mb={4}>
-          <AlertIcon />
-          <AlertTitle mr={2}>{errorMessage.includes('successful') ? 'Success!' : 'Error!'}</AlertTitle>
-          <AlertDescription>{errorMessage}</AlertDescription>
-        </Alert>
-      )}
-      <Stepper  index={activeStep} className="mb-8">
+      <Stepper index={activeStep} className="mb-8">
         {steps.map((step, index) => (
           <Step key={index}>
-            <StepIndicator >
+            <StepIndicator>
               <StepStatus
                 complete={<StepIcon />}
                 incomplete={<StepNumber />}
