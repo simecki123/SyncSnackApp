@@ -12,10 +12,10 @@ export default function NavLinks() {
 
   return (
     <Box>
-      {links.map((link) => {
+      {links.map((link, index) => {
         const IconLink = link.icon
         return (
-          <Link href={link.href}>
+          <Link key={index} href={link.href}>
             <Box className={clsx(
               "flex rounded-xl bg-orange-100 px-2 py-4 m-2 hover:text-white hover:bg-orange-300",
               {

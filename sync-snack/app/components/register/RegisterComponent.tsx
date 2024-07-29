@@ -54,6 +54,7 @@ const RegisterComponent = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
     
     try {
       const isEmailValid = await isUserEmailValid();
@@ -62,6 +63,7 @@ const RegisterComponent = () => {
         showToast('Error', "That user already exists. Can't register this account", 'error');
         return;
       }
+
 
       let groupId;
       if (formData.groupChoice === 'create') {
@@ -97,7 +99,7 @@ const RegisterComponent = () => {
   };
 
   const createGroup = async (): Promise<string> => {
-    const response = await fetch('http://localhost:8080/api/groups/create', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/groups/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -116,7 +118,7 @@ const RegisterComponent = () => {
   };
 
   const joinGroup = async (): Promise<string> => {
-    const response = await fetch('http://localhost:8080/api/groups/join', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/groups/join`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -134,7 +136,7 @@ const RegisterComponent = () => {
   };
 
   const registerUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/register', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -161,7 +163,7 @@ const RegisterComponent = () => {
 
     userProfileData.append('body', jsonBlob, 'body.json');
 
-    const response = await fetch('http://localhost:8080/api/profiles/create', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/create`, {
       method: 'POST',
       body: userProfileData,
     });
@@ -183,7 +185,27 @@ const RegisterComponent = () => {
     }
   };
 
+
   const isStepComplete = (step: number) => {
+
+  // Check if userEmail is valid
+  const isUserEmailValid = async () => {
+    try {
+      const isemailValid = await fetch(`${process.env.BACKEND_URL}/api/users/check`, {
+        method: 'GET',
+        body: formData.email
+      });
+      return isemailValid;
+    } catch {
+      return true;
+    }
+
+  }
+
+  //_______________________________________________________________________________________________
+
+  const isStepComplete = (step: any) => {
+
     const isValidEmail = (email: string) => {
       const emailRegex = /@syncsnack/i;
       return emailRegex.test(email);
@@ -191,12 +213,15 @@ const RegisterComponent = () => {
 
     switch (step) {
       case 0:
+
         return (
           formData.email &&
           isValidEmail(formData.email) &&
           formData.password &&
           formData.confirmPassword &&
+
           (formData.password === formData.confirmPassword) 
+
         );
       case 1:
         return formData.firstName && formData.lastName;
@@ -216,6 +241,7 @@ const RegisterComponent = () => {
 
   return (
     <Box className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+
       <Stepper index={activeStep} className="mb-8">
         {steps.map((step, index) => (
           <Step key={index}>
@@ -239,9 +265,9 @@ const RegisterComponent = () => {
           Back
         </Button>
         {activeStep === steps.length - 1 ? (
-          <Button 
-            colorScheme="orange" 
-            onClick={handleSubmit} 
+          <Button
+            colorScheme="orange"
+            onClick={handleSubmit}
             isDisabled={!isStepComplete(activeStep) || isLoading}
             isLoading={isLoading}
             loadingText="Submitting"

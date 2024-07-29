@@ -1,4 +1,5 @@
 export enum SortOption {
     CoffeeCount = "coffeeCount",
-    Rating = "rating"
+    Rating = "rating",
+    Name = "Name"
 }

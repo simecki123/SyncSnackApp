@@ -2,9 +2,11 @@ import InProgressEvents from "@/app/components/in-progress-events/InProgressEven
 import BrewComponent from "@/app/components/submit-button-components/brew";
 import { Box } from "@chakra-ui/react";
 
-export default function HomePage() {
+export default async function HomePage() {
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   return (
-    <Box > 
+    <Box >
       <BrewComponent></BrewComponent>
 
       <Box className="flex items-center justify-center">
