@@ -32,7 +32,7 @@ const RegisterComponent = () => {
   const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e: any) => {
     if (e.target) {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
@@ -46,13 +46,13 @@ const RegisterComponent = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     setErrorMessage(null);  // Clear any previous error messages
-    const isemailValid =  await isUserEmailValid();
-    console.log("is email valid: ",isemailValid);
+    const isemailValid = await isUserEmailValid();
+    console.log("is email valid: ", isemailValid);
 
-    if(isemailValid) {
+    if (isemailValid) {
       setErrorMessage("That user already exist. Can't register this account");
       setIsLoading(false);
-      
+
     } else {
       try {
         let groupId;
@@ -94,7 +94,7 @@ const RegisterComponent = () => {
 
   // Create group for user
   const createGroup = async (): Promise<string> => {
-    const response = await fetch('http://localhost:8080/api/groups/create', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/groups/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -115,7 +115,7 @@ const RegisterComponent = () => {
 
   //Join user to specific group
   const joinGroup = async (): Promise<string> => {
-    const response = await fetch('http://localhost:8080/api/groups/join', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/groups/join`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -135,7 +135,7 @@ const RegisterComponent = () => {
 
   // Register user
   const registerUser = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/register', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -164,7 +164,7 @@ const RegisterComponent = () => {
 
     userProfileData.append('body', jsonBlob, 'body.json');
 
-    const response = await fetch('http://localhost:8080/api/profiles/create', {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/create`, {
       method: 'POST',
       body: userProfileData,
     });
@@ -178,21 +178,21 @@ const RegisterComponent = () => {
 
   // Check if userEmail is valid
   const isUserEmailValid = async () => {
-    try{
-    const isemailValid = await fetch('http://localhost:8080/api/users/check', {
-      method: 'GET',
-      body: formData.email
-    });
-    return isemailValid;
-  } catch {
-    return true;
-  }
-    
+    try {
+      const isemailValid = await fetch(`${process.env.BACKEND_URL}/api/users/check`, {
+        method: 'GET',
+        body: formData.email
+      });
+      return isemailValid;
+    } catch {
+      return true;
+    }
+
   }
 
-//_______________________________________________________________________________________________
+  //_______________________________________________________________________________________________
 
-  const isStepComplete =   (step: any) => {
+  const isStepComplete = (step: any) => {
     const isValidEmail = (email: string) => {
       const emailRegex = /@syncsnack/i;
       return emailRegex.test(email);
@@ -200,14 +200,14 @@ const RegisterComponent = () => {
 
     switch (step) {
       case 0:
-        
+
         return (
           formData.email &&
           isValidEmail(formData.email) &&
           formData.password &&
           formData.confirmPassword &&
-          (formData.password === formData.confirmPassword) 
-          
+          (formData.password === formData.confirmPassword)
+
         );
       case 1:
         return formData.firstName && formData.lastName;
@@ -234,7 +234,7 @@ const RegisterComponent = () => {
           <AlertDescription>{errorMessage}</AlertDescription>
         </Alert>
       )}
-      <Stepper  index={activeStep} className="mb-8">
+      <Stepper index={activeStep} className="mb-8">
         {steps.map((step, index) => (
           <Step key={index}>
             <StepIndicator >
@@ -257,9 +257,9 @@ const RegisterComponent = () => {
           Back
         </Button>
         {activeStep === steps.length - 1 ? (
-          <Button 
-            colorScheme="orange" 
-            onClick={handleSubmit} 
+          <Button
+            colorScheme="orange"
+            onClick={handleSubmit}
             isDisabled={!isStepComplete(activeStep) || isLoading}
             isLoading={isLoading}
             loadingText="Submitting"

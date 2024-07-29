@@ -1,7 +1,11 @@
+'use client'
 import React from 'react';
 import { SortOption } from '@/app/types/types';
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Box, Flex, Image, Text } from '@chakra-ui/react';
 import trophy from '@/public/trophyimage.png';
+import ClickableTableTh from './ClickableTableTh';
+import { revalidatePath } from 'next/cache';
+import { useRouter } from 'next/navigation';
 
 interface User {
     firstName: string;
@@ -18,50 +22,77 @@ const dummyUsers: User[] = [
     { firstName: 'David', lastName: 'Wilson', coffeeCounter: 14, coffeeRating: 4.3 },
 ];
 
-export default function UserListComponent({ sortOption }: { sortOption: SortOption }) {
-    const sortedUsers = [...dummyUsers].sort((a, b) => {
+export default function LeaderboardTable({ sortOption }: { sortOption: SortOption }) {
+    let isSortedName = false;
+    let isSortedOrders = false;
+    let isSortedRating = false;
+
+    let sortedUsers = [...dummyUsers].sort((a, b) => {
         if (sortOption === 'rating') {
+            isSortedRating = true;
+            isSortedName = false;
+            isSortedOrders = false;
             return b.coffeeRating - a.coffeeRating;
+        }
+        if (sortOption === 'Name') {
+            isSortedName = true;
+            isSortedOrders = false;
+            isSortedRating = false;
+            return a.firstName.localeCompare(b.firstName);
         } else {
+            isSortedOrders = true;
+            isSortedName = false;
+            isSortedRating = false;
             return b.coffeeCounter - a.coffeeCounter;
         }
     });
+
+    const router = useRouter();
+
+    function sortStrategy(value: string) {
+        console.log(`Sorting by ${value}`);
+        switch (value) {
+            case 'Name':
+                router.push(`/leaderboard?sort=${value}`);
+                break;
+            case 'orders':
+                router.push(`/leaderboard?sort=${value}`);
+                break;
+            case 'rating':
+                router.push(`/leaderboard?sort=${value}`);
+                break;
+        }
+    }
 
     return (
         <TableContainer>
             <Table variant="simple" colorScheme="orange" size="md">
                 <Thead>
                     <Tr>
-                        <Th>Rank</Th>
-                        <Th>Name</Th>
-                        <Th isNumeric>Coffee Count</Th>
-                        <Th isNumeric>Rating</Th>
+                        <ClickableTableTh value={'Name'} sortStrategy={sortStrategy} isSorted={isSortedName} />
+                        <ClickableTableTh value={'orders'} sortStrategy={sortStrategy} isSorted={isSortedOrders} />
+                        <ClickableTableTh value={'rating'} sortStrategy={sortStrategy} isSorted={isSortedRating} />
                     </Tr>
                 </Thead>
                 <Tbody>
                     {sortedUsers.map((user, index) => (
                         <Tr key={index} bg={index % 2 === 0 ? 'orange.50' : 'white'}>
-                            <Td>
-                                <Text fontWeight="bold" fontSize="lg">
-                                    {index + 1}
-                                </Text>
-                            </Td>
-                            <Td>
+                            <Td className='w-72'>
                                 <Flex alignItems="center">
+                                    <Text fontWeight="medium" className='mr-1'>
+                                        {user.firstName} {user.lastName}
+                                    </Text>
                                     {index === 0 && (
                                         <Box mr={2}>
                                             <Image src={trophy.src} alt="Trophy" boxSize="24px" />
                                         </Box>
                                     )}
-                                    <Text fontWeight="medium">
-                                        {user.firstName} {user.lastName}
-                                    </Text>
                                 </Flex>
                             </Td>
-                            <Td isNumeric>
+                            <Td>
                                 <Text fontWeight="medium">{user.coffeeCounter}</Text>
                             </Td>
-                            <Td isNumeric>
+                            <Td>
                                 <Text fontWeight="medium">{user.coffeeRating.toFixed(1)}</Text>
                             </Td>
                         </Tr>
@@ -71,3 +102,4 @@ export default function UserListComponent({ sortOption }: { sortOption: SortOpti
         </TableContainer>
     );
 }
+

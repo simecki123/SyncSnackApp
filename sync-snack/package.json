@@ -17,6 +17,8 @@
     "@headlessui/react": "^2.1.2",
     "@headlessui/tailwindcss": "^0.2.1",
     "@heroicons/react": "^2.1.5",
+    "@lottiefiles/dotlottie-react": "^0.8.3",
+    "@lottiefiles/lottie-player": "^2.0.4",
     "@mui/icons-material": "^5.16.4",
     "@mui/material": "^5.16.4",
     "@remixicon/react": "^4.2.0",

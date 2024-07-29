@@ -10,7 +10,7 @@ import OrderRow from '../order-row/OrderRow';
 
 export default function OrdersTable({ orders }: any) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  let itemsPerPage = calculateItemsPerPage();
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -47,7 +47,7 @@ export default function OrdersTable({ orders }: any) {
   };
 
   return (
-    <Box className='flex flex-col h-screen' style={{ height: "calc(100vh - 200px)" }}>
+    <Box className='flex flex-col h-full' >
       <Box className='p-4 flex-none'>
         <TableContainer>
           <Table variant="simple" colorScheme="gray">
@@ -90,4 +90,10 @@ export default function OrdersTable({ orders }: any) {
       </Flex>
     </Box>
   );
+}
+
+// calculate items per page if one item is 73 px
+function calculateItemsPerPage() {
+  console.log('window.innerHeight', window.innerHeight);
+  return Math.floor((window.innerHeight - 150) / 73);
 }
