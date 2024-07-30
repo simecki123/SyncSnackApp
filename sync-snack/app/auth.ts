@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { fetchImproved } from "./fetch"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -10,20 +11,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
 
-        const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(credentials),
-        })
+        // const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
+        //   method: "POST",
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(credentials),
+        // })
+        //
+        // const token = await res.json()
 
-        if (!res.ok) {
-          throw new Error("Invalid credentials...")
-        }
-
-
-        const token = await res.json()
+        const token = await fetchImproved('/api/auth/login', 'POST', JSON.stringify(credentials))
 
         const user = await fetch(`${process.env.BACKEND_URL}/api/auth/fetchMe`, {
           headers: {

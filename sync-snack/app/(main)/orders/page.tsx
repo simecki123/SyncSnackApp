@@ -8,9 +8,7 @@ const OrdersTable = dynamic(() => import('@/app/components/my-orders/orders-tabl
 
 export default async function OrdersPage() {
 
-  let orders = [...mockedData]
-
-  orders = await fetchImproved('/api/orders/all')
+  const orders: Order[] = await fetchImproved('/api/orders/all')
 
   orders.map((order) => {
     order.createdAt = new Date(order.createdAt)
@@ -82,6 +80,14 @@ function calculateStatistics(data: any) {
   });
 
   return statistics;
+}
+
+interface Order {
+  userProfileId: string,
+  status: 'PREPARING' | 'READY' | 'DELIVERED' | 'CANCELLED',
+  additionalOptions: any,
+  rating: number,
+  createdAt: string | Date
 }
 
 

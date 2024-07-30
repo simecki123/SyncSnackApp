@@ -2,7 +2,7 @@ import { auth } from "./auth";
 
 // DON'T FORGET TO AWAIT WHEN CALLING THIS FUNCTION
 export async function fetchImproved(url: string,
-  method?: 'POST' | 'PUT' | 'DELETE' | 'PATCH', data?: any) {
+  method?: 'POST' | 'PUT' | 'DELETE' | 'PATCH', body?: any) {
 
   let defaultMethod = ''
 
@@ -23,7 +23,7 @@ export async function fetchImproved(url: string,
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${userToken}`
     },
-    body: data
+    body: body
   })
   const json = await response.json();
 

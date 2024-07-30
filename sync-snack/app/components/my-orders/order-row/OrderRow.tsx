@@ -41,11 +41,26 @@ export default function OrderRow({ order }: any) {
 
       {isDescriptionModalOpened && (
         <Modal isOpen={isDescriptionModalOpened} onClose={handleDescriptionCloseModal}>
-          <OrderDescriptionModalComponent description={order.additionalOptions} onClose={handleDescriptionCloseModal}></OrderDescriptionModalComponent>
+          <OrderDescriptionModalComponent description={objectToString(order.additionalOptions)} onClose={handleDescriptionCloseModal}></OrderDescriptionModalComponent>
         </Modal>
       )}
     </>
   );
+}
+
+function objectToString(obj: any): string {
+  if (typeof obj !== 'object' || obj === null) {
+    return String(obj);
+  }
+
+  return Object.entries(obj)
+    .map(([key, value]) => {
+      if (typeof value === 'object' && value !== null) {
+        return `${key}:\n${objectToString(value).split('\n').map(line => `  ${line}`).join('\n')}`;
+      }
+      return `${key}: ${value}`;
+    })
+    .join('\n');
 }
 
 function convertTimeToString(time: Date | null): string {
