@@ -1,6 +1,8 @@
-import Statistics from '@/app/components/my-orders/charts/column-chart/Statistics';
-import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Box } from '@chakra-ui/react'
+import dynamic from 'next/dynamic'
+
+const OrdersTable = dynamic(() => import('@/app/components/my-orders/orders-table/OrdersTable'), {
+  ssr: false,
+})
 
 export default function OrdersPage() {
   return (
