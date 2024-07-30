@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { SimpleGrid, Flex, Button } from '@chakra-ui/react';
+import { SimpleGrid, Flex, Button, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
@@ -34,6 +34,8 @@ export default function FilteredEvents({ initialEvents, initialFilter }: { initi
     router.push(`?filter=${newFilter}`, { scroll: false });
   };
 
+
+
   return (
     <>
       <Flex justify="center" mb={6} gap={4}>
@@ -58,9 +60,13 @@ export default function FilteredEvents({ initialEvents, initialFilter }: { initi
         </FilterButton>
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-        {events.map((event) => (
-          <InProgressEventCard key={event._id} event={event} />
-        ))}
+        {events.length === 0 ? (
+            <Text>There are no active events right now</Text>
+          ) : (
+            events.map((event) => (
+              <InProgressEventCard key={event._id} event={event} />
+            ))
+          )}
       </SimpleGrid>
     </>
   );
