@@ -12,7 +12,7 @@ const steps = [
   { title: 'Group Information', component: GroupInformation },
 ];
 
-const RegisterComponent: React.FC = () => {
+export default function RegisterComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const router = useRouter();
@@ -260,4 +260,4 @@ const RegisterComponent: React.FC = () => {
   );
 };
 
-export default RegisterComponent;
+

@@ -5,7 +5,7 @@ import Modal from '../modals/Modal';
 import CreateEvent from '../create-event/CreateEvent';
 import { auth } from '@/app/auth';
 
-export default async function BrewComponent({activeUser}: any) {
+export default function BrewComponent({activeUser}: any) {
   const [isModalOpen, setModalOpen] = useState(false);
 
   
