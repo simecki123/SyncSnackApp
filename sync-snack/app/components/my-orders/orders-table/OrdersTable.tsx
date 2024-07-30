@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table, Thead, Tbody, Tfoot, Tr, Th, TableCaption, TableContainer,
   Button, Flex, HStack, IconButton,
@@ -94,6 +94,6 @@ export default function OrdersTable({ orders }: any) {
 
 // calculate items per page if one item is 73 px
 function calculateItemsPerPage() {
-  console.log('window.innerHeight', window.innerHeight);
   return Math.floor((window.innerHeight - 150) / 73);
 }
+
