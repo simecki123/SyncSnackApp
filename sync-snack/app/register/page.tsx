@@ -1,6 +1,6 @@
 import { Box, Container, Heading } from '@chakra-ui/react';
-import RegisterComponent from '@/app/components/register/RegisterComponent';
 import React from 'react';
+import RegisterComponent from '../components/register/RegisterComponent';
 
 
 export default function Register() {
