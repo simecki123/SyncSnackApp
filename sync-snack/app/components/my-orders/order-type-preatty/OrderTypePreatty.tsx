@@ -2,7 +2,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 
 export default function OrderTypePretty({ orderType }: any) {
   switch (orderType) {
-    case "coffee":
+    case "COFFEE":
       return (
         <Image src='/coffeImage.png' boxSize='30px' />
       );

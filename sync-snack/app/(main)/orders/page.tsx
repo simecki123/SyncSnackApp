@@ -84,6 +84,7 @@ function calculateStatistics(data: any) {
 
 interface Order {
   userProfileId: string,
+  eventType: string,
   status: 'PREPARING' | 'READY' | 'DELIVERED' | 'CANCELLED',
   additionalOptions: any,
   rating: number,

@@ -55,10 +55,10 @@ const RegisterComponent = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
 
-    
+
     try {
       const isEmailValid = await isUserEmailValid();
-      
+
       if (isEmailValid) {
         showToast('Error', "That user already exists. Can't register this account", 'error');
         return;
@@ -175,7 +175,7 @@ const RegisterComponent = () => {
 
   const isUserEmailValid = async (): Promise<boolean> => {
     try {
-      const response = await fetch('http://localhost:8080/api/users/check', {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/check`, {
         method: 'GET',
         body: formData.email
       });
@@ -188,100 +188,100 @@ const RegisterComponent = () => {
 
   const isStepComplete = (step: number) => {
 
-  // Check if userEmail is valid
-  const isUserEmailValid = async () => {
-    try {
-      const isemailValid = await fetch(`${process.env.BACKEND_URL}/api/users/check`, {
-        method: 'GET',
-        body: formData.email
-      });
-      return isemailValid;
-    } catch {
-      return true;
+    // Check if userEmail is valid
+    const isUserEmailValid = async () => {
+      try {
+        const isemailValid = await fetch(`${process.env.BACKEND_URL}/api/users/check`, {
+          method: 'GET',
+          body: formData.email
+        });
+        return isemailValid;
+      } catch {
+        return true;
+      }
+
     }
 
-  }
+    //_______________________________________________________________________________________________
 
-  //_______________________________________________________________________________________________
+    const isStepComplete = (step: any) => {
 
-  const isStepComplete = (step: any) => {
+      const isValidEmail = (email: string) => {
+        const emailRegex = /@syncsnack/i;
+        return emailRegex.test(email);
+      };
 
-    const isValidEmail = (email: string) => {
-      const emailRegex = /@syncsnack/i;
-      return emailRegex.test(email);
+      switch (step) {
+        case 0:
+
+          return (
+            formData.email &&
+            isValidEmail(formData.email) &&
+            formData.password &&
+            formData.confirmPassword &&
+
+            (formData.password === formData.confirmPassword)
+
+          );
+        case 1:
+          return formData.firstName && formData.lastName;
+        case 2:
+          if (formData.groupChoice === 'join') {
+            return formData.groupName && formData.groupPassword;
+          } else if (formData.groupChoice === 'create') {
+            return formData.groupName && formData.groupDescription && formData.groupPassword;
+          }
+          return false;
+        default:
+          return false;
+      }
     };
 
-    switch (step) {
-      case 0:
+    const CurrentStepComponent = steps[activeStep].component;
 
-        return (
-          formData.email &&
-          isValidEmail(formData.email) &&
-          formData.password &&
-          formData.confirmPassword &&
+    return (
+      <Box className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
 
-          (formData.password === formData.confirmPassword) 
-
-        );
-      case 1:
-        return formData.firstName && formData.lastName;
-      case 2:
-        if (formData.groupChoice === 'join') {
-          return formData.groupName && formData.groupPassword;
-        } else if (formData.groupChoice === 'create') {
-          return formData.groupName && formData.groupDescription && formData.groupPassword;
-        }
-        return false;
-      default:
-        return false;
-    }
+        <Stepper index={activeStep} className="mb-8">
+          {steps.map((step, index) => (
+            <Step key={index}>
+              <StepIndicator>
+                <StepStatus
+                  complete={<StepIcon />}
+                  incomplete={<StepNumber />}
+                  active={<StepNumber />}
+                />
+              </StepIndicator>
+              <Box flexShrink='0'>
+                <StepTitle>{step.title}</StepTitle>
+              </Box>
+              <StepSeparator />
+            </Step>
+          ))}
+        </Stepper>
+        <CurrentStepComponent formData={formData} handleInputChange={handleInputChange} />
+        <Flex justifyContent="space-between" mt={6}>
+          <Button onClick={handleBack} isDisabled={activeStep === 0}>
+            Back
+          </Button>
+          {activeStep === steps.length - 1 ? (
+            <Button
+              colorScheme="orange"
+              onClick={handleSubmit}
+              isDisabled={!isStepComplete(activeStep) || isLoading}
+              isLoading={isLoading}
+              loadingText="Submitting"
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button colorScheme="orange" onClick={handleNext} isDisabled={!isStepComplete(activeStep)}>
+              Next
+            </Button>
+          )}
+        </Flex>
+      </Box>
+    );
   };
 
-  const CurrentStepComponent = steps[activeStep].component;
-
-  return (
-    <Box className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-
-      <Stepper index={activeStep} className="mb-8">
-        {steps.map((step, index) => (
-          <Step key={index}>
-            <StepIndicator>
-              <StepStatus
-                complete={<StepIcon />}
-                incomplete={<StepNumber />}
-                active={<StepNumber />}
-              />
-            </StepIndicator>
-            <Box flexShrink='0'>
-              <StepTitle>{step.title}</StepTitle>
-            </Box>
-            <StepSeparator />
-          </Step>
-        ))}
-      </Stepper>
-      <CurrentStepComponent formData={formData} handleInputChange={handleInputChange} />
-      <Flex justifyContent="space-between" mt={6}>
-        <Button onClick={handleBack} isDisabled={activeStep === 0}>
-          Back
-        </Button>
-        {activeStep === steps.length - 1 ? (
-          <Button
-            colorScheme="orange"
-            onClick={handleSubmit}
-            isDisabled={!isStepComplete(activeStep) || isLoading}
-            isLoading={isLoading}
-            loadingText="Submitting"
-          >
-            Submit
-          </Button>
-        ) : (
-          <Button colorScheme="orange" onClick={handleNext} isDisabled={!isStepComplete(activeStep)}>
-            Next
-          </Button>
-        )}
-      </Flex>
-    </Box>
-  );
-};
-
-export default RegisterComponent;
+  export default RegisterComponent;

@@ -47,7 +47,7 @@ export default function CreateEvent({ activeUser }: any) {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/events/create', {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/events/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
