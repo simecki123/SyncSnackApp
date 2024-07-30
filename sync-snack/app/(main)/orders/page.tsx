@@ -8,7 +8,12 @@ const OrdersTable = dynamic(() => import('@/app/components/my-orders/orders-tabl
 
 export default async function OrdersPage() {
 
-  const orders: Order[] = await fetchImproved('/api/orders/all')
+  let orders: Order[] = []
+  try {
+    orders = await fetchImproved('/api/orders/all')
+  } catch (e: any) {
+    console.log(e.message, 'ERROR')
+  }
 
   orders.map((order) => {
     order.createdAt = new Date(order.createdAt)
