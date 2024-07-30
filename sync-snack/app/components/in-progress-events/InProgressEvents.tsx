@@ -1,8 +1,18 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import { Event } from '@/app/eventService';
 import FilteredEvents from './filttered-events/FilteredEvents';
 import { auth } from '@/app/auth';
+
+export interface Event {
+  _id: string;
+  creatorId: string;
+  creatorFirstName: string;
+  creatorLastName: string;
+  description: string;
+  groupId: string;
+  status: string;
+  eventType: string;
+}
 
 export default async function InProgressEvents({
   searchParams
