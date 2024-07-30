@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Box, VStack, Heading, HStack, Button, useToast } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
+import { fetchImproved } from '@/app/fetch'
 
 interface StarProps {
   value: number,
@@ -37,9 +38,12 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose }: Orde
       try {
         // Simulated API call
         // const res = await giveOrderRating({ coffeeOrderId: coffeeOrderId.toString(), ratingUpdate: givenStars });
+
+        // fetchImproved('/api/rating', 'PATCH', { stars: givenStars })
+
         const res = "Order rated successfully";
         console.log("Update order response:", res);
-       
+
         toast({
           title: "Rating submitted",
           description: "Thank you for your feedback!",
@@ -74,7 +78,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose }: Orde
   return (
     <Box bg="gray.50" borderRadius="xl" p={8} boxShadow="lg">
       <VStack spacing={6}>
-        <Heading size="lg" color="gray.700">Please rate the coffee</Heading>
+        <Heading size="lg" color="gray.700">Rate Order</Heading>
         <HStack spacing={2}>
           {starsValues.map((value) => (
             <Star

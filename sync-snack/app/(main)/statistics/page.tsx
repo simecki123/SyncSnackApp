@@ -1,6 +1,6 @@
 import Statistics from "@/app/components/my-orders/charts/column-chart/Statistics";
 
-export default function() {
+export default function StatisticsPage() {
   return (
     <Statistics stats={calculateStatistics(sortDataByCreatedAtDescending(mockedData))} />
   )

@@ -20,24 +20,25 @@ export default async function InProgressEvents({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'MIX';
-  
+
 
   const session = await auth();
   const activeUser: any = session?.user;
   console.log("Currently active user: ", activeUser);
-  
 
-  const eventsResponse = await fetch('http://localhost:8080/api/events/search', {
+
+  const eventsResponse = await fetch(`${process.env.BACKEND_URL}/api/events/search`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${activeUser?.accessToken}`
-     },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    },
     body: JSON.stringify({
       creatorId: activeUser?.id,
       groupId: activeUser?.groupId,
       status: "PENDING",
       eventType: filter.toUpperCase
-      
+
     }),
   });
 
@@ -46,7 +47,7 @@ export default async function InProgressEvents({
   }
 
   const events: Event[] = await eventsResponse.json();
-  console.log("Events response: ",eventsResponse)
+  console.log("Events response: ", eventsResponse)
   console.log("Events: ", events);
 
   return (
