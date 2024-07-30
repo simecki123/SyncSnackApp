@@ -2,7 +2,7 @@ import { Box, Text } from '@chakra-ui/react';
 
 export default function StatusPretty({ statusType }: any) {
   switch (statusType) {
-    case "In Progress":
+    case "PREPARING":
       return (
         <Box className='px-4 py-2 bg-yellow-500 rounded-md text-white'>
           <Text>In Progress</Text>

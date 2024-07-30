@@ -1,12 +1,25 @@
+import { auth } from '@/app/auth';
+import { fetchImproved } from '@/app/fetch';
 import dynamic from 'next/dynamic'
 
 const OrdersTable = dynamic(() => import('@/app/components/my-orders/orders-table/OrdersTable'), {
   ssr: false,
 })
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+
+  let orders = [...mockedData]
+
+  orders = await fetchImproved('/api/orders/all')
+
+  orders.map((order) => {
+    order.createdAt = new Date(order.createdAt)
+  })
+
+  console.log(orders, ' >>> fetched orders from server.')
+
   return (
-    <OrdersTable orders={sortDataByCreatedAtDescending(mockedData)} />
+    <OrdersTable orders={sortDataByCreatedAtDescending(orders)} />
   );
 }
 

@@ -20,6 +20,8 @@ export default function OrderRow({ order }: any) {
     setDescriptionModalOpen(false);
   }
 
+  console.log(order, ' >>> order inside the OrderRow function')
+
   return (
     <>
       <Tr>
