@@ -14,7 +14,7 @@ import FilterButton from '../filter-button/FIlterButton';
 
 
 export interface Event {
-  _id: string;
+  eventId: string;
   creatorId: string;
   creatorFirstName: string;
   creatorLastName: string;
@@ -24,7 +24,15 @@ export interface Event {
   eventType: string;
 }
 
-export default function FilteredEvents({ initialEvents, initialFilter }: { initialEvents: Event[], initialFilter: string }) {
+export default function FilteredEvents({
+  activeUser,
+  initialEvents,
+  initialFilter
+}: {
+  activeUser: any,
+  initialEvents: Event[],
+  initialFilter: string
+}) {
   const [events, setEvents] = useState(initialEvents);
   const [filter, setFilter] = useState(initialFilter);
   const router = useRouter();
@@ -73,12 +81,12 @@ export default function FilteredEvents({ initialEvents, initialFilter }: { initi
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
         {events.length === 0 ? (
-            <Text>There are no active events right now</Text>
-          ) : (
-            events.map((event) => (
-              <InProgressEventCard key={event._id} event={event} />
-            ))
-          )}
+          <Text>There are no active events right now</Text>
+        ) : (
+          events.map((event) => (
+            <InProgressEventCard key={event.eventId} event={event} activeUser={activeUser} />
+          ))
+        )}
       </SimpleGrid>
     </>
   );
