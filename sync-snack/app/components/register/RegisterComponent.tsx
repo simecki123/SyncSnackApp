@@ -132,7 +132,7 @@ export default function RegisterComponent() {
     }
 
     const groupData = await response.json();
-    return groupData.id;
+    return groupData.groupId;
   };
 
   const registerUser = async () => {

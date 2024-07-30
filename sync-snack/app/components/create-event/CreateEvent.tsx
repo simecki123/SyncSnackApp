@@ -1,7 +1,7 @@
 import { Box, Button, Heading, Select, Textarea, VStack, useToast, FormControl, FormLabel } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-export default function CreateEvent({ activeUser }: any) {
+export default function CreateEvent({ activeUser, onCloseModal }: any) {
   const toast = useToast();
 
   const [eventData, setEventData] = useState({
@@ -47,7 +47,7 @@ export default function CreateEvent({ activeUser }: any) {
     }
 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/events/create`, {
+      const response = await fetch(`http://localhost:8080/api/events/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,6 +79,7 @@ export default function CreateEvent({ activeUser }: any) {
           eventType: '',
           pendingTime: 5
         }); // Reset form data
+        onCloseModal(); // Close the modal
       } else if (response.status === 400) {
         toast({
           title: 'Event Creation Failed',
