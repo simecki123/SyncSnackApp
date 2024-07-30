@@ -25,7 +25,20 @@ export async function fetchImproved(url: string,
     },
     body: body
   })
-  const json = await response.json();
+
+  console.log('FETCH COMPLETED')
+
+  if (!response.ok) {
+    throw new Error('RESPONSE IS NOT OK')
+  }
+
+  let json: any;
+
+  try {
+    json = await response.json();
+  } catch (e) {
+    throw new Error('Cant parse')
+  }
 
   return json;
 }
