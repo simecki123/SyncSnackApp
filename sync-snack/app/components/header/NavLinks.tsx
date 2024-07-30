@@ -17,9 +17,9 @@ export default function NavLinks() {
         return (
           <Link key={index} href={link.href}>
             <Box className={clsx(
-              "flex rounded-xl bg-orange-100 px-2 py-4 m-2 hover:text-white hover:bg-orange-300",
+              "flex rounded-xl bg-gray-100 px-2 py-4 m-2 hover:text-orange-400 hover:bg-orange-100",
               {
-                'bg-orange-300 text-white': pathname === link.href,
+                'bg-orange-100 text-orange-400': pathname === link.href,
               }
             )
             }>
