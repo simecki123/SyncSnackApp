@@ -1,13 +1,19 @@
+import { auth } from "@/app/auth";
 import InProgressEvents from "@/app/components/in-progress-events/InProgressEvents";
 import BrewComponent from "@/app/components/submit-button-components/brew";
 import { Box } from "@chakra-ui/react";
 
 export default async function HomePage() {
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const session = await auth();
+  const activeUser: any = session?.user;
+  const userToken = activeUser?.accessToken;
+  console.log("Trenutni korinsik: ", userToken);
+  
+  
   return (
     <Box >
-      <BrewComponent></BrewComponent>
+      <BrewComponent activeUser = {activeUser}></BrewComponent>
 
       <Box className="flex items-center justify-center">
         <InProgressEvents></InProgressEvents>

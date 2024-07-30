@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { ChakraProvider, Box, Button } from '@chakra-ui/react';
 import Modal from '../modals/Modal';
 import CreateEvent from '../create-event/CreateEvent';
+import { auth } from '@/app/auth';
 
-export default function BrewComponent() {
+export default async function BrewComponent({activeUser}: any) {
   const [isModalOpen, setModalOpen] = useState(false);
 
-
+  
 
   return (
     <>
@@ -25,7 +26,7 @@ export default function BrewComponent() {
       </ChakraProvider>
 
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-        <CreateEvent></CreateEvent>
+        <CreateEvent activeUser={activeUser}></CreateEvent>
       </Modal>
 
     </>

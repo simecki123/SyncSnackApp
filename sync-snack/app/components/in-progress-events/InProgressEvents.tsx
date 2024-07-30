@@ -5,7 +5,7 @@ import FilteredEvents from './filttered-events/FilteredEvents';
 import { auth } from '@/app/auth';
 
 export default async function InProgressEvents({
-  searchParams,
+  searchParams
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
@@ -36,6 +36,7 @@ export default async function InProgressEvents({
   }
 
   const events: Event[] = await eventsResponse.json();
+  console.log("Events response: ",eventsResponse)
   console.log("Events: ", events);
 
   return (
