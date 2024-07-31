@@ -100,7 +100,7 @@ export default function RegisterComponent() {
   const createGroup = async () => {
     const response = await fetch(`http://localhost:8080/api/groups/create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }, 
       body: JSON.stringify({
         name: formData.groupName,
         password: formData.groupPassword,

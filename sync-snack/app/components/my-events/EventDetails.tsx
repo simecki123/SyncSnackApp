@@ -4,7 +4,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import React from 'react';
 import { EventOrder } from '@/app/interfaces';
 import { EventEvent } from '@/app/interfaces';
-
+ 
 
 export default function EventDetails({ event, orders }: { event: EventEvent, orders: Array<EventOrder> }) {
     const toast = useToast();
