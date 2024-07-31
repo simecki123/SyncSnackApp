@@ -5,7 +5,6 @@ import { auth } from '@/app/auth';
 import { Event } from '@/app/interfaces';
 
 
-
 export default async function InProgressEvents({
   searchParams
 }: {
@@ -18,7 +17,7 @@ export default async function InProgressEvents({
   const activeUser: any = session?.user;
   console.log("Currently active user: ", activeUser);
   
-
+  
   const eventsResponse = await fetch('http://localhost:8080/api/events/search', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json',
