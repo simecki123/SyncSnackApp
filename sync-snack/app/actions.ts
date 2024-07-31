@@ -28,3 +28,45 @@ export async function loginUser(prevState: any, formData: FormData) {
     redirectTo: '/home',
   });
 }
+
+export async function registerWithLink(prevState: any, formData: FormData) {
+
+  console.log('\nstarting registerWithLink action...\n')
+
+  const formSchema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(3, "Password must be at least 8 characters long"),
+    confirmPassword: z.string(),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+  }).refine(data => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+  const validatedFields = formSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+    confirmPassword: formData.get('confirm-password'),
+    firstName: formData.get('first-name'),
+    lastName: formData.get('last-name'),
+  });
+
+  console.log(validatedFields.success, '>>> validatedFields')
+
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors, '>>> register errors')
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Please correct the form",
+    };
+  }
+
+  const data: any = validatedFields.data;
+  // data.groupId = groupId;
+  // data.groupCode = groupCode;
+
+  console.log('Registering user with:', data);
+
+  return {};
+}

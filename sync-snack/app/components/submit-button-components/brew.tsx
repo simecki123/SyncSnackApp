@@ -5,10 +5,10 @@ import Modal from '../modals/Modal';
 import CreateEvent from '../create-event/CreateEvent';
 import { auth } from '@/app/auth';
 
-export default function BrewComponent({activeUser}: any) {
+export default function BrewComponent({ activeUser }: any) {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  
+
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function BrewComponent({activeUser}: any) {
           alignItems="center"
           justifyContent="center"
         >
-          <Button colorScheme='orange' onClick={() => setModalOpen(true)}>
+          <Button bg='orange.200' onClick={() => setModalOpen(true)}>
             Create Event
           </Button>
         </Box>

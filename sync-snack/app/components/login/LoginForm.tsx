@@ -2,8 +2,6 @@
 import { loginUser } from "@/app/actions"
 import { useFormState, useFormStatus } from "react-dom"
 import { Box, Button, Card, CardBody, CardHeader, Input, Link, Text, useTimeout } from '@chakra-ui/react'
-import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation"
 
 const initialState: any = {
   message: null,

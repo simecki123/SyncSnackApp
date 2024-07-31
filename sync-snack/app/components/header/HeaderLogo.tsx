@@ -4,7 +4,7 @@ import SyncSnackLogo from "./SyncSnackLogo";
 export default function HeaderLogo() {
   return (
     <Link href="/home">
-      <Box className="rounded-xl m-4">
+      <Box className="dark:bg-orange-500 bg-orange-100 rounded-xl m-4">
         <SyncSnackLogo />
       </Box>
     </Link>

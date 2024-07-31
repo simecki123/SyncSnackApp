@@ -51,7 +51,7 @@ export default async function InProgressEvents({
   console.log("Events: ", events);
 
   return (
-    <Box p={6} bg="gray.50" borderRadius="lg">
+    <Box className='bg-gray-50 dark:bg-gray-300' p={6} borderRadius="lg">
       <FilteredEvents initialEvents={events} initialFilter={filter} />
     </Box>
   );

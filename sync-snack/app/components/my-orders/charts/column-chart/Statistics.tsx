@@ -2,34 +2,24 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import { BarChart, DonutChart } from '@tremor/react';
-
-interface StatisticsData {
-  completed: number,
-  canceled: number,
-  ordersPerMonth: number[],
-  ordersPerType: {
-    coffee: number,
-    drinks: number,
-    food: number,
-    mix: number,
-  }
-}
+import { Divider } from '@chakra-ui/react'
 
 export default function Statistics({ stats }: { stats: StatisticsData }) {
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
   return (
     <Box className="p-8">
-      <Box className="flex justify-between">
-        <Box className="flex flex-col">
-          <DataBoxNumber status="Completed" nmbStatus={stats.completed} />
-          <Text className="pl-12 grow flex items-end text-xl font-semibold">Recent orders</Text>
-        </Box>
-        <Box className="flex flex-col">
-          <DataBoxNumber status="Canceled" nmbStatus={stats.canceled} />
+      <Box className="flex justify-between mb-12">
+        <Box className="flex">
+          <Box className="flex flex-col justify-center">
+            <DataBoxNumber status="Completed" nmbStatus={stats.completed} />
+          </Box>
+          <Box className="flex flex-col justify-center">
+            <DataBoxNumber status="Canceled" nmbStatus={stats.canceled} />
+          </Box>
         </Box>
         <Box className="flex flex-col ml-28">
-          <Text className="flex justify-center text-xl font-semibold mb-4">Order types</Text>
-          <DonutChart className="mr-6"
+          <Text className="flex justify-center text-xl font-semibold mb-4 dark:text-white">Order types</Text>
+          <DonutChart className="w-56"
             data={transformOrders(stats.ordersPerType)}
             variant="donut"
             colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
@@ -37,6 +27,8 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
             onValueChange={(v) => console.log(v)} />
         </Box>
       </Box>
+      <Divider />
+      <Text className="mt-12 text-xl font-semibold dark:text-white">Recent orders</Text>
       <BarChart className="mt-6"
         data={transformData(fakeMonthsData)}
         index="name"
@@ -50,10 +42,10 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
 
 function DataBoxNumber({ status, nmbStatus }: { status: string, nmbStatus: number }) {
   return (
-    <Box className="bg-orange-100 rounded-2xl p-4 mx-6">
+    <Box className="dark:bg-orange-400 bg-orange-100 rounded-2xl p-4 mx-6">
       <Box className="flex items-center mb-2">
         {status === 'Canceled' ? <WarningIcon /> : <CheckCircleIcon />}
-        <Text className="ml-1 text-tremor-default text-tremor-content">Total {status}</Text>
+        <Text className="dark:text-white ml-1 text-tremor-default text-tremor-content">Total {status}</Text>
       </Box>
       <Box className="bg-white rounded-xl p-6 flex justify-center">
         <Text className="px-32 text-tremor-content-strong font-semibold
@@ -61,6 +53,18 @@ function DataBoxNumber({ status, nmbStatus }: { status: string, nmbStatus: numbe
       </Box>
     </Box>
   )
+}
+
+interface StatisticsData {
+  completed: number,
+  canceled: number,
+  ordersPerMonth: number[],
+  ordersPerType: {
+    coffee: number,
+    drinks: number,
+    food: number,
+    mix: number,
+  }
 }
 
 function transformData(numbers: number[]) {
