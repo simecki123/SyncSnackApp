@@ -125,5 +125,25 @@ export  interface OrderModalComponentProps {
     onClose: () => void;
   }
 
+//---------------------------------------------------------------------------------------------
+// User for profile component
 
+export interface ProfileUser {
+  email: string,
+  firstName: string,
+  lastName: string,
+  groupName: string,
+  score: number,
+}
+
+export interface ProfileGroup {
+  name: string,
+  description: string,
+
+}
+
+export interface SortOptionsProps {
+  sortOption: SortOption;
+  onSortChange: (newSortOption: SortOption) => void;
+}
 

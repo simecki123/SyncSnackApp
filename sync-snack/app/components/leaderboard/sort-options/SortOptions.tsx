@@ -1,17 +1,15 @@
 "use client";
 import React from 'react';
 import { Box, Select, FormControl, FormLabel } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
 import { SortOption } from '@/app/types/types';
-import { SortSelectorProps } from '@/app/interfaces';
+import { SortOptionsProps } from '@/app/interfaces';
 
-export default function SortOptions({ sortOption }: SortSelectorProps) {
-    const router = useRouter();
 
+
+export default function SortOptions({ sortOption, onSortChange }: SortOptionsProps) {
     const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newSortOption = event.target.value as SortOption;
-        console.log('Changing sort to:', newSortOption);
-        router.push(`/leaderboard?sort=${newSortOption}`);
+        onSortChange(newSortOption);
     };
 
     return (

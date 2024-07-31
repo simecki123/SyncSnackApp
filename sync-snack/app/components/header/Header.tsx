@@ -13,7 +13,7 @@ export default function Header() {
           </div>
         </Link>
         <div className="flex items-center max-md:hidden">
-          <Link href="/leaderboard" className="mr-8 ">Leaderboard</Link>
+          <Link href="/profile" className="mr-8 ">Profile and group</Link>
           <Link href="/event" className="mr-8">My Event</Link>
           <Link href="/orders" className="mr-8">My Orders</Link>
           <div className="mr-4">
