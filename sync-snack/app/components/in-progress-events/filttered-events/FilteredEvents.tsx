@@ -9,20 +9,9 @@ import coffeeImage from '@/public/coffeImage.png';
 import breakfastImage from '@/public/breakfastImage.png';
 import drinksImage from '@/public/drinks.png';
 import mixImage from '@/public/mix.png';
-
+import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 
-
-export interface Event {
-  eventId: string;
-  creatorId: string;
-  creatorFirstName: string;
-  creatorLastName: string;
-  description: string;
-  groupId: string;
-  status: string;
-  eventType: string;
-}
 
 export default function FilteredEvents({
   activeUser,

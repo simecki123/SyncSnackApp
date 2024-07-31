@@ -1,10 +1,10 @@
 import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import { Order } from '@/app/interfaces';
+import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
 
-const OrdersTable = dynamic(() => import('@/app/components/my-orders/orders-table/OrdersTable'), {
-  ssr: false,
-})
+
 
 export default async function OrdersPage() {
 
@@ -87,14 +87,7 @@ function calculateStatistics(data: any) {
   return statistics;
 }
 
-interface Order {
-  userProfileId: string,
-  eventType: string,
-  status: 'PREPARING' | 'READY' | 'DELIVERED' | 'CANCELLED',
-  additionalOptions: any,
-  rating: number,
-  createdAt: string | Date
-}
+
 
 
 const mockedData = [

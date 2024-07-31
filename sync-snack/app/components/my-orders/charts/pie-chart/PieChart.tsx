@@ -3,18 +3,11 @@ import React, { useEffect, useRef } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import OptionsForCharts from '../options-for-charts/OptionsForCharts';
+import { MockedData } from '@/app/interfaces';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface MockedData {
-  _id: string;
-  createdAt: Date;
-  completedAt: string | null;
-  status: string;
-  orderType: string;
-  additionalOptions: string;
-  rating: number | null | undefined;
-}
+
 
 export default function PieChart({ data, option, setOption }: { data: MockedData[], option: string, setOption: (option: string) => void }) {
   const chartRef = useRef<ChartJS<"pie", number[], unknown>>(null);

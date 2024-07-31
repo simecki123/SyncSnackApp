@@ -2,7 +2,8 @@
 import React from 'react';
 import { FormControl, FormLabel, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react';
 
-const GroupInformation = ({ formData, handleInputChange }: any) => (
+export default function GroupInformation ({ formData, handleInputChange }: any)  {
+  return(
   <>
     <FormControl className="mb-4">
       <FormLabel>Group Choice</FormLabel>
@@ -64,6 +65,6 @@ const GroupInformation = ({ formData, handleInputChange }: any) => (
       </>
     )}
   </>
-);
 
-export default GroupInformation;
+  );
+}

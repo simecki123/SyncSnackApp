@@ -2,7 +2,8 @@
 import React from 'react';
 import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 
-const UserProfile = ({ formData, handleInputChange }: any) => (
+export default function UserProfile ({ formData, handleInputChange }: any)  {
+  return(
   <>
     <FormControl className="mb-4">
       <FormLabel>First Name</FormLabel>
@@ -21,6 +22,8 @@ const UserProfile = ({ formData, handleInputChange }: any) => (
       />
     </FormControl>
   </>
-);
+  )
 
-export default UserProfile;
+}
+
+

@@ -3,10 +3,7 @@ import React from 'react';
 import { Box, Select, FormControl, FormLabel } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { SortOption } from '@/app/types/types';
-
-interface SortSelectorProps {
-    sortOption: SortOption;
-}
+import { SortSelectorProps } from '@/app/interfaces';
 
 export default function SortOptions({ sortOption }: SortSelectorProps) {
     const router = useRouter();

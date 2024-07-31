@@ -4,22 +4,8 @@ import React, { useState } from 'react';
 import logo from '@/public/logo.png';
 import Modal from '../../modals/Modal';
 import OrderFood from '../../order-food/OrderFood';
+import { Event, InProgressEventCardProps } from '@/app/interfaces';
 
-interface Event {
-  eventId: string;
-  creatorId: string;
-  creatorFirstName: string;
-  creatorLastName: string;
-  description: string;
-  groupId: string;
-  status: string;
-  eventType: string;
-}
-
-interface InProgressEventCardProps {
-  event: Event;
-  activeUser: any;
-}
 
 export default function InProgressEventCard({ event, activeUser }: InProgressEventCardProps) {
   const [isModalOpen, setModalOpen] = useState(false);
