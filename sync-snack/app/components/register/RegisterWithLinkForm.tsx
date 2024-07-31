@@ -20,6 +20,14 @@ export default function RegisterWithLinkForm({ searchParams }: any) {
     console.log(state)
   }, [state])
 
+  function handleSubmit(e: any) {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    formData.append('groupId', searchParams.groupId)
+    formData.append('groupCode', searchParams.groupCode)
+    formAction(formData)
+  }
+
   return (
     <Card className="w-96" colorScheme="red">
       <CardHeader>
@@ -28,7 +36,7 @@ export default function RegisterWithLinkForm({ searchParams }: any) {
         </Box>
       </CardHeader>
       <CardBody>
-        <form className="flex flex-col space-y-4" action={formAction}>
+        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
           <Box>
             <Input type="text" id="email" name="email" placeholder="Email" />
             <Box className="text-red-500 text-sm">

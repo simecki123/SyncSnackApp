@@ -63,8 +63,8 @@ export async function registerWithLink(prevState: any, formData: FormData) {
   }
 
   const data: any = validatedFields.data;
-  // data.groupId = groupId;
-  // data.groupCode = groupCode;
+  data.groupId = formData.get('groupId');
+  data.groupCode = formData.get('groupCode');
 
   console.log('Registering user with:', data);
 
