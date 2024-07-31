@@ -38,7 +38,7 @@ export default function NavLinks() {
 const links = [
   { name: 'Home', href: '/home', icon: HomeIcon },
   { name: 'Event', href: '/event', icon: CalendarIcon },
-  { name: 'Leaderboard', href: '/leaderboard', icon: TrophyIcon },
+  { name: 'Profile and group', href: '/profile', icon: TrophyIcon },
   { name: 'Orders', href: '/orders', icon: CommandLineIcon },
   { name: 'Stats', href: '/statistics', icon: ChartBarIcon },
 ]
