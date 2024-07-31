@@ -1,22 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Textarea, VStack, Heading, useColorModeValue, useToast } from '@chakra-ui/react';
-
-interface Event {
-  eventId: string;
-  creatorId: string;
-  creatorFirstName: string;
-  creatorLastName: string;
-  description: string;
-  groupId: string;
-  status: string;
-  eventType: string;
-}
-
-interface OrderFoodProps {
-  event: Event;
-  activeUser: any;
-  onOrderSuccess: () => void;
-}
+import { Event, OrderFoodProps } from '@/app/interfaces';
 
 export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFoodProps) {
   const [orderText, setOrderText] = useState('');

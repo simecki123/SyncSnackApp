@@ -1,10 +1,6 @@
 import React from 'react';
 import { Box, Text, VStack, Heading, Button } from '@chakra-ui/react';
-
-interface OrderModalComponentProps {
-  description: string;
-  onClose: () => void;
-}
+import { OrderModalComponentProps } from '@/app/interfaces';
 
 export default function OrderDescriptionModalComponent({ description, onClose }: OrderModalComponentProps) {
   return (

@@ -4,15 +4,9 @@ import { SortOption } from '@/app/types/types';
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, Box, Flex, Image, Text } from '@chakra-ui/react';
 import trophy from '@/public/trophyimage.png';
 import ClickableTableTh from './ClickableTableTh';
-import { revalidatePath } from 'next/cache';
 import { useRouter } from 'next/navigation';
+import { User } from '@/app/interfaces';
 
-interface User {
-    firstName: string;
-    lastName: string;
-    coffeeCounter: number;
-    coffeeRating: number;
-}
 
 const dummyUsers: User[] = [
     { firstName: 'John', lastName: 'Doe', coffeeCounter: 15, coffeeRating: 4.8 },

@@ -2,12 +2,8 @@ import React, { useState } from 'react'
 import { Box, VStack, Heading, HStack, Button, useToast } from '@chakra-ui/react'
 import { StarIcon } from '@chakra-ui/icons'
 import { fetchImproved } from '@/app/fetch'
-
-interface StarProps {
-  value: number,
-  handleClick: (value: number) => void,
-  isFull: boolean
-}
+import { StarProps } from '@/app/interfaces'
+import { OrdersOrderModalComponentProps } from '@/app/interfaces'
 
 function Star({ value, handleClick, isFull }: StarProps) {
   return (
@@ -22,12 +18,9 @@ function Star({ value, handleClick, isFull }: StarProps) {
   )
 }
 
-interface OrderModalComponentProps {
-  coffeeOrderId: string;
-  onClose: () => void;
-}
 
-export default function OrderRateModalComponent({ coffeeOrderId, onClose }: OrderModalComponentProps) {
+
+export default function OrderRateModalComponent({ coffeeOrderId, onClose }: OrdersOrderModalComponentProps) {
   const [givenStars, setGivenStars] = useState<number | null>(null)
   const starsValues = [1, 2, 3, 4, 5];
   const toast = useToast();

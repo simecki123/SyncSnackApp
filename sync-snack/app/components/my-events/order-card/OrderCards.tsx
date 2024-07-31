@@ -2,19 +2,9 @@
 
 import React from 'react';
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Flex } from '@chakra-ui/react';
+import {EventOrder}  from '@/app/interfaces';
 
-interface Order {
-    _id: string,
-    status: string,
-    additionalOptions: string,
-    user: {
-        _id: string,
-        firstName: string,
-        lastName: string,
-    }
-}
-
-export default function OrderCards({ order }: { order: Order }) {
+export default function OrderCards({ order }: { order: EventOrder }) {
     const toast = useToast();
 
     function setStatusOfTheOrder(status: string) {

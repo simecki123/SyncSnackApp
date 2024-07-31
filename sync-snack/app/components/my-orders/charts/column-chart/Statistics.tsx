@@ -2,18 +2,7 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import { BarChart, DonutChart } from '@tremor/react';
-
-interface StatisticsData {
-  completed: number,
-  canceled: number,
-  ordersPerMonth: number[],
-  ordersPerType: {
-    coffee: number,
-    drinks: number,
-    food: number,
-    mix: number,
-  }
-}
+import { StatisticsData } from "@/app/interfaces";
 
 export default function Statistics({ stats }: { stats: StatisticsData }) {
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();

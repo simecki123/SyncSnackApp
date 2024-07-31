@@ -2,7 +2,8 @@
 import React from 'react';
 import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 
-const AccountDetails = ({ formData, handleInputChange }: any) => (
+export default function AccountDetails ({ formData, handleInputChange }: any)  {
+  return(
   <>
     <FormControl className="mb-4">
       <FormLabel>Email</FormLabel>
@@ -32,6 +33,5 @@ const AccountDetails = ({ formData, handleInputChange }: any) => (
       />
     </FormControl>
   </>
-);
-
-export default AccountDetails;
+  );
+}
