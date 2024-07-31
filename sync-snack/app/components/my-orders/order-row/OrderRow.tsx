@@ -1,5 +1,5 @@
 "use client"
-import { Tr, Td, Button } from '@chakra-ui/react';
+import { Tr, Td, Button, Box } from '@chakra-ui/react';
 import OrderTypePretty from '../order-type-preatty/OrderTypePreatty';
 import StatusPretty from '../status-preatty/StatusPreatty';
 import RatingPretty from '../rating-preatty/RatingPreatty';
@@ -26,8 +26,12 @@ export default function OrderRow({ order }: any) {
     <>
       <Tr>
         <Td><OrderTypePretty orderType={order.eventType} /></Td>
-        <Td className='w-96'>{convertTimeToString(order.createdAt)}</Td>
-        <Td className='flex'><StatusPretty statusType={order.status} /></Td>
+        <Td className='w-96 dark:text-white'>{convertTimeToString(order.createdAt)}</Td>
+        <Td>
+          <Box className='flex'>
+            <StatusPretty statusType={order.status} />
+          </Box>
+        </Td>
         <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
         <Td>
           {order.rating ? <RatingPretty rating={order.rating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
@@ -74,9 +78,9 @@ function convertTimeToString(time: Date | null): string {
   const diffYears = now.getFullYear() - time.getFullYear();
 
   if (diffDays === 0) {
-    return "today";
+    return "Today";
   } else if (diffDays === 1) {
-    return "yesterday";
+    return "Yesterday";
   } else if (diffDays < 7) {
     return `${diffDays} days ago`;
   } else if (diffDays < 30) {

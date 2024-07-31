@@ -110,16 +110,10 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
 
   return (
     <Box
-      borderWidth="1px"
-      borderRadius="lg"
       overflow="hidden"
       p={6}
-      boxShadow="lg"
       bg="white"
     >
-      <Heading as="h3" size="lg" mb={4} textAlign="center" color="orange.600">
-        Create New Event
-      </Heading>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4} align="start">
           <FormControl id="pendingTime" isRequired>
@@ -152,7 +146,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
             />
           </FormControl>
 
-          <Button colorScheme="orange" width="100%" type="submit">
+          <Button bg='orange.200' width="100%" type="submit">
             Create Event
           </Button>
         </VStack>

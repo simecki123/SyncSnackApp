@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { SimpleGrid, Flex, Button, Text } from '@chakra-ui/react';
+import { SimpleGrid, Flex, Button, Text, Box } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
+
 import coffeeImage from '@/public/coffeImage.png';
 import breakfastImage from '@/public/breakfastImage.png';
 import drinksImage from '@/public/drinks.png';
@@ -52,31 +53,33 @@ export default function FilteredEvents({
           All
         </FilterButton>
         <FilterButton filter="coffee" currentFilter={filter} onClick={() => handleFilterChange('coffee')}>
-          <Image src={coffeeImage} alt="Coffee" width={24} height={24} />
+          <Image className='mr-1' src='/coffee_green_circle.png' alt="Coffee" width={24} height={24} />
           Coffee
         </FilterButton>
         <FilterButton filter="food" currentFilter={filter} onClick={() => handleFilterChange('food')}>
-          <Image src={breakfastImage} alt="Breakfast" width={24} height={24} />
+          <Image className='mr-1' src='/pizza.png' alt="Breakfast" width={24} height={24} />
           Food
         </FilterButton>
         <FilterButton filter='mix' currentFilter={filter} onClick={() => handleFilterChange('mix')}>
-          <Image src={mixImage} alt="Mix" width={24} height={24} />
+          <Image className='mr-1' src='/orange_drink.png' alt="Mix" width={24} height={24} />
           Mix
         </FilterButton>
         <FilterButton filter='drinks' currentFilter={filter} onClick={() => handleFilterChange('drinks')}>
-          <Image src={drinksImage} alt="Drinks" width={24} height={24} />
+          <Image className='mr-1' src='/beer.png' alt="Drinks" width={24} height={24} />
           Drinks
         </FilterButton>
       </Flex>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+      <Box className=''>
         {events.length === 0 ? (
-          <Text>There are no active events right now</Text>
+          <Text className='flex justify-center text-xl font-semibold'>There are no active events right now 😔</Text>
         ) : (
-          events.map((event) => (
-            <InProgressEventCard key={event.eventId} event={event} activeUser={activeUser} />
-          ))
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            {events.map((event) => (
+              <InProgressEventCard key={event.id} event={event} />
+            ))}
+          </SimpleGrid>
         )}
-      </SimpleGrid>
+      </Box>
     </>
   );
 }

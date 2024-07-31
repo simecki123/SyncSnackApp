@@ -4,19 +4,19 @@ export default function OrderTypePretty({ orderType }: any) {
   switch (orderType) {
     case "COFFEE":
       return (
-        <Image src='/coffeImage.png' boxSize='30px' />
+        <Image src='/coffee_green_circle.png' alt='coffee' boxSize='30px' />
       );
-    case "mix":
+    case "MIX":
       return (
-        <Image src='/mix.png' boxSize='30px' />
+        <Image src='/orange_drink.png' alt='mix' boxSize='30px' />
       );
-    case "food":
+    case "FOOD":
       return (
-        <Image src='/breakfastImage.png' boxSize='30px' />
+        <Image src='/pizza.png' alt='food' boxSize='30px' />
       );
-    case "drinks":
+    case "DRINKS":
       return (
-        <Image src='/drinks.png' boxSize='30px' />
+        <Image src='/beer.png' alt='drinks' boxSize='30px' />
       );
     default:
       return null;

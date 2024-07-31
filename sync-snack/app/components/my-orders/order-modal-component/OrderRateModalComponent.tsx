@@ -69,7 +69,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose }: Orde
   }
 
   return (
-    <Box bg="gray.50" borderRadius="xl" p={8} boxShadow="lg">
+    <Box>
       <VStack spacing={6}>
         <Heading size="lg" color="gray.700">Rate Order</Heading>
         <HStack spacing={2}>
@@ -84,7 +84,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose }: Orde
         </HStack>
         <Button
           onClick={handleRating}
-          colorScheme="orange"
+          bg="orange.300"
           size="lg"
           _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
           transition="all 0.2s"

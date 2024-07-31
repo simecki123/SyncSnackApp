@@ -72,16 +72,16 @@ function calculateStatistics(data: any) {
 
     // Count orders per type
     switch (order.orderType) {
-      case "coffee":
+      case "COFFEE":
         statistics.ordersPerType.coffee += 1;
         break;
-      case "drinks":
+      case "DRINKS":
         statistics.ordersPerType.drinks += 1;
         break;
-      case "food":
+      case "FOOD":
         statistics.ordersPerType.food += 1;
         break;
-      case "mix":
+      case "MIX":
         statistics.ordersPerType.mix += 1;
         break;
       default:
