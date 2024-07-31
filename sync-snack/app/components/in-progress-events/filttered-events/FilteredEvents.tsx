@@ -6,20 +6,23 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
 
+import coffeeImage from '@/public/coffeImage.png';
+import breakfastImage from '@/public/breakfastImage.png';
+import drinksImage from '@/public/drinks.png';
+import mixImage from '@/public/mix.png';
+import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 
-export interface Event {
-  _id: string;
-  creatorId: string;
-  creatorFirstName: string;
-  creatorLastName: string;
-  description: string;
-  groupId: string;
-  status: string;
-  eventType: string;
-}
 
-export default function FilteredEvents({ initialEvents, initialFilter }: { initialEvents: Event[], initialFilter: string }) {
+export default function FilteredEvents({
+  activeUser,
+  initialEvents,
+  initialFilter
+}: {
+  activeUser: any,
+  initialEvents: Event[],
+  initialFilter: string
+}) {
   const [events, setEvents] = useState(initialEvents);
   const [filter, setFilter] = useState(initialFilter);
   const router = useRouter();
@@ -72,7 +75,7 @@ export default function FilteredEvents({ initialEvents, initialFilter }: { initi
         ) : (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {events.map((event) => (
-              <InProgressEventCard key={event._id} event={event} />
+              <InProgressEventCard key={event.id} event={event} />
             ))}
           </SimpleGrid>
         )}

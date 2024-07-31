@@ -4,29 +4,11 @@ import React, { useState } from 'react';
 import logo from '@/public/logo.png';
 import Modal from '../../modals/Modal';
 import OrderFood from '../../order-food/OrderFood';
+import { Event, InProgressEventCardProps } from '@/app/interfaces';
 
-interface Event {
-  _id: string;
-  creatorId: string;
-  creatorFirstName: string;
-  creatorLastName: string;
-  description: string;
-  groupId: string;
-  status: string;
-  eventType: string;
-}
 
-interface InProgressEventCardProps {
-  event: Event;
-}
-
-export default function InProgressEventCard({ event }: InProgressEventCardProps) {
+export default function InProgressEventCard({ event, activeUser }: InProgressEventCardProps) {
   const [isModalOpen, setModalOpen] = useState(false);
-
-  // Handle card click
-  const handleMakeOrder = () => {
-    console.log("Event card has been clicked");
-  };
 
   // Define styles for the box
   const cardBgColor = useColorModeValue('white', 'gray.700');
@@ -36,6 +18,11 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
   const blink = keyframes`
     50% { opacity: 0.5; }
   `;
+
+  // Function to close the modal
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <>
@@ -51,7 +38,7 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        alignItems="center" // Center content horizontally
+        alignItems="center"
       >
         <Image
           src={logo.src}
@@ -59,16 +46,15 @@ export default function InProgressEventCard({ event }: InProgressEventCardProps)
           w="50px"
           h="50px"
           mb={4}
-          animation={`${blink} 5s infinite`} // Apply blinking animation
+          animation={`${blink} 5s infinite`}
         />
         <Text fontWeight="bold">
           Event by {event.creatorFirstName} {event.creatorLastName}
         </Text>
         <Text mt={2}>{event.description}</Text>
       </Box>
-
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} >
-        <OrderFood />
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <OrderFood event={event} activeUser={activeUser} onOrderSuccess={closeModal} />
       </Modal>
     </>
   );

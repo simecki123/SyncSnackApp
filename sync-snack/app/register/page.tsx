@@ -10,7 +10,7 @@ export default function Register() {
       <Box textAlign="center" mb={8}>
         <Heading as="h1" size="xl">
           Register
-        </Heading>
+        </Heading> 
       </Box>
       
         <RegisterComponent />

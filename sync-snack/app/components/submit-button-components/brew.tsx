@@ -8,11 +8,13 @@ import { auth } from '@/app/auth';
 export default function BrewComponent({ activeUser }: any) {
   const [isModalOpen, setModalOpen] = useState(false);
 
-
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   return (
     <>
-      <ChakraProvider >
+      <ChakraProvider>
         <Box
           h="20vh"
           display="flex"
@@ -25,11 +27,9 @@ export default function BrewComponent({ activeUser }: any) {
         </Box>
       </ChakraProvider>
 
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-        <CreateEvent activeUser={activeUser}></CreateEvent>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <CreateEvent activeUser={activeUser} onCloseModal={handleModalClose} />
       </Modal>
-
     </>
-
   );
 }

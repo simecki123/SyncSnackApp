@@ -2,27 +2,11 @@
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Heading, Collapse, useDisclosure, Icon } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import React from 'react';
+import { EventOrder } from '@/app/interfaces';
+import { EventEvent } from '@/app/interfaces';
+ 
 
-interface Event {
-    _id: string,
-    title: string,
-    description: string,
-    status: string,
-    eventType: string,
-}
-
-interface Order {
-    _id: string,
-    status: string,
-    additionalOptions: string,
-    user: {
-        _id: string,
-        firstName: string,
-        lastName: string,
-    }
-}
-
-export default function EventDetails({ event, orders }: { event: Event, orders: Array<Order> }) {
+export default function EventDetails({ event, orders }: { event: EventEvent, orders: Array<EventOrder> }) {
     const toast = useToast();
     const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
 

@@ -3,6 +3,8 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import { BarChart, DonutChart } from '@tremor/react';
 import { Divider } from '@chakra-ui/react'
+import { StatisticsData } from "@/app/interfaces";
+
 
 export default function Statistics({ stats }: { stats: StatisticsData }) {
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
