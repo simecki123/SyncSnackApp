@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Flex } from '@chakra-ui/react';
-import {EventOrder}  from '@/app/interfaces';
+import { EventOrder } from '@/app/interfaces';
 
 export default function OrderCards({ order }: { order: EventOrder }) {
     const toast = useToast();
@@ -18,9 +18,10 @@ export default function OrderCards({ order }: { order: EventOrder }) {
             isClosable: true,
         });
     }
-   
+
     return (
-        <Box borderWidth={1} borderRadius="lg" p={3} boxShadow="md" bg="white" h="100%">
+        <Box borderWidth={1} borderRadius="lg" p={3} boxShadow="md" h="100%" className='bg-white 
+            dark:bg-gray-400'>
             <VStack align="stretch" spacing={2} h="100%">
                 <Flex justify="space-between" align="center">
                     <Text fontWeight="bold" fontSize="sm" noOfLines={1}>

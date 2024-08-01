@@ -19,7 +19,9 @@ export default async function Layout({
   return (
     <div className="flex min-h-screen dark:bg-slate-950">
       <div className="flex flex-col">
-        <HeaderLogo />
+        <div className="max-md:hidden">
+          <HeaderLogo />
+        </div>
         <NavLinks />
         <Box className="grow flex items-end">
           <Box className="w-full flex justify-center p-2">

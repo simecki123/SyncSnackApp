@@ -4,7 +4,6 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import React from 'react';
 import { EventOrder } from '@/app/interfaces';
 import { EventEvent } from '@/app/interfaces';
- 
 
 export default function EventDetails({ event, orders }: { event: EventEvent, orders: Array<EventOrder> }) {
     const toast = useToast();
@@ -26,7 +25,7 @@ export default function EventDetails({ event, orders }: { event: EventEvent, ord
     }
 
     return (
-        <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">
+        <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" className='bg-white dark:bg-gray-400' >
             <HStack justifyContent="space-between" mb={4}>
                 <Heading as="h2" size="xl" color="orange.600">{event.title}</Heading>
                 <Button onClick={onToggle} variant="ghost">
