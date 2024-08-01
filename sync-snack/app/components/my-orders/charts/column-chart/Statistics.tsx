@@ -3,8 +3,6 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import { BarChart, DonutChart } from '@tremor/react';
 import { Divider } from '@chakra-ui/react'
-import { StatisticsData } from "@/app/interfaces";
-
 
 export default function Statistics({ stats }: { stats: StatisticsData }) {
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
@@ -49,8 +47,8 @@ function DataBoxNumber({ status, nmbStatus }: { status: string, nmbStatus: numbe
         {status === 'Canceled' ? <WarningIcon /> : <CheckCircleIcon />}
         <Text className="dark:text-white ml-1 text-tremor-default text-tremor-content">Total {status}</Text>
       </Box>
-      <Box className="bg-white rounded-xl p-6 flex justify-center">
-        <Text className="px-32 text-tremor-content-strong font-semibold
+      <Box className="bg-white dark:bg-black rounded-xl p-6 flex justify-center">
+        <Text className="px-32 text-tremor-content-strong dark:text-white font-semibold
           text-tremor-metric">{nmbStatus}</Text>
       </Box>
     </Box>
@@ -107,4 +105,3 @@ function transformOrders(ordersPerType: any) {
 
 const fakeMonthsData = [25, 23, 25, 31, 16, 33, 23, 45, 12, 20, 19, 31]
 
-const datahero = [{ name: 'Noche Holding AG', value: 9800, }, { name: 'Rain Drop AG', value: 4567, }, { name: 'Push Rail AG', value: 3908, }, { name: 'Flow Steal AG', value: 2400, }, { name: 'Tiny Loop Inc.', value: 2174, }, { name: 'Anton Resorts Holding', value: 1398, },];

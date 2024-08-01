@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Flex, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from '@chakra-ui/react';
 import { EventOrder } from '@/app/interfaces';
 
@@ -11,6 +12,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const toast = useToast();
+
 
   const onClose = () => setIsOpen(false);
 
@@ -43,6 +45,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
         isClosable: true,
       });
     }
+
   }
 
   return (
@@ -97,4 +100,5 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
       </AlertDialog>
     </Box>
   )
+
 }

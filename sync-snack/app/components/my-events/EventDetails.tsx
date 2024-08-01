@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Collapse, useDisclosure, Icon, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Heading } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { EventOrder, EventEvent } from '@/app/interfaces';
@@ -27,6 +28,7 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
     try {
       const response = await setStatusOfEvent(actionStatus, event.eventId);
       if (response === "SUCCESS") {
+
         toast({
           title: `Event ${actionStatus === "cancel" ? "cancelled" : "finished"}`,
           description: `The event and all its orders have been marked as ${actionStatus}.`,
@@ -97,6 +99,7 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
               Are you sure you want to change the status of this event to "{actionStatus}"?
             </AlertDialogBody>
 
+
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onCloseDialog}>
                 Cancel
@@ -110,4 +113,5 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
       </AlertDialog>
     </Box>
   );
+
 }

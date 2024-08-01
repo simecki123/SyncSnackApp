@@ -22,11 +22,17 @@ export async function loginUser(prevState: any, formData: FormData) {
     };
   }
 
-  await signIn("credentials", {
-    email: validatedFields.data.email,
-    password: validatedFields.data.password,
-    redirectTo: '/home',
-  });
+  try {
+    await signIn("credentials", {
+      email: validatedFields.data.email,
+      password: validatedFields.data.password,
+      redirectTo: '/home',
+    });
+  } catch (e: any) {
+    return {
+      message: 'Invalid credentials'
+    }
+  }
 }
 
 export async function registerWithLink(prevState: any, formData: FormData) {

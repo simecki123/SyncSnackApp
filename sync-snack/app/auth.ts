@@ -11,17 +11,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
 
-        // const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
-        //   method: "POST",
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(credentials),
-        // })
-        //
-        // const token = await res.json()
+        const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(credentials),
+        })
 
-        const token = await fetchImproved('/api/auth/login', 'POST', JSON.stringify(credentials))
+        const token = await res.json()
 
         const user = await fetch(`${process.env.BACKEND_URL}/api/auth/fetchMe`, {
           headers: {

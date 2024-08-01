@@ -1,27 +1,19 @@
 "use client";
 import React, { useState } from 'react'
 import { Box, Button, Flex, VStack, useColorModeValue } from '@chakra-ui/react'
-import ProfileData from './profile-data/ProfileData'
 import GroupData from './group-data/GroupData'
 import { SortOption } from '@/app/types/types';
-
-// Mock data for demonstration purposes
-const mockUser = {
-  email: "user@example.com",
-  firstName: "John",
-  lastName: "Doe",
-  groupName: "Coffee Lovers",
-  score: 4.5,
-}
+import ProfileData from './profile-data/ProfileData';
 
 const mockGroup = {
   name: "Coffee Lovers",
   description: "A group for coffee enthusiasts",
 }
 
-export default function ProfileGroupComponent() {
+export default function ProfileGroupComponent({ user, accessToken }: any) {
+
   const [activeView, setActiveView] = useState<'profile' | 'group'>('profile');
-  
+
   const bgColor = useColorModeValue('white', 'gray.800');
   const buttonColorScheme = 'orange';
 
@@ -44,11 +36,11 @@ export default function ProfileGroupComponent() {
           Group
         </Button>
       </Flex>
-      
+
       <Box bg={bgColor} boxShadow="md" borderRadius="lg" p={6}>
         <VStack spacing={6} align="stretch">
           {activeView === 'profile' ? (
-            <ProfileData user={mockUser} />
+            <ProfileData user={user} accessToken={accessToken} />
           ) : (
             <GroupData group={mockGroup} initialSortOption={SortOption.CoffeeCount} />
           )}

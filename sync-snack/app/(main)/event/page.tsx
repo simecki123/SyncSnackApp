@@ -6,6 +6,7 @@ import { EventOrder } from "@/app/interfaces";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/app/auth";
 
+
 export default async function EventPage() {
   let event = null;
   let orders: EventOrder[] = [];
@@ -101,6 +102,7 @@ export default async function EventPage() {
     return "SUCCESS";
   }
 
+
   return (
     <Container maxW="container.xl" py={8}>
       <VStack spacing={8} align="stretch">
@@ -141,6 +143,8 @@ export default async function EventPage() {
   );
 }
 
+
 function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean; }) {
   throw new Error("Function not implemented.");
 }
+
