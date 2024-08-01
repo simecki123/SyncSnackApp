@@ -1,7 +1,7 @@
 "use client"
 
 import { Box } from "@chakra-ui/react"
-import { HomeIcon, CalendarIcon, CommandLineIcon, ChartBarIcon, TrophyIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, CalendarIcon, CommandLineIcon, ChartBarIcon, UserCircleIcon } from "@heroicons/react/24/outline"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
 import Link from "next/link"
@@ -38,7 +38,7 @@ export default function NavLinks() {
 const links = [
   { name: 'Home', href: '/home', icon: HomeIcon },
   { name: 'Event', href: '/event', icon: CalendarIcon },
-  { name: 'Profile and group', href: '/profile', icon: TrophyIcon },
   { name: 'Orders', href: '/orders', icon: CommandLineIcon },
   { name: 'Stats', href: '/statistics', icon: ChartBarIcon },
+  { name: 'Profile', href: '/profile', icon: UserCircleIcon },
 ]

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import FilteredEvents from './filttered-events/FilteredEvents';
 import { auth } from '@/app/auth';
 import { Event } from '@/app/interfaces';
@@ -34,7 +34,10 @@ export default async function InProgressEvents({
   });
 
   if (!eventsResponse.ok) {
-    throw new Error(`HTTP error! status: ${eventsResponse.status}`);
+    // throw new Error(`HTTP error! status: ${eventsResponse.status}`);
+    return (
+      <Text>Failed to fetch events</Text>
+    )
   }
 
   const events: Event[] = await eventsResponse.json();

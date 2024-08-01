@@ -19,14 +19,14 @@ export interface Event {
 export interface InProgressEventCardProps {
     event: Event;
     activeUser: any;
-  }
+}
 
 // Order food props is interface that is used in OrderFoodComponent and it carries all needed defined atributes
-export  interface OrderFoodProps {
+export interface OrderFoodProps {
     event: Event;
     activeUser: any;
     onOrderSuccess: () => void;
-  }
+}
 
 
 //-----------------------------------------------------------------------------------------
@@ -56,33 +56,33 @@ export interface Order {
     additionalOptions: any,
     rating: number,
     createdAt: string | Date
-  }
+}
 
-  export interface StarProps {
+export interface StarProps {
     value: number,
     handleClick: (value: number) => void,
     isFull: boolean
-  }
+}
 
 export interface OrdersOrderModalComponentProps {
     coffeeOrderId: string;
     onClose: () => void;
-  }
+}
 
-  //-------------------------------------------------------------------
-  // Statistics page
-  // Statistics data interface
-export  interface StatisticsData {
+//-------------------------------------------------------------------
+// Statistics page
+// Statistics data interface
+export interface StatisticsData {
     completed: number,
     canceled: number,
     ordersPerMonth: number[],
     ordersPerType: {
-      coffee: number,
-      drinks: number,
-      food: number,
-      mix: number,
+        coffee: number,
+        drinks: number,
+        food: number,
+        mix: number,
     }
-  }
+}
 
 // ----------------------------------------------------------------------------------
 // Events page interfaces
@@ -118,32 +118,33 @@ export interface MockedData {
     orderType: string;
     additionalOptions: string;
     rating: number | null | undefined;
-  }
+}
 
-export  interface OrderModalComponentProps {
+export interface OrderModalComponentProps {
     description: string;
     onClose: () => void;
-  }
+}
 
 //---------------------------------------------------------------------------------------------
 // User for profile component
 
 export interface ProfileUser {
-  email: string,
-  firstName: string,
-  lastName: string,
-  groupName: string,
-  score: number,
+    email: string,
+    firstName: string,
+    lastName: string,
+    groupName: string,
+    score: number,
+    profilePhoto: any
 }
 
 export interface ProfileGroup {
-  name: string,
-  description: string,
+    name: string,
+    description: string,
 
 }
 
 export interface SortOptionsProps {
-  sortOption: SortOption;
-  onSortChange: (newSortOption: SortOption) => void;
+    sortOption: SortOption;
+    onSortChange: (newSortOption: SortOption) => void;
 }
 
