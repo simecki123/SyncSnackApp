@@ -1,68 +1,150 @@
 import EventDetails from "@/app/components/my-events/EventDetails";
-import OrderCards from "@/app/components/my-events/order-card/OrderCards";
-import { Box, VStack, Container, Heading, Divider, SimpleGrid } from "@chakra-ui/react";
+import { fetchImproved } from "@/app/fetch";
+import { Box, VStack, Container, Heading, Divider, Text, Alert, AlertIcon } from "@chakra-ui/react";
+import OrdersTable from "@/app/components/my-events/OrdersTable";
+import { EventOrder } from "@/app/interfaces";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/app/auth";
 
-export default function EventPage() {
+
+export default async function EventPage() {
+  let event = null;
+  let orders: EventOrder[] = [];
+  let eventError = null;
+  let ordersError = null;
+  const session = await auth();
+  const activeUser: any = session?.user;
+  const userToken = activeUser?.accessToken;
+  console.log("userToken: ", userToken);
+
+  try {
+    event = await fetchImproved('/api/events/active');
+  } catch (error) {
+    eventError = "Failed to fetch event details.";
+    console.error("Error fetching event:", error);
+    return(
+      <Box textAlign="center" py={10} px={6}>
+        <Heading as="h2" size="xl" mb={4} color="red.500">
+          Server is not available
+        </Heading>
+        <Text fontSize="lg" color="gray.700">
+          Please try again later.
+        </Text>
+      </Box>
+    );
+  }
+
+  if (event) {
+    try {
+      orders = await fetchImproved(`/api/orders/event/${event.eventId}`);
+      console.log("Orders event: ", orders);
+    } catch (error) {
+      ordersError = "Failed to fetch orders.";
+      console.error("Error fetching orders:", error);
+      return(
+        <Box textAlign="center" py={10} px={6}>
+          <Heading as="h2" size="xl" mb={4} color="red.500">
+            Server is not available
+          </Heading>
+          <Text fontSize="lg" color="gray.700">
+            Please try again later.
+          </Text>
+        </Box>
+      );
+    }
+  }
+
+  async function setStatusOfEvent(status: string, eventID: string) {
+    "use server";
+    try {
+      console.log(status, eventID)
+      const response = await fetch(`http://localhost:8080/api/events/update?eventId=${eventID}&status=${status}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
+        }
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update event status");
+      }
+
+    } catch(error) {
+      console.error("Error updating event status:", error);
+      revalidatePath('/event-page'); // Adjust this path as needed
+      return "FAIL";
+    }
+
+    revalidatePath('/event-page'); // Adjust this path as needed
+    return "SUCCESS";
+  }
+
+  async function setStatusOfTheOrder(status: string, orderId: string) {
+    "use server";
+    try {
+      
+      const response = await fetch(`http://localhost:8080/api/orders/update?orderId=${orderId}&status=${status}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
+        }
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update order status");
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      revalidatePath('/event-page'); // Adjust this path as needed
+      return "FAIL";
+    }
+    revalidatePath('/event-page'); // Adjust this path as needed
+    return "SUCCESS";
+  }
+
 
   return (
     <Container maxW="container.xl" py={8}>
       <VStack spacing={8} align="stretch">
-        <EventDetails event={event} orders={orders} />
-        <Divider my={6} borderColor="orange.300" />
-        <Heading as="h2" size="xl" color="orange.600" mb={4}>
-          Orders
-        </Heading>
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-          {orders.map((order, key) => (
-            <OrderCards key={key} order={order} />
-          ))}
-        </SimpleGrid>
+        {eventError ? (
+          <Alert status="error">
+            <AlertIcon />
+            {eventError}
+          </Alert>
+        ) : !event ? (
+          <Alert status="info">
+            <AlertIcon />
+            <Text fontSize="2xl" fontWeight="bold">You don't have any event yet</Text>
+          </Alert>
+        ) : (
+          <>
+            <EventDetails event={event} orders={orders} setStatusOfEvent={setStatusOfEvent} />
+            <Divider my={6} borderColor="orange.300" />
+            <Heading as="h2" size="xl" color="orange.600" mb={4}>
+              Orders
+            </Heading>
+            {ordersError ? (
+              <Alert status="error">
+                <AlertIcon />
+                {ordersError}
+              </Alert>
+            ) : orders.length === 0 ? (
+              <Alert status="info">
+                <AlertIcon />
+                There are no orders yet.
+              </Alert>
+            ) : (
+              <OrdersTable orders={orders} setStatusOfTheOrder={setStatusOfTheOrder} />
+            )}
+          </>
+        )}
       </VStack>
     </Container>
   );
 }
 
 
-// Dummy data for event... for now
-const event = {
-  _id: "1",
-  title: "Brewing coffee",
-  description: "Pravin tursku kavu ko bi tija nek mi odma kaze da znan.",
-  status: "Pending",
-  eventType: "Coffee",
-};
-
-// Dummy data for orders
-const orders = [
-  {
-    _id: "1",
-    status: "In Progress",
-    additionalOptions: "Ej brate aj meni stavi samo malo mlika i nez kolko cukra stavis, poduplaj cukar",
-    user: {
-      _id: "1",
-      firstName: "Mile",
-      lastName: "Kornjaca",
-    }
-  },
-  {
-    _id: "2",
-    status: "In Progress",
-    additionalOptions: "Aj napravi i malom Peri zaspa mi je tu.",
-    user: {
-      _id: "1",
-      firstName: "Mile",
-      lastName: "Kornjaca",
-    }
-  },
-  {
-    _id: "3",
-    status: "In Progress",
-    additionalOptions: "Ni cukar ni mliko, volin kad mi grlo progori",
-    user: {
-      _id: "1",
-      firstName: "Jeff",
-      lastName: "Strongman",
-    }
-  }
-];
+function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean; }) {
+  throw new Error("Function not implemented.");
+}
 

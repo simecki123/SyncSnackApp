@@ -75,7 +75,7 @@ export default function FilteredEvents({
         ) : (
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {events.map((event) => (
-              <InProgressEventCard key={event.id} event={event} />
+              <InProgressEventCard key={event.eventId} event={event} activeUser={activeUser} />
             ))}
           </SimpleGrid>
         )}

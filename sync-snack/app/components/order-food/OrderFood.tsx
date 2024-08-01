@@ -11,6 +11,8 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
     console.log("Active user: ", activeUser);
     console.log("ActiveEvent: ", event);
 
+    console.log("Active user id: ", activeUser.userProfileId);
+
     try {
       const orderResponse = await fetch(`http://localhost:8080/api/orders/create`, {
         method: 'POST',
