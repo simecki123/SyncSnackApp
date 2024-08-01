@@ -8,13 +8,13 @@ export default function StatusPretty({ statusType }: any) {
           <Text>In Progress</Text>
         </Box>
       );
-    case "Done":
+    case "READY":
       return (
         <Box className='dark:bg-green-700 px-4 py-2 bg-green-500 rounded-md text-white'>
           <Text>Done</Text>
         </Box>
       );
-    case "Canceled":
+    case "CANCELLED":
       return (
         <Box className='dark:bg-red-800 px-4 py-2 bg-red-600 rounded-md text-white'>
           <Text>Canceled</Text>
