@@ -38,7 +38,7 @@ export default function GroupData({group, initialSortOption}: {group: ProfileGro
             <Heading size="md" mb={4}>Leaderboard</Heading>
             <SortOptions sortOption={sortOption} onSortChange={handleSortChange} />
             <Box mt={4}>
-                <LeaderboardTable sortOption={sortOption} />
+                <LeaderboardTable sortOption={sortOption} onSortChange={handleSortChange} />
             </Box>
         </Box>
       </Flex>

@@ -5,7 +5,7 @@ import { Table, Thead, Tbody, Tr, Td, TableContainer, Box, Flex, Image, Text, Bu
 import trophy from '@/public/trophyimage.png';
 import ClickableTableTh from './ClickableTableTh';
 import { useRouter } from 'next/navigation';
-import { User } from '@/app/interfaces';
+import { SortOptionsProps, User } from '@/app/interfaces';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const dummyUsers: User[] = [
@@ -19,7 +19,7 @@ const dummyUsers: User[] = [
     { firstName: 'Lucy', lastName: 'Taylor', coffeeCounter: 13, coffeeRating: 4.4 },
 ];
 
-export default function LeaderboardTable({ sortOption }: { sortOption: SortOption }) {
+export default function LeaderboardTable({ sortOption, onSortChange }: SortOptionsProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
     const maxPageButtons = 5;
@@ -34,21 +34,12 @@ export default function LeaderboardTable({ sortOption }: { sortOption: SortOptio
     
 
     let sortedUsers = [...dummyUsers].sort((a, b) => {
-        if (sortOption === 'rating') {
-            isSortedRating = true;
-            isSortedName = false;
-            isSortedOrders = false;
+        if (sortOption === SortOption.Rating) {
             return b.coffeeRating - a.coffeeRating;
         }
-        if (sortOption === 'Name') {
-            isSortedName = true;
-            isSortedOrders = false;
-            isSortedRating = false;
+        if (sortOption === SortOption.Name) {
             return a.firstName.localeCompare(b.firstName);
         } else {
-            isSortedOrders = true;
-            isSortedName = false;
-            isSortedRating = false;
             return b.coffeeCounter - a.coffeeCounter;
         }
     });
@@ -66,12 +57,23 @@ export default function LeaderboardTable({ sortOption }: { sortOption: SortOptio
         return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
 
-    const router = useRouter();
-
-    function sortStrategy(value: string) {
-        console.log(`Sorting by ${value}`);
-        router.push(`/profile?sort=${value}`);
-    }
+    const handleSort = (value: string) => {
+        let newSortOption: SortOption;
+        switch (value.toLowerCase()) {
+            case 'name':
+                newSortOption = SortOption.Name;
+                break;
+            case 'orders':
+                newSortOption = SortOption.CoffeeCount;
+                break;
+            case 'rating':
+                newSortOption = SortOption.Rating;
+                break;
+            default:
+                newSortOption = SortOption.CoffeeCount;
+        }
+        onSortChange(newSortOption);
+    };
 
     // Get current users
     const indexOfLastUser = currentPage * usersPerPage;
@@ -87,9 +89,9 @@ export default function LeaderboardTable({ sortOption }: { sortOption: SortOptio
                 <Table variant="simple" colorScheme="orange" size="sm">
                     <Thead>
                         <Tr>
-                            <ClickableTableTh value={'Name'} sortStrategy={sortStrategy} isSorted={isSortedName} />
-                            <ClickableTableTh value={'orders'} sortStrategy={sortStrategy} isSorted={isSortedOrders} />
-                            <ClickableTableTh value={'rating'} sortStrategy={sortStrategy} isSorted={isSortedRating} />
+                            <ClickableTableTh value='Name' sortStrategy={handleSort} isSorted={sortOption === SortOption.Name} />
+                            <ClickableTableTh value='orders' sortStrategy={handleSort} isSorted={sortOption === SortOption.CoffeeCount} />
+                            <ClickableTableTh value='rating' sortStrategy={handleSort} isSorted={sortOption === SortOption.Rating} />
                         </Tr>
                     </Thead>
                     <Tbody>
