@@ -31,6 +31,9 @@ export default function LoginForm() {
             <Box className="flex justify-center items-center">
               <SubmitButton />
             </Box>
+            <Box className="flex justify-center items-center">
+              {state.message && (<Text className="text-red-500 font-semibold mt-2">Invalid credentials</Text>)}
+            </Box>
             <Box className="flex justify-center items-center mt-4">
               <Link href="/register">Sign up for SyncSnack</Link>
             </Box>
