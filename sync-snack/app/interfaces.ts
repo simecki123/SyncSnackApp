@@ -88,23 +88,27 @@ export  interface StatisticsData {
 // Events page interfaces
 
 export interface EventOrder {
-    _id: string,
+    orderId: string,
+    userProfileId: string,
+    firstName: string,
+    lastName: string,
+    additionalOptions: {orderDetails: string},
     status: string,
-    additionalOptions: string,
-    user: {
-        _id: string,
-        firstName: string,
-        lastName: string,
-    }
+    createdAt: string
 }
 
 // Event for events
 export interface EventEvent {
-    _id: string,
+    eventId: string,
+    userProfileID: string,
+    userProfileLastName: string,
     title: string,
     description: string,
+    groupId: string,
     status: string,
     eventType: string,
+    createdAt: string,
+    pendingUntil: string
 }
 
 //----------------------------------------------------------------------

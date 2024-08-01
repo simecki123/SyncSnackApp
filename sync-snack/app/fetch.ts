@@ -13,9 +13,10 @@ export async function fetchImproved(url: string,
   }
 
 
-  const session = await auth();
+  const session = await auth(); 
   const activeUser: any = session?.user;
   const userToken = activeUser?.accessToken;
+  console.log("userToke: ",userToken);
 
   const response = await fetch(`${process.env.BACKEND_URL}${url}`, {
     method: defaultMethod,
