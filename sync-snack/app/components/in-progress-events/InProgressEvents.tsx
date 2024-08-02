@@ -15,7 +15,6 @@ export default async function InProgressEvents({
 
   const session = await auth();
   const activeUser: any = session?.user;
-  console.log("Currently active user: ", activeUser);
 
 
   const eventsResponse = await fetch('http://localhost:8080/api/events/search', {
@@ -41,8 +40,6 @@ export default async function InProgressEvents({
   }
 
   const events: Event[] = await eventsResponse.json();
-  console.log("Events response: ", eventsResponse)
-  console.log("Events: ", events);
 
   return (
     <Box p={6} className='bg-gray-50 dark:bg-gray-400' borderRadius="lg">

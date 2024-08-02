@@ -23,8 +23,7 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
             data={transformOrders(stats.ordersPerType)}
             variant="donut"
             colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
-            valueFormatter={dataFormatter}
-            onValueChange={(v) => console.log(v)} />
+            valueFormatter={dataFormatter} />
         </Box>
       </Box>
       <Divider />

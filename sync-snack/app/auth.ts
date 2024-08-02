@@ -35,8 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let returnUser = await user.json()
         returnUser.accessToken = token?.accessToken;
 
-        console.log(returnUser, 'user user user')
-
         return returnUser;
       }
     })

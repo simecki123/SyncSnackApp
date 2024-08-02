@@ -7,8 +7,6 @@ export default async function LoginPage() {
 
   const session = await auth();
 
-  console.log(session, ': Session data')
-  console.log(session?.user, ': User data')
 
   if (!!session?.user) {
     redirect('/home')

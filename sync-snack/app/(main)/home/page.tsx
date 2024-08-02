@@ -8,7 +8,6 @@ export default async function HomePage() {
   const session = await auth();
   const activeUser: any = session?.user;
   const userToken = activeUser?.accessToken;
-  console.log("Trenutni korinsik: ", userToken);
   
   
   return (

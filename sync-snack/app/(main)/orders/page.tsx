@@ -20,14 +20,12 @@ export default async function OrdersPage() {
   try {
     orders = await fetchImproved('/api/orders/all')
   } catch (e: any) {
-    console.log(e.message, 'ERROR')
   }
 
   orders.map((order) => {
     order.createdAt = new Date(order.createdAt)
   })
 
-  console.log(orders, ' >>> fetched orders from server.')
 
   return (
     <OrdersTable accessToken={accessToken} orders={sortDataByCreatedAtDescending(orders)} />

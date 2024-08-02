@@ -22,8 +22,6 @@ export default function OrderRow({ order, accessToken }: any) {
     setDescriptionModalOpen(false);
   }
 
-  console.log(order, ' >>> order inside the OrderRow function')
-  console.log(accessToken, 'access token insithe the ...')
 
   return (
     <>

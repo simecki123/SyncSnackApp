@@ -61,7 +61,6 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
         }),
       });
 
-      console.log(activeUser?.accessToken)
 
       if (response.ok) {
         toast({

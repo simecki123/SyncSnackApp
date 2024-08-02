@@ -9,7 +9,7 @@ import { GroupUsers } from '@/app/interfaces';
 
 
 export default function ProfileGroupComponent({ user, accessToken, group, users, reloadPage }:
-   {user: any, accessToken: any, group: any, users: GroupUsers,  reloadPage: (newGroupName: string, newGroupDescription: string) => void}) {
+  { user: any, accessToken: any, group: any, users: GroupUsers, reloadPage: (newGroupName: string, newGroupDescription: string) => void }) {
 
   const [activeView, setActiveView] = useState<'profile' | 'group'>('profile');
 
@@ -36,7 +36,7 @@ export default function ProfileGroupComponent({ user, accessToken, group, users,
         </Button>
       </Flex>
 
-      <Box bg={bgColor} boxShadow="md" borderRadius="lg" p={6}>
+      <Box className='dark:bg-gray-400' boxShadow="md" borderRadius="lg" p={6}>
         <VStack spacing={6} align="stretch">
           {activeView === 'profile' ? (
             <ProfileData user={user} accessToken={accessToken} />
