@@ -11,13 +11,10 @@ const initialState: any = {
 
 export default function RegisterWithLinkForm({ searchParams }: any) {
 
-  console.log(searchParams.groupId)
-  console.log(searchParams.groupCode)
 
   const [state, formAction] = useFormState(registerWithLink, initialState);
 
   useEffect(() => {
-    console.log(state)
   }, [state])
 
   function handleSubmit(e: any) {

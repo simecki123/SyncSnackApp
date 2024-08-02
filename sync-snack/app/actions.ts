@@ -37,7 +37,6 @@ export async function loginUser(prevState: any, formData: FormData) {
 
 export async function registerWithLink(prevState: any, formData: FormData) {
 
-  console.log('\nstarting registerWithLink action...\n')
 
   const formSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -58,10 +57,8 @@ export async function registerWithLink(prevState: any, formData: FormData) {
     lastName: formData.get('last-name'),
   });
 
-  console.log(validatedFields.success, '>>> validatedFields')
 
   if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten().fieldErrors, '>>> register errors')
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Please correct the form",
@@ -72,7 +69,6 @@ export async function registerWithLink(prevState: any, formData: FormData) {
   data.groupId = formData.get('groupId');
   data.groupCode = formData.get('groupCode');
 
-  console.log('Registering user with:', data);
 
   return {};
 }

@@ -18,7 +18,7 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
         formData.append('file', file);
 
         try {
-          const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/edit`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/edit`, {
             method: 'PATCH',
             headers: {
               'Authorization': `Bearer ${accessToken}`
@@ -30,7 +30,6 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
             throw new Error('File upload failed');
           }
 
-          console.log('File uploaded successfully');
           window.location.reload()
         } catch (error) {
           console.error('Error uploading file:', error);

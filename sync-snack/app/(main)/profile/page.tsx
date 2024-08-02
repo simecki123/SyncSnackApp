@@ -24,10 +24,8 @@ export default async function ProfileDataPage() {
   user.groupName = groupData.name;
 
   const users: GroupUsers = await fetchImproved(`/api/profiles/group`);
-  console.log('users: ', users)
   
 
-  console.log("Group Data: ",groupData);
 
   const profilePhotoResponse = await fetch(`${process.env.BACKEND_URL}/api/profiles/profile-photo/download`, {
     headers: {

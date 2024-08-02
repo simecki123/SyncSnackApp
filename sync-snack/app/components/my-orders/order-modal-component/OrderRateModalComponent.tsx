@@ -27,7 +27,6 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose, access
 
   const handleRating = async () => {
     if (givenStars) {
-      console.log("Stars given:", givenStars, "ID:", coffeeOrderId, 'access token', accessToken);
       try {
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/rate?orderId=${coffeeOrderId}&rating=${givenStars}`, {

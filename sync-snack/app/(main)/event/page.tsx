@@ -15,7 +15,6 @@ export default async function EventPage() {
   const session = await auth();
   const activeUser: any = session?.user;
   const userToken = activeUser?.accessToken;
-  console.log("userToken: ", userToken);
 
   try {
     event = await fetchImproved('/api/events/active');
@@ -40,7 +39,6 @@ export default async function EventPage() {
   if (event) {
     try {
       orders = await fetchImproved(`/api/orders/event/${event.eventId}`);
-      console.log("Orders event: ", orders);
     } catch (error) {
       ordersError = "Failed to fetch orders.";
       console.error("Error fetching orders:", error);
@@ -60,7 +58,6 @@ export default async function EventPage() {
   async function setStatusOfEvent(status: string, eventID: string) {
     "use server";
     try {
-      console.log(status, eventID)
       const response = await fetch(`http://localhost:8080/api/events/update?eventId=${eventID}&status=${status}`, {
         method: "PATCH",
         headers: {
