@@ -1,7 +1,13 @@
-import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
 import { Order } from '@/app/interfaces';
-import OrdersTable from '@/app/components/my-orders/orders-table/OrdersTable';
+
+import dynamic from 'next/dynamic';
+
+const OrdersTable = dynamic(
+  () => import('@/app/components/my-orders/orders-table/OrdersTable'),
+  { ssr: false }
+);
+
 
 export default async function OrdersPage() {
 
