@@ -8,18 +8,9 @@ import { useRouter } from 'next/navigation';
 import { SortOptionsProps, User } from '@/app/interfaces';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-const dummyUsers: User[] = [
-    { firstName: 'John', lastName: 'Doe', coffeeCounter: 15, coffeeRating: 4.8 },
-    { firstName: 'Jane', lastName: 'Smith', coffeeCounter: 12, coffeeRating: 4.5 },
-    { firstName: 'Mike', lastName: 'Johnson', coffeeCounter: 18, coffeeRating: 4.2 },
-    { firstName: 'Emily', lastName: 'Brown', coffeeCounter: 10, coffeeRating: 4.7 },
-    { firstName: 'David', lastName: 'Wilson', coffeeCounter: 14, coffeeRating: 4.3 },
-    { firstName: 'Sarah', lastName: 'Lee', coffeeCounter: 16, coffeeRating: 4.6 },
-    { firstName: 'Tom', lastName: 'Clark', coffeeCounter: 11, coffeeRating: 4.1 },
-    { firstName: 'Lucy', lastName: 'Taylor', coffeeCounter: 13, coffeeRating: 4.4 },
-];
 
-export default function LeaderboardTable({ sortOption, onSortChange }: SortOptionsProps) {
+
+export default function LeaderboardTable({ sortOption, onSortChange, users }: SortOptionsProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
     const maxPageButtons = 5;
@@ -33,14 +24,14 @@ export default function LeaderboardTable({ sortOption, onSortChange }: SortOptio
 
     
 
-    let sortedUsers = [...dummyUsers].sort((a, b) => {
+    let sortedUsers = [...users].sort((a, b) => {
         if (sortOption === SortOption.Rating) {
-            return b.coffeeRating - a.coffeeRating;
+            return b.score - a.score;
         }
         if (sortOption === SortOption.Name) {
             return a.firstName.localeCompare(b.firstName);
         } else {
-            return b.coffeeCounter - a.coffeeCounter;
+            return b.orderCount - a.orderCount;
         }
     });
 
@@ -99,6 +90,7 @@ export default function LeaderboardTable({ sortOption, onSortChange }: SortOptio
                             <Tr key={index} bg={index % 2 === 0 ? 'orange.50' : 'white'}>
                                 <Td>
                                     <Flex alignItems="center">
+                                        <Image alt='No profile picture' src={user.photoUrl} className='size-10 rounded-full mr-2 ' />
                                         <Text fontWeight="medium" fontSize="sm">
                                             {user.firstName} {user.lastName}
                                         </Text>
@@ -110,10 +102,10 @@ export default function LeaderboardTable({ sortOption, onSortChange }: SortOptio
                                     </Flex>
                                 </Td>
                                 <Td>
-                                    <Text fontWeight="medium" fontSize="sm">{user.coffeeCounter}</Text>
+                                    <Text fontWeight="medium" fontSize="sm">{user.orderCount}</Text>
                                 </Td>
                                 <Td>
-                                    <Text fontWeight="medium" fontSize="sm">{user.coffeeRating.toFixed(1)}</Text>
+                                    <Text fontWeight="medium" fontSize="sm">{user.score.toFixed(1)}</Text>
                                 </Td>
                             </Tr>
                         ))}

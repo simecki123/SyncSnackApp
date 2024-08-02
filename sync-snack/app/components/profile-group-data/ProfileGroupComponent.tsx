@@ -4,13 +4,11 @@ import { Box, Button, Flex, VStack, useColorModeValue } from '@chakra-ui/react'
 import GroupData from './group-data/GroupData'
 import { SortOption } from '@/app/types/types';
 import ProfileData from './profile-data/ProfileData';
+import { GroupUsers } from '@/app/interfaces';
 
-const mockGroup = {
-  name: "Coffee Lovers",
-  description: "A group for coffee enthusiasts",
-}
 
-export default function ProfileGroupComponent({ user, accessToken }: any) {
+
+export default function ProfileGroupComponent({ user, accessToken, group, users }: {user: any, accessToken: any, group: any, users: GroupUsers}) {
 
   const [activeView, setActiveView] = useState<'profile' | 'group'>('profile');
 
@@ -42,7 +40,7 @@ export default function ProfileGroupComponent({ user, accessToken }: any) {
           {activeView === 'profile' ? (
             <ProfileData user={user} accessToken={accessToken} />
           ) : (
-            <GroupData group={mockGroup} initialSortOption={SortOption.CoffeeCount} />
+            <GroupData group={group} initialSortOption={SortOption.CoffeeCount} users={users} />
           )}
         </VStack>
       </Box>

@@ -6,7 +6,7 @@ import { SortOptionsProps } from '@/app/interfaces';
 
 
 
-export default function SortOptions({ sortOption, onSortChange }: SortOptionsProps) {
+export default function SortOptions({ sortOption, onSortChange, users }: SortOptionsProps) {
     const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newSortOption = event.target.value as SortOption;
         onSortChange(newSortOption);
