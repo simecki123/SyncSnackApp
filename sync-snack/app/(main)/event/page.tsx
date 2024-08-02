@@ -28,10 +28,10 @@ export default async function EventPage() {
           Server is not available,
         </Heading>
         <Heading as="h2" size="xl" mb={4} color="red.500">
-        or you don't have any active event, yet...
+        or you dont have any active event yet...
         </Heading>
         <Text fontSize="lg" color="gray.700">
-          Please try again later, or create an event.
+          Please try again later or create an event.
         </Text>
       </Box>
     );
@@ -117,7 +117,7 @@ export default async function EventPage() {
         ) : !event ? (
           <Alert status="info">
             <AlertIcon />
-            <Text fontSize="2xl" fontWeight="bold">You don't have any event yet</Text>
+            <Text fontSize="2xl" fontWeight="bold">You dont have any event yet</Text>
           </Alert>
         ) : (
           <>

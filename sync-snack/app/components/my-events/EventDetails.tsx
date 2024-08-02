@@ -96,7 +96,7 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to change the status of this event to "{actionStatus}"?
+              Are you sure you want to change the status of this event to {actionStatus}?
             </AlertDialogBody>
 
 
