@@ -4,6 +4,8 @@ import React from 'react'
 
 import dynamic from 'next/dynamic';
 import { GroupUsers } from '@/app/interfaces';
+import { revalidatePath } from 'next/cache';
+
 
 const ProfileGroupComponent = dynamic(
   () => import('@/app/components/profile-group-data/ProfileGroupComponent'),
@@ -40,13 +42,25 @@ export default async function ProfileDataPage() {
   const profilePhotoSrc = `data:image/png;base64,${profilePhotoBase64}`;
   user.profilePhoto = profilePhotoSrc;
 
-  
+
+  async function reloadPageClient(newGroupName: string, newGroupDescription: string) {
+    "use server";
+   
+    revalidatePath('/profile');
+  };
 
   return (
     <>
-      <ProfileGroupComponent user={user} accessToken={activeUser?.accessToken} group={groupData} users={users} />
+      <ProfileGroupComponent 
+        user={user} 
+        accessToken={activeUser?.accessToken} 
+        group={groupData} 
+        users={users} 
+        reloadPage={reloadPageClient} 
+      />
     </>
-  )
+  );
+  
 }
 
 

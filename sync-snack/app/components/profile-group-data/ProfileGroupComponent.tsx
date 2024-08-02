@@ -8,7 +8,8 @@ import { GroupUsers } from '@/app/interfaces';
 
 
 
-export default function ProfileGroupComponent({ user, accessToken, group, users }: {user: any, accessToken: any, group: any, users: GroupUsers}) {
+export default function ProfileGroupComponent({ user, accessToken, group, users, reloadPage }:
+   {user: any, accessToken: any, group: any, users: GroupUsers,  reloadPage: (newGroupName: string, newGroupDescription: string) => void}) {
 
   const [activeView, setActiveView] = useState<'profile' | 'group'>('profile');
 
@@ -40,7 +41,7 @@ export default function ProfileGroupComponent({ user, accessToken, group, users 
           {activeView === 'profile' ? (
             <ProfileData user={user} accessToken={accessToken} />
           ) : (
-            <GroupData group={group} initialSortOption={SortOption.CoffeeCount} users={users} />
+            <GroupData group={group} initialSortOption={SortOption.CoffeeCount} users={users} reloadPage={reloadPage} />
           )}
         </VStack>
       </Box>
