@@ -1,4 +1,4 @@
-import { Link } from "@chakra-ui/react";
+import { Image, Link } from "@chakra-ui/react";
 import HeaderMenu from "./HeaderMenu";
 import { SignOutButton } from "./SignOutButton";
 
@@ -7,7 +7,7 @@ export default function Header() {
     <div className="bg-prim-cl text-black">
       <div className="flex justify-between">
         <Link href="/home" className="flex items-center ml-4">
-          <img src="/logo.png" width={80} height={60} />
+          <Image src="/logo.png" width={80} height={60} />
           <div className="font-bold text-2xl">
             SyncSnack
           </div>

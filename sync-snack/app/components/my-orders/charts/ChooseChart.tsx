@@ -23,7 +23,7 @@ export default function ChooseChart({ setView }: any) {
           height="auto"
           p={2}
         >
-          <Image src={option.image} boxSize="40px" mr={2} />
+          <Image alt='noImage' src={option.image} boxSize="40px" mr={2} />
           <Text>{option.name}</Text>
         </Button>
       ))}
