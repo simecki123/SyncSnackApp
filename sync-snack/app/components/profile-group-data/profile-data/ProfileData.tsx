@@ -44,7 +44,7 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
   }, [acceptedFiles, accessToken]);
 
   return (
-    <Box>
+    <Box className='bg-gray-400'>
       <Heading size="lg" color="orange.500" mb={6}>User Profile</Heading>
       <Flex justifyContent="space-between">
         <VStack align="start" spacing={4} flex={1}>
