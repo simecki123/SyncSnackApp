@@ -25,10 +25,13 @@ export default async function EventPage() {
     return(
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mb={4} color="red.500">
-          Server is not available
+          Server is not available,
+        </Heading>
+        <Heading as="h2" size="xl" mb={4} color="red.500">
+        or you don't have any active event, yet...
         </Heading>
         <Text fontSize="lg" color="gray.700">
-          Please try again later.
+          Please try again later, or create an event.
         </Text>
       </Box>
     );
@@ -144,7 +147,5 @@ export default async function EventPage() {
 }
 
 
-function toast(arg0: { title: string; description: string; status: string; duration: number; isClosable: boolean; }) {
-  throw new Error("Function not implemented.");
-}
+
 
