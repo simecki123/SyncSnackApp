@@ -5,9 +5,12 @@ import React, { useState } from 'react'
 import SortOptions from '../../leaderboard/sort-options/SortOptions'
 import LeaderboardTable from '../../leaderboard/LeaderboardTable'
 import { SortOption } from '@/app/types/types';
+import { useToast } from '@chakra-ui/react'
 
-export default function GroupData({group, initialSortOption}: {group: ProfileGroup, initialSortOption: SortOption }) {
+export default function GroupData({ group, initialSortOption }: { group: ProfileGroup, initialSortOption: SortOption }) {
   const [sortOption, setSortOption] = useState<SortOption>(initialSortOption);
+
+  const toast = useToast()
 
   const handleSortChange = (newSortOption: SortOption) => {
     setSortOption(newSortOption);
@@ -23,25 +26,35 @@ export default function GroupData({group, initialSortOption}: {group: ProfileGro
               <Text fontWeight="bold">Group name:</Text>
               <Text>{group.name}</Text>
             </Box>
-            
+
             <Box>
               <Text fontWeight="bold">Description:</Text>
               <Text>{group.description}</Text>
             </Box>
 
             <Button colorScheme="orange" mt={4}>Edit</Button>
-            <Button colorScheme="orange" mt={4}>Invite</Button>
+            <Button colorScheme="orange" mt={4} onClick={() => {
+              navigator.clipboard.writeText('http://localhost:3000/register-link?groupId=151&groupCode=12345678')
+              toast({
+                title: 'Success',
+                description: 'copied to clipboard',
+                status: 'info',
+                duration: 2000,
+                isClosable: false,
+                position: 'top-right'
+              })
+            }}>Invite</Button>
           </VStack>
         </Box>
 
-        <Box flex="2" bg="white" p={6} borderRadius="lg"  maxHeight="500px" overflowY="auto">
-            <Heading size="md" mb={4}>Leaderboard</Heading>
-            <SortOptions sortOption={sortOption} onSortChange={handleSortChange} />
-            <Box mt={4}>
-                <LeaderboardTable sortOption={sortOption} onSortChange={handleSortChange} />
-            </Box>
+        <Box flex="2" bg="white" p={6} borderRadius="lg" maxHeight="500px" overflowY="auto">
+          <Heading size="md" mb={4}>Leaderboard</Heading>
+          <SortOptions sortOption={sortOption} onSortChange={handleSortChange} />
+          <Box mt={4}>
+            <LeaderboardTable sortOption={sortOption} onSortChange={handleSortChange} />
+          </Box>
         </Box>
       </Flex>
-    </Container>
+    </Container >
   )
 }
