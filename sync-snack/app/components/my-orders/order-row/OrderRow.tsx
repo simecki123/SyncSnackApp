@@ -8,9 +8,11 @@ import Modal from '../../modals/Modal';
 import OrderRateModalComponent from '../order-modal-component/OrderRateModalComponent';
 import OrderDescriptionModalComponent from '../order-modal-component/OrderDescriptionModalComponent';
 
-export default function OrderRow({ order }: any) {
+export default function OrderRow({ order, accessToken }: any) {
   const [isRateModalOpened, setRateModalOpen] = useState(false);
   const [isDescriptionModalOpened, setDescriptionModalOpen] = useState(false);
+
+  const [orderRating, setOrderRating] = useState(order.rating)
 
   const handleRateCloseModal = () => {
     setRateModalOpen(false);
@@ -21,6 +23,7 @@ export default function OrderRow({ order }: any) {
   }
 
   console.log(order, ' >>> order inside the OrderRow function')
+  console.log(accessToken, 'access token insithe the ...')
 
   return (
     <>
@@ -34,12 +37,12 @@ export default function OrderRow({ order }: any) {
         </Td>
         <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
         <Td>
-          {order.rating ? <RatingPretty rating={order.rating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
+          {orderRating ? <RatingPretty rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
         </Td>
       </Tr>
       {isRateModalOpened && (
         <Modal isOpen={isRateModalOpened} onClose={handleRateCloseModal}>
-          <OrderRateModalComponent coffeeOrderId={order._id} onClose={handleRateCloseModal} />
+          <OrderRateModalComponent setRating={setOrderRating} accessToken={accessToken} coffeeOrderId={order.orderId} onClose={handleRateCloseModal} />
         </Modal>
       )}
 

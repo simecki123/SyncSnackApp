@@ -1,3 +1,4 @@
+import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
 import { Order } from '@/app/interfaces';
 
@@ -10,6 +11,10 @@ const OrdersTable = dynamic(
 
 
 export default async function OrdersPage() {
+
+  const session = await auth();
+  const activeUser: any = session?.user;
+  const accessToken: any = activeUser?.accessToken
 
   let orders: Order[] = []
   try {
@@ -25,7 +30,7 @@ export default async function OrdersPage() {
   console.log(orders, ' >>> fetched orders from server.')
 
   return (
-    <OrdersTable orders={sortDataByCreatedAtDescending(orders)} />
+    <OrdersTable accessToken={accessToken} orders={sortDataByCreatedAtDescending(orders)} />
   );
 }
 
@@ -56,7 +61,6 @@ function calculateStatistics(data: any) {
     } else if (order.status === "Canceled") {
       statistics.canceled += 1;
     }
-
 
     const orderDate = new Date(order.createdAt);
     const orderYear = orderDate.getFullYear();
@@ -89,9 +93,6 @@ function calculateStatistics(data: any) {
 
   return statistics;
 }
-
-
-
 
 const mockedData = [
   {

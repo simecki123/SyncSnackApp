@@ -1,13 +1,15 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ProfileUser } from '@/app/interfaces'
 import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra-ui/react'
 import { useDropzone } from 'react-dropzone'
 import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
+import clsx from 'clsx'
 
 export default function ProfileData({ user, accessToken }: { user: ProfileUser, accessToken: string }) {
   const finalRate = Math.round(user.score);
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const [isProfilePictureEnlarged, setIsProfilePictureEnlarged] = useState(false)
 
   useEffect(() => {
     const uploadFiles = async () => {
@@ -16,7 +18,7 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
         formData.append('file', file);
 
         try {
-          const response = await fetch(`http://localhost:8080/api/profiles/edit`, {
+          const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/edit`, {
             method: 'PATCH',
             headers: {
               'Authorization': `Bearer ${accessToken}`
@@ -28,7 +30,6 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
             throw new Error('File upload failed');
           }
 
-          // Handle successful upload
           console.log('File uploaded successfully');
           window.location.reload()
         } catch (error) {
@@ -48,7 +49,22 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
       <Flex justifyContent="space-between">
         <VStack align="start" spacing={4} flex={1}>
           <HStack>
-            <Image alt='No profile picture' src={user.profilePhoto} className='size-16 rounded-full' />
+            <Image onClick={() => {
+              if (isProfilePictureEnlarged) {
+                setIsProfilePictureEnlarged(false)
+              } else {
+                setIsProfilePictureEnlarged(true)
+              }
+            }} alt='No profile picture' src={user.profilePhoto} className={
+              clsx(
+                'size-16 rounded-full',
+                {
+                  'size-96': isProfilePictureEnlarged,
+                }
+              )
+            }
+            />
+            <Text>Click to enlarge</Text>
           </HStack>
           <HStack>
             <Text>{user.firstName}</Text>

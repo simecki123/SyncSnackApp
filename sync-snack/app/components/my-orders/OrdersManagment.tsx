@@ -6,14 +6,14 @@ import ChooseChart from './charts/ChooseChart';
 import PieChart from './charts/pie-chart/PieChart';
 import Statistics from './charts/column-chart/Statistics';
 
-export default function OrdersManagement({ orders }: { orders: any[] }) {
+export default function OrdersManagement({ orders, accessToken }: { orders: any[], accessToken: string }) {
   const [view, setView] = useState('table');
   const [option, setOption] = useState('type');
 
   const renderView = () => {
     switch (view) {
       case 'table':
-        return <OrdersTable orders={orders} />;
+        return <OrdersTable accessToken={accessToken} orders={orders} />;
       case 'column':
         return <Statistics stats={calculateStatistics(orders)} />;
       case 'pie':
