@@ -67,6 +67,8 @@ export interface StarProps {
 export interface OrdersOrderModalComponentProps {
     coffeeOrderId: string;
     onClose: () => void;
+    accessToken: string,
+    setRating: any
 }
 
 //-------------------------------------------------------------------
@@ -92,7 +94,7 @@ export interface EventOrder {
     userProfileId: string,
     firstName: string,
     lastName: string,
-    additionalOptions: {orderDetails: string},
+    additionalOptions: { orderDetails: string },
     status: string,
     createdAt: string
 }

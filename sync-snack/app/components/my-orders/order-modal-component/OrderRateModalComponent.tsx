@@ -20,22 +20,29 @@ function Star({ value, handleClick, isFull }: StarProps) {
 
 
 
-export default function OrderRateModalComponent({ coffeeOrderId, onClose }: OrdersOrderModalComponentProps) {
+export default function OrderRateModalComponent({ coffeeOrderId, onClose, accessToken, setRating }: OrdersOrderModalComponentProps) {
   const [givenStars, setGivenStars] = useState<number | null>(null)
   const starsValues = [1, 2, 3, 4, 5];
   const toast = useToast();
 
   const handleRating = async () => {
     if (givenStars) {
-      console.log("Stars given:", givenStars, "ID:", coffeeOrderId);
+      console.log("Stars given:", givenStars, "ID:", coffeeOrderId, 'access token', accessToken);
       try {
-        // Simulated API call
-        // const res = await giveOrderRating({ coffeeOrderId: coffeeOrderId.toString(), ratingUpdate: givenStars });
 
-        // fetchImproved('/api/rating', 'PATCH', { stars: givenStars })
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/rate?orderId=${coffeeOrderId}&rating=${givenStars}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          },
+        })
 
-        const res = "Order rated successfully";
-        console.log("Update order response:", res);
+        if (!response.ok) {
+          throw new Error();
+        }
+
+        setRating(givenStars)
 
         toast({
           title: "Rating submitted",
