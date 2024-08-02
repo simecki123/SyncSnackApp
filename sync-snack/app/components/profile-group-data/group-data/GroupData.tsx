@@ -53,8 +53,10 @@ export default function GroupData({ group, initialSortOption, users, reloadPage 
             <Button colorScheme="orange" mt={4} onClick={() => {
               navigator.clipboard.writeText('http://localhost:3000/register-link?groupId=151&groupCode=12345678')
               toast({
-                title: 'Invite Link Copied',
-                description: 'Invite link has been copied to clipboard',
+
+                title: 'Invite',
+                description: 'copied to clipboard',
+
                 status: 'info',
                 duration: 2000,
                 isClosable: true,

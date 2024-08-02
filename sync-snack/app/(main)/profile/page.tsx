@@ -12,7 +12,6 @@ const ProfileGroupComponent = dynamic(
   { ssr: false }
 );
 
-
 export default async function ProfileDataPage() {
 
   const session = await auth();

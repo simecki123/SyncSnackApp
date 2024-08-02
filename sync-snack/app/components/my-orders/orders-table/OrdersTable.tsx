@@ -8,7 +8,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import OrderRow from '../order-row/OrderRow';
 
-export default function OrdersTable({ orders }: any) {
+export default function OrdersTable({ orders, accessToken }: any) {
   const [currentPage, setCurrentPage] = useState(1);
   let itemsPerPage = calculateItemsPerPage();
 
@@ -62,7 +62,7 @@ export default function OrdersTable({ orders }: any) {
             </Thead>
             <Tbody>
               {currentItems.map((order: any, index: number) => (
-                <OrderRow key={index} order={order} />
+                <OrderRow accessToken={accessToken} key={index} order={order} />
               ))}
             </Tbody>
           </Table>
