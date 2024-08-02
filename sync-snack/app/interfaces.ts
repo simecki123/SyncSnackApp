@@ -147,8 +147,19 @@ export interface ProfileGroup {
 
 }
 
+export interface GroupUser {
+    photoUrl: string,
+    firstName: string,
+    lastName: string,
+    score: number,
+    orderCount: number
+}
+
+export type GroupUsers = GroupUser[];
+
 export interface SortOptionsProps {
     sortOption: SortOption;
     onSortChange: (newSortOption: SortOption) => void;
+    users: GroupUsers;
 }
 

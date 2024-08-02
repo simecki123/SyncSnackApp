@@ -1,5 +1,5 @@
 'use client'
-import { ProfileGroup } from '@/app/interfaces'
+import { GroupUsers, ProfileGroup } from '@/app/interfaces'
 import { Box, Button, Text, Flex, VStack, Heading, Container } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import SortOptions from '../../leaderboard/sort-options/SortOptions'
@@ -7,7 +7,7 @@ import LeaderboardTable from '../../leaderboard/LeaderboardTable'
 import { SortOption } from '@/app/types/types';
 import { useToast } from '@chakra-ui/react'
 
-export default function GroupData({ group, initialSortOption }: { group: ProfileGroup, initialSortOption: SortOption }) {
+export default function GroupData({ group, initialSortOption, users }: { group: ProfileGroup, initialSortOption: SortOption, users: GroupUsers }) {
   const [sortOption, setSortOption] = useState<SortOption>(initialSortOption);
 
   const toast = useToast()
@@ -49,12 +49,15 @@ export default function GroupData({ group, initialSortOption }: { group: Profile
 
         <Box flex="2" bg="white" p={6} borderRadius="lg" maxHeight="500px" overflowY="auto">
           <Heading size="md" mb={4}>Leaderboard</Heading>
-          <SortOptions sortOption={sortOption} onSortChange={handleSortChange} />
+          <SortOptions sortOption={sortOption} onSortChange={handleSortChange} users={users} />
           <Box mt={4}>
-            <LeaderboardTable sortOption={sortOption} onSortChange={handleSortChange} />
+            <LeaderboardTable sortOption={sortOption} onSortChange={handleSortChange} users={users} />
           </Box>
         </Box>
       </Flex>
     </Container >
   )
 }
+
+
+
