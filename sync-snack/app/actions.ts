@@ -2,6 +2,7 @@
 
 import { z } from "zod"
 import { signIn } from "@/app/auth";
+import { redirect } from "next/navigation";
 
 export async function loginUser(prevState: any, formData: FormData) {
 
@@ -26,7 +27,9 @@ export async function loginUser(prevState: any, formData: FormData) {
     await signIn("credentials", {
       email: validatedFields.data.email,
       password: validatedFields.data.password,
-      redirectTo: '/home',
+      // redirectTo: '/home',
+      redirect: false,
+      callbackUrl: '/home'
     });
   } catch (e: any) {
     return {

@@ -4,18 +4,12 @@ import FilteredEvents from './filttered-events/FilteredEvents';
 import { auth } from '@/app/auth';
 import { Event } from '@/app/interfaces';
 
+export default async function InProgressEvents({ searchParams }: inProgressEventsProps) {
 
-export default async function InProgressEvents({
-  searchParams
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
   const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'MIX';
-
 
   const session = await auth();
   const activeUser: any = session?.user;
-
 
   const eventsResponse = await fetch('http://localhost:8080/api/events/search', {
     method: 'POST',
@@ -34,9 +28,7 @@ export default async function InProgressEvents({
 
   if (!eventsResponse.ok) {
     // throw new Error(`HTTP error! status: ${eventsResponse.status}`);
-    return (
-      <Text>Failed to fetch events</Text>
-    )
+    console.log('FAILED TO FETCH EVENTS')
   }
 
   const events: Event[] = await eventsResponse.json();
@@ -47,3 +39,8 @@ export default async function InProgressEvents({
     </Box>
   );
 }
+
+interface inProgressEventsProps {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+

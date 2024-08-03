@@ -5,11 +5,6 @@ import { SimpleGrid, Flex, Button, Text, Box } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
-
-import coffeeImage from '@/public/coffeImage.png';
-import breakfastImage from '@/public/breakfastImage.png';
-import drinksImage from '@/public/drinks.png';
-import mixImage from '@/public/mix.png';
 import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 
@@ -28,6 +23,7 @@ export default function FilteredEvents({
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // hydration error possible here 
   useEffect(() => {
     const newFilter = searchParams.get('filter') || 'all';
     if (newFilter !== filter) {

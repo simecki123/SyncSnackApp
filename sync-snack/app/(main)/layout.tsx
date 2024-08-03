@@ -17,7 +17,7 @@ export default async function Layout({
   }
 
   return (
-    <div className="flex min-h-screen dark:bg-slate-950">
+    <div className="flex min-h-screen dark:bg-gray-800">
       <div className="flex flex-col">
         <div className="max-md:hidden">
           <HeaderLogo />

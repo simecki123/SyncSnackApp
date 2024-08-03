@@ -7,15 +7,14 @@ export default async function HomePage() {
 
   const session = await auth();
   const activeUser: any = session?.user;
-  const userToken = activeUser?.accessToken;
-  
-  
+  console.log(activeUser, ' >>> Authenticated user')
+
   return (
     <Box >
-      <BrewComponent activeUser = {activeUser}></BrewComponent>
+      <BrewComponent activeUser={activeUser}></BrewComponent>
 
       <Box className="flex items-center justify-center">
-        <InProgressEvents></InProgressEvents>
+        <InProgressEvents />
       </Box>
     </Box>
   );
