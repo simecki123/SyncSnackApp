@@ -5,11 +5,11 @@ export default function SignIn() {
     <form
       action={async (formData: any) => {
         "use server"
-        console.log(formData)
         await signIn("credentials", {
-          email: formData.email,
-          password: formData.password,
-          redirectTo: '/home'
+          email: formData.get('email'),
+          password: formData.get('password'),
+          redirect: true,
+          callbackUrl: '/home'
         })
       }}
     >
