@@ -10,34 +10,44 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const session = await auth();
   if (!session?.user) {
-    redirect('/login')
+    redirect('/login');
   }
 
   return (
-    <div className="flex min-h-screen dark:bg-gray-800">
-      <div className="flex flex-col">
-        <div className="max-md:hidden">
+    <div className="flex min-h-screen flex-col">
+      {/* For smaller screens */}
+      <div className="block md:hidden">
+        <header className="bg-gray-100 dark:bg-gray-900 w-full p-4 flex items-center justify-between">
           <HeaderLogo />
-        </div>
-        <NavLinks />
-        <Box className="grow flex items-end">
-          <Box className="w-full flex justify-center p-2">
+          <SignOutButton />
+        </header>
+        <nav className="bg-gray-100 dark:bg-gray-900 w-full">
+          <NavLinks />
+        </nav>
+        <main className="flex-grow p-4">
+          {children}
+        </main>
+      </div>
+
+      {/* For larger screens */}
+      <div className="hidden md:flex ">
+        <div className="flex-col w-64 bg-gray-100 dark:bg-gray-900">
+          <header className="p-4">
+            <HeaderLogo />
+          </header>
+          <NavLinks />
+          <Box className="flex-grow flex items-end justify-center p-2">
             <SignOutButton />
           </Box>
-        </Box>
-      </div>
-      {/*
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <Header />
-      </header>
-       */}
-      <div className="grow">
-        {children}
+        </div>
+
+        {/* Main content area */}
+        <div className="flex-grow  md:ml-64 p-4">
+          {children}
+        </div>
       </div>
     </div>
   );
 }
-

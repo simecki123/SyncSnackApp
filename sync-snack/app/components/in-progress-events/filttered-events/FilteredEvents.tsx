@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { SimpleGrid, Flex, Button, Text, Box } from '@chakra-ui/react';
+import { SimpleGrid, Flex, Button, Text, Box, Select } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
 import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
-
 
 export default function FilteredEvents({
   activeUser,
@@ -23,11 +22,9 @@ export default function FilteredEvents({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // hydration error possible here 
   useEffect(() => {
     const newFilter = searchParams.get('filter') || 'all';
     if (newFilter !== filter) {
-      // Update filter and events based on the new filter
       setFilter(newFilter);
       const filteredEvents = newFilter === 'all'
         ? [...initialEvents]
@@ -40,11 +37,25 @@ export default function FilteredEvents({
     router.push(`?filter=${newFilter}`, { scroll: false });
   };
 
-
-
   return (
     <>
-      <Flex justify="center" mb={6} gap={4}>
+      {/* Select Dropdown for Small Screens */}
+      <Box display={{ base: 'block', md: 'none' }} mb={6}>
+        <Select
+          
+          value={filter}
+          onChange={(e) => handleFilterChange(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="coffee">Coffee</option>
+          <option value="food">Food</option>
+          <option value="mix">Mix</option>
+          <option value="drinks">Drinks</option>
+        </Select>
+      </Box>
+
+      {/* Filter Buttons for Larger Screens */}
+      <Flex wrap="wrap" justify="center" display={{ base: 'none', md: 'flex' }} mb={6} gap={4}>
         <FilterButton filter="all" currentFilter={filter} onClick={() => handleFilterChange('all')}>
           All
         </FilterButton>
@@ -53,7 +64,7 @@ export default function FilteredEvents({
           Coffee
         </FilterButton>
         <FilterButton filter="food" currentFilter={filter} onClick={() => handleFilterChange('food')}>
-          <Image className='mr-1' src='/pizza.png' alt="Breakfast" width={24} height={24} />
+          <Image className='mr-1' src='/pizza.png' alt="Food" width={24} height={24} />
           Food
         </FilterButton>
         <FilterButton filter='mix' currentFilter={filter} onClick={() => handleFilterChange('mix')}>
@@ -65,7 +76,8 @@ export default function FilteredEvents({
           Drinks
         </FilterButton>
       </Flex>
-      <Box className=''>
+
+      <Box>
         {events.length === 0 ? (
           <Text className='flex justify-center text-xl font-semibold'>There are no active events right now 😔</Text>
         ) : (
@@ -76,8 +88,7 @@ export default function FilteredEvents({
           </SimpleGrid>
         )}
       </Box>
+      {/* Add pagination here if necessary */}
     </>
   );
 }
-
-
