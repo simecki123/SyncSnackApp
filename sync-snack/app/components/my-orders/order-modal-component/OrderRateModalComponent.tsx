@@ -29,7 +29,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose, access
     if (givenStars) {
       try {
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/rate?orderId=${coffeeOrderId}&rating=${givenStars}`, {
+        const response = await fetch(`http://localhost:8080/api/orders/rate?orderId=${coffeeOrderId}&rating=${givenStars}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
