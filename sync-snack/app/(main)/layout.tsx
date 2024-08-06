@@ -32,7 +32,7 @@ export default async function Layout({
       </div>
 
       {/* For larger screens */}
-      <div className="hidden md:flex ">
+      <div className="hidden md:flex h-screen">
         <div className="flex-col w-64 bg-gray-100 dark:bg-gray-900">
           <header className="p-4">
             <HeaderLogo />
