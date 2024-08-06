@@ -22,7 +22,7 @@ export default function StartPage() {
 
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column">
-      <Container maxW="container.xl" px={0}>
+      <Container maxW="container.xl" px={4}>
         <Flex flex={1} direction="column" align="center" justify="center" py={8}>
           <MotionBox
             initial={{ opacity: 0, y: 20 }}
@@ -31,16 +31,22 @@ export default function StartPage() {
             mb={16}
             w="full"
           >
-            <Flex direction={{ base: 'column', md: 'row' }} align="center" justify="space-between" px={8}>
-              <Box flex={1}>
-                <Text fontSize="6xl" fontWeight="bold" color="orange.500">
+            <Flex direction={{ base: 'column', md: 'row' }} align="center" justify="space-between" px={4}>
+              <Box flex={1} textAlign={{ base: 'center', md: 'left' }}>
+                <Text fontSize={{ base: '4xl', md: '6xl' }} fontWeight="bold" color="orange.500">
                   Welcome to Sync Snack
                 </Text>
               </Box>
-              <VStack spacing={4} align="stretch">
-                <Button colorScheme="orange" variant="outline">Buy us a coffee</Button>
-                <Button colorScheme="orange" onClick={handleLogin}>Login</Button>
-                <Button colorScheme="orange" onClick={handleRegister}>Register</Button>
+              <VStack spacing={4} align="stretch" mt={{ base: 4, md: 0 }}>
+                <Button colorScheme="orange" variant="outline" width={{ base: 'full', md: 'auto' }}>
+                  Buy us a coffee
+                </Button>
+                <Button colorScheme="orange" onClick={handleLogin} width={{ base: 'full', md: 'auto' }}>
+                  Login
+                </Button>
+                <Button colorScheme="orange" onClick={handleRegister} width={{ base: 'full', md: 'auto' }}>
+                  Register
+                </Button>
               </VStack>
             </Flex>
           </MotionBox>
@@ -58,8 +64,8 @@ export default function StartPage() {
                 bg="orange.500"
                 color="white"
                 p={8}
-                borderRightRadius="50px"
-                mr={{ base: 0, md: -8 }}
+                borderRightRadius={{ base: 'none', md: '50px' }}
+                mb={{ base: 4, md: 0 }}
                 zIndex={1}
                 position="relative"
                 left={0}
@@ -91,11 +97,9 @@ export default function StartPage() {
                   Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Paragraph about this web app.... Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Paragraph about this web app.... Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Text>
               </Box>
-              <Image src={coffeCup.src} alt="Coffee Cup" boxSize="400px" objectFit="cover" />
+              <Image src={coffeCup.src} alt="Coffee Cup" boxSize={{ base: '100%', md: '400px' }} objectFit="cover" />
             </Flex>
           </MotionBox>
 
@@ -106,14 +110,14 @@ export default function StartPage() {
             w="full"
           >
             <Flex direction={{ base: 'column-reverse', md: 'row' }} align="center">
-              <Image src={hamburgerIcon.src} alt="Hamburger" boxSize="400px" objectFit="cover" />
+              <Image src={hamburgerIcon.src} alt="Hamburger" boxSize={{ base: '100%', md: '400px' }} objectFit="cover" />
               <Box
                 flex={1}
                 bg="orange.500"
                 color="white"
                 p={8}
-                borderLeftRadius="50px"
-                ml={{ base: 0, md: -8 }}
+                borderLeftRadius={{ base: 'none', md: '50px' }}
+                mt={{ base: 4, md: 0 }}
                 zIndex={1}
                 position="relative"
                 right={0}
