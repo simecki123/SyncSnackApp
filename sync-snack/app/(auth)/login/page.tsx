@@ -5,12 +5,11 @@ import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
 
-  // const session = await auth();
-  //
-  // if (!!session?.user) {
-  //   console.log('REDIRECTING TO HOME')
-  //   redirect('/home')
-  // }
+  const session = await auth();
+
+  if (!!session?.user) {
+    redirect('/home')
+  }
 
   return (
     <Box className="flex h-screen items-center justify-center bg-prim-cl">
