@@ -33,20 +33,22 @@ export default async function Layout({
 
       {/* For larger screens */}
       <div className="hidden md:flex h-screen">
-        <div className="flex-col w-64 bg-gray-100 dark:bg-gray-900">
-          <header className="p-4">
-            <HeaderLogo />
-          </header>
+      <div className="flex flex-col h-full w-64 bg-gray-100 dark:bg-gray-900">
+        <header className="p-4">
+          <HeaderLogo />
+        </header>
+        <div className="flex flex-col flex-grow">
           <NavLinks />
-          <Box className="flex-grow flex items-end justify-center p-2">
+          <div className="mt-auto p-4">
             <SignOutButton />
-          </Box>
+          </div>
         </div>
+      </div>
 
-        {/* Main content area */}
-        <div className="flex-grow   p-4">
-          {children}
-        </div>
+      {/* Main content area */}
+      <div className="flex-grow p-4">
+        {children}
+      </div>
       </div>
     </div>
   );
