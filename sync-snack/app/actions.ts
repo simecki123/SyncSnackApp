@@ -4,39 +4,6 @@ import { z } from "zod"
 import { signIn } from "@/app/auth";
 import { redirect } from "next/navigation";
 
-// export async function loginUser(prevState: any, formData: FormData) {
-//
-//   const schema = z.object({
-//     email: z.string().email(),
-//     password: z.string().min(3),
-//   });
-//
-//   const validatedFields = schema.safeParse({
-//     email: formData.get('email'),
-//     password: formData.get('password'),
-//   });
-//
-//   if (!validatedFields.success) {
-//     return {
-//       errors: validatedFields.error.flatten().fieldErrors,
-//       message: null,
-//     };
-//   }
-//
-//   try {
-//     await signIn("credentials", {
-//       email: validatedFields.data.email,
-//       password: validatedFields.data.password,
-//       redirect: true,
-//       redirectTo: '/register'
-//     });
-//   } catch (e: any) {
-//     return {
-//       message: 'Invalid credentials'
-//     }
-//   }
-// }
-
 export async function loginUser(prevState: any, formData: FormData) {
   const schema = z.object({
     email: z.string().email(),
