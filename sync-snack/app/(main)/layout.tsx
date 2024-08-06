@@ -32,7 +32,7 @@ export default async function Layout({
       </div>
 
       {/* For larger screens */}
-      <div className="hidden md:flex h-screen  ">
+      <div className="hidden md:flex ">
         <div className="flex-col w-64 bg-gray-100 dark:bg-gray-900">
           <header className="p-4">
             <HeaderLogo />
@@ -44,7 +44,7 @@ export default async function Layout({
         </div>
 
         {/* Main content area */}
-        <div className="flex-grow  md:ml-64 p-4">
+        <div className="flex-grow   p-4">
           {children}
         </div>
       </div>
