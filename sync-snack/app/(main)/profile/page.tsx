@@ -43,7 +43,7 @@ export default async function ProfileDataPage() {
 
   return (
     <Box className='md:flex md:h-screen md:justify-center md:items-center'>
-      <Box className='md:shadow-lg md:w-9/12 md:h-5/6'>
+      <Box className='md:w-9/12 md:h-5/6'>
         <ProfileGroupComponent user={user} />
       </Box>
     </Box>

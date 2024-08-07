@@ -45,7 +45,7 @@ export default function ProfileData({ user }: any) {
   }, [acceptedFiles]);
 
   return (
-    <Box className='md:h-full'>
+    <Box className='md:h-full mt-2'>
       <Box className='space-y-8 md:flex md:items-center md:justify-around'>
         <Box className='flex flex-col items-center space-y-4'>
           <Image className='rounded-full' alt='No profile picture' src={user.photoUrl} boxSize={36} />

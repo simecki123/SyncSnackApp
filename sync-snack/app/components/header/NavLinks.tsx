@@ -37,6 +37,6 @@ const links = [
   { name: 'Home', href: '/home', icon: HomeIcon },
   { name: 'Event', href: '/event', icon: CalendarIcon },
   { name: 'Orders', href: '/orders', icon: CommandLineIcon },
-  { name: 'Stats', href: '/statistics', icon: ChartBarIcon },
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },
+  { name: 'Group', href: '/group', icon: UserCircleIcon },
 ];
