@@ -14,7 +14,7 @@ export default function Footer() {
         px={4}
       >
         <Flex align="center" mb={{ base: 4, md: 0 }} flexDirection={{ base: 'column', md: 'row' }}>
-          <Image src="/logo.png" alt="Logo" boxSize="100px" mb={{ base: 4, md: 0 }} mr={{ md: 4 }} />
+          <Image src="/logo_no_text.png" alt="Logo" boxSize="100px" mb={{ base: 4, md: 0 }} mr={{ md: 4 }} />
           <Box textAlign={{ base: 'center', md: 'left' }}>
             <Text fontWeight="bold">Made by:</Text>
             <Text>Andrija Škontra</Text>
