@@ -24,7 +24,7 @@ export default async function ProfileDataPage() {
   user.groupName = groupData.name;
 
   const users: GroupUsers = await fetchImproved(`/api/profiles/group`);
-  
+
 
 
   const profilePhotoResponse = await fetch(`${process.env.BACKEND_URL}/api/profiles/profile-photo/download`, {
@@ -42,22 +42,22 @@ export default async function ProfileDataPage() {
 
   async function reloadPageClient(newGroupName: string, newGroupDescription: string) {
     "use server";
-   
+
     revalidatePath('/profile');
   };
 
   return (
     <>
-      <ProfileGroupComponent 
-        user={user} 
-        accessToken={activeUser?.accessToken} 
-        group={groupData} 
-        users={users} 
-        reloadPage={reloadPageClient} 
+      <ProfileGroupComponent
+        user={user}
+        accessToken={activeUser?.accessToken}
+        group={groupData}
+        users={users}
+        reloadPage={reloadPageClient}
       />
     </>
   );
-  
+
 }
 
 

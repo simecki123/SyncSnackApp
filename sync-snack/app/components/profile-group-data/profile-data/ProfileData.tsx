@@ -18,7 +18,7 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
         formData.append('file', file);
 
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/edit`, {
+          const response = await fetch(`http://localhost:8080/api/profiles/edit`, {
             method: 'PATCH',
             headers: {
               'Authorization': `Bearer ${accessToken}`

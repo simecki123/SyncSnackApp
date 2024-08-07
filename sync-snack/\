@@ -1,0 +1,37 @@
+"use client";
+import React, { useState } from 'react'
+import { Box, Button, Flex, VStack, useColorModeValue } from '@chakra-ui/react'
+import ProfileData from './profile-data/ProfileData';
+import { GroupUsers } from '@/app/interfaces';
+
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import GroupData from './group-data/GroupData';
+import { SortOption } from '@/app/types/types';
+
+
+
+export default function ProfileGroupComponent({ user, accessToken, group, users, reloadPage }:
+  { user: any, accessToken: any, group: any, users: GroupUsers, reloadPage: (newGroupName: string, newGroupDescription: string) => void }) {
+
+  return (
+    <Box className='h-screen flex items-stretch'>
+      <Tabs isFitted variant='enclosed' className='w-full'>
+        <TabList mb='1em'>
+          <Tab _selected={{ color: 'white', bg: 'blue.500' }}>Profile</Tab>
+          <Tab _selected={{ color: 'white', bg: 'green.400' }}>Groups</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <ProfileData user={user} accessToken={accessToken} />
+          </TabPanel>
+          <TabPanel>
+            <GroupData group={group} initialSortOption={SortOption.CoffeeCount} users={users} reloadPage={reloadPage} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
+  )
+}
+
+// <ProfileData user={user} accessToken={accessToken} />
+// ) : (
