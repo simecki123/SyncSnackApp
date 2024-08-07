@@ -22,7 +22,7 @@ export default async function Layout({
           <header className="p-4">
             <HeaderLogo />
           </header>
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow bg-gray-100">
             <NavLinks />
             <div className="mt-auto p-4">
               <SignOutButton />

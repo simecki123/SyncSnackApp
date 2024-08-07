@@ -30,9 +30,9 @@ export default function SortOptions({ sortOption, onSortChange, users }: SortOpt
                     _hover={{ borderColor: "orange.400" }}
                     _focus={{ borderColor: "orange.500", boxShadow: "0 0 0 1px #3182ce" }}
                 >
-                    <option value={SortOption.CoffeeCount}>Number of Orders</option>
-                    <option value={SortOption.Rating}>Rating</option>
-                    <option value={SortOption.Name}>Name</option>
+                    <option value={SortOption.ORDER_COUNT}>Order count</option>
+                    <option value={SortOption.SCORE}>Score</option>
+                    <option value={SortOption.FIRSTNAME}>First name</option>
                 </Select>
             </FormControl>
         </Box>

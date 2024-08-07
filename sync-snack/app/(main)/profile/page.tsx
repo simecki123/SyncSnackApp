@@ -1,19 +1,19 @@
 import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
-import React from 'react'
-
 import dynamic from 'next/dynamic';
-import { GroupUsers } from '@/app/interfaces';
-import { revalidatePath } from 'next/cache';
-
+import { SortOption } from '@/app/types/types';
+import { Metadata } from 'next';
 
 const ProfileGroupComponent = dynamic(
   () => import('@/app/components/profile-group-data/ProfileGroupComponent'),
   { ssr: false }
 );
 
-export default async function ProfileDataPage() {
+export const metadata: Metadata = {
+  title: 'Profile Data Page',
+};
 
+export default async function ProfileDataPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const session = await auth();
   const activeUser: any = session?.user;
 
@@ -23,9 +23,18 @@ export default async function ProfileDataPage() {
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   user.groupName = groupData.name;
 
-  const users: GroupUsers = await fetchImproved(`/api/profiles/group`);
+  // Read the sort option from URL params or use default
+  const sortOption = (searchParams.sortBy as SortOption) || SortOption.ORDER_COUNT;
 
+  // Fetch users with the current sort option
+  console.log("sortConsition: ", sortOption);
+  const users = await fetchImproved(`/api/profiles/group?sortCondition=${sortOption}`);
 
+  async function getUsersNew(currentSortOption: SortOption) {
+    "use server";
+    const newUsers = await fetchImproved(`/api/profiles/group?sortCondition=${currentSortOption}`);
+    return newUsers;
+  }
 
   const profilePhotoResponse = await fetch(`${process.env.BACKEND_URL}/api/profiles/profile-photo/download`, {
     headers: {
@@ -33,31 +42,21 @@ export default async function ProfileDataPage() {
       'Authorization': `Bearer ${activeUser?.accessToken}`
     }
   });
+  
 
   const profilePhotoBuffer = await profilePhotoResponse.arrayBuffer();
   const profilePhotoBase64 = Buffer.from(profilePhotoBuffer).toString('base64');
   const profilePhotoSrc = `data:image/png;base64,${profilePhotoBase64}`;
   user.profilePhoto = profilePhotoSrc;
 
-
-  async function reloadPageClient(newGroupName: string, newGroupDescription: string) {
-    "use server";
-
-    revalidatePath('/profile');
-  };
-
   return (
-    <>
-      <ProfileGroupComponent
-        user={user}
-        accessToken={activeUser?.accessToken}
-        group={groupData}
-        users={users}
-        reloadPage={reloadPageClient}
-      />
-    </>
+    <ProfileGroupComponent
+      getUsersNew={getUsersNew}
+      user={user}
+      accessToken={activeUser?.accessToken}
+      group={groupData}
+      users={users}
+      currentSortOption={sortOption}
+    />
   );
-
 }
-
-
