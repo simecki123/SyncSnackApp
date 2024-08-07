@@ -19,6 +19,7 @@ export default async function Layout({
   }
 
   return (
+
     <Box>
       <Box className="md:hidden">
         <HeaderPhone />
@@ -33,6 +34,7 @@ export default async function Layout({
           </Box>
         </Box>
         <Box className="grow w-screen">
+
           {children}
         </Box>
       </Box>

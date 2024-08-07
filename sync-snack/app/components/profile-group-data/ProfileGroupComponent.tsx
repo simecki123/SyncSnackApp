@@ -1,17 +1,36 @@
 "use client";
-import React, { useState } from 'react'
-import { Box, Button, Flex, VStack, useColorModeValue } from '@chakra-ui/react'
-import GroupData from './group-data/GroupData'
+
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Flex, VStack, useColorModeValue } from '@chakra-ui/react';
+import GroupData from './group-data/GroupData';
 import { SortOption } from '@/app/types/types';
 import ProfileData from './profile-data/ProfileData';
 import { GroupUsers } from '@/app/interfaces';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-
-
-export default function ProfileGroupComponent({ user, accessToken, group, users, reloadPage }:
-  { user: any, accessToken: any, group: any, users: GroupUsers, reloadPage: (newGroupName: string, newGroupDescription: string) => void }) {
+export default function ProfileGroupComponent({getUsersNew, user, accessToken, group, users, currentSortOption }:
+  {getUsersNew: (currentSortOption: SortOption) => Promise<any>, user: any, accessToken: any, group: any, users: GroupUsers, currentSortOption: SortOption }) {
 
   const [activeView, setActiveView] = useState<'profile' | 'group'>('profile');
+  const [sortOption, setSortOption] = useState<SortOption>(currentSortOption);
+  const [sortedUsers, setSortedUsers] = useState<GroupUsers>(users);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    
+    const fetchSortedUsers = async (sortOption: SortOption) => {
+      
+      const data = await getUsersNew(sortOption);
+      setSortedUsers(data);
+    };
+    fetchSortedUsers(sortOption);
+  }, [sortOption]);
+
+  const handleSortChange = (newSortOption: SortOption) => {
+    setSortOption(newSortOption);
+    router.push(`/profile?sortBy=${newSortOption}`);
+  };
 
   const bgColor = useColorModeValue('white', 'gray.800');
   const buttonColorScheme = 'orange';
@@ -41,10 +60,20 @@ export default function ProfileGroupComponent({ user, accessToken, group, users,
           {activeView === 'profile' ? (
             <ProfileData user={user} accessToken={accessToken} />
           ) : (
-            <GroupData group={group} initialSortOption={SortOption.CoffeeCount} users={users} reloadPage={reloadPage} />
+            <GroupData
+              group={group}
+              initialSortOption={sortOption}
+              users={sortedUsers}
+              setSortOption={handleSortChange}
+            />
           )}
         </VStack>
       </Box>
     </Box>
-  )
+  );
 }
+
+
+
+
+
