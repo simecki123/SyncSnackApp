@@ -74,10 +74,10 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
           </Box>
           <HStack spacing={4} mt={4}>
             <Button colorScheme="red" onClick={() => handleStatusChange("CANCELLED")}>
-              Cancel event
+              Cancel
             </Button>
             <Button colorScheme="green" onClick={() => handleStatusChange("COMPLETED")}>
-              Finish event
+              Finish
             </Button>
           </HStack>
         </VStack>
