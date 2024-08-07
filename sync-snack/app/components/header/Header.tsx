@@ -7,7 +7,7 @@ export default function Header() {
     <div className="bg-prim-cl text-black">
       <div className="flex justify-between">
         <Link href="/home" className="flex items-center ml-4">
-          <Image src="/logo.png" width={80} height={60} />
+          <Image src="/logo_no_text.png" width={80} height={60} />
           <div className="font-bold text-2xl">
             SyncSnack
           </div>

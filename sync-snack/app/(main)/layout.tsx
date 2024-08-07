@@ -3,7 +3,10 @@ import { auth } from "../auth";
 import NavLinks from "../components/header/NavLinks";
 import HeaderLogo from "../components/header/HeaderLogo";
 import { SignOutButton } from "../components/header/SignOutButton";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import HamburgerMenu from "../components/header/HamburgerMenu";
+import HeaderPhone from "../components/header/HeaderPhone";
+import NavLinksWeb from "../components/header/NavLinksWeb";
 
 export default async function Layout({
   children,
@@ -16,23 +19,25 @@ export default async function Layout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="flex h-screen">
-        <div className="flex flex-col h-full w-64 bg-gray-100 dark:bg-gray-900">
-          <header className="p-4">
-            <HeaderLogo />
-          </header>
-          <div className="flex flex-col flex-grow bg-gray-100">
-            <NavLinks />
-            <div className="mt-auto p-4">
-              <SignOutButton />
-            </div>
-          </div>
-        </div>
-        <div className="flex-grow p-4">
+
+    <Box>
+      <Box className="md:hidden">
+        <HeaderPhone />
+        {children}
+      </Box>
+      <Box className="hidden md:flex md:h-screen">
+        <Box className="flex flex-col">
+          <HeaderLogo />
+          <NavLinksWeb />
+          <Box className="grow flex items-end">
+            <SignOutButton />
+          </Box>
+        </Box>
+        <Box className="grow w-screen">
+
           {children}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }

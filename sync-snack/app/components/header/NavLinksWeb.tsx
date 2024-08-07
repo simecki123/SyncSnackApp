@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function NavLinks({ setIsOpen }: any) {
+export default function NavLinks() {
   const pathname = usePathname();
 
   return (
@@ -15,7 +15,7 @@ export default function NavLinks({ setIsOpen }: any) {
         const IconLink = link.icon;
         return (
           <Link key={index} href={link.href}>
-            <Box onClick={() => setIsOpen(false)} className={clsx(
+            <Box className={clsx(
               "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 dark:hover:text-orange-600 hover:bg-orange-100 dark:hover:bg-orange-500",
               {
                 'bg-orange-100 text-orange-400': pathname === link.href,
@@ -40,3 +40,4 @@ const links = [
   { name: 'Stats', href: '/statistics', icon: ChartBarIcon },
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },
 ];
+
