@@ -17,38 +17,21 @@ export default async function Layout({
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* For smaller screens */}
-      <div className="block md:hidden">
-        <header className="bg-gray-100 dark:bg-gray-900 w-full p-4 flex items-center justify-between">
-          <HeaderLogo />
-          <SignOutButton />
-        </header>
-        <nav className="bg-gray-100 dark:bg-gray-900 w-full">
-          <NavLinks />
-        </nav>
-        <main className="flex-grow p-4">
-          {children}
-        </main>
-      </div>
-
-      {/* For larger screens */}
-      <div className="hidden md:flex h-screen">
-      <div className="flex flex-col h-full w-64 bg-gray-100 dark:bg-gray-900">
-        <header className="p-4">
-          <HeaderLogo />
-        </header>
-        <div className="flex flex-col flex-grow">
-          <NavLinks />
-          <div className="mt-auto p-4">
-            <SignOutButton />
+      <div className="flex h-screen">
+        <div className="flex flex-col h-full w-64 bg-gray-100 dark:bg-gray-900">
+          <header className="p-4">
+            <HeaderLogo />
+          </header>
+          <div className="flex flex-col flex-grow">
+            <NavLinks />
+            <div className="mt-auto p-4">
+              <SignOutButton />
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Main content area */}
-      <div className="flex-grow p-4">
-        {children}
-      </div>
+        <div className="flex-grow p-4">
+          {children}
+        </div>
       </div>
     </div>
   );
