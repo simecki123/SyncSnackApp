@@ -4,8 +4,10 @@ import React from 'react'
 
 import dynamic from 'next/dynamic';
 import { GroupUsers } from '@/app/interfaces';
-import { revalidatePath } from 'next/cache';
+import { Box } from '@chakra-ui/react';
+import ProfileData from '@/app/components/profile-group-data/profile-data/ProfileData';
 
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 const ProfileGroupComponent = dynamic(
   () => import('@/app/components/profile-group-data/ProfileGroupComponent'),
@@ -23,9 +25,9 @@ export default async function ProfileDataPage() {
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   user.groupName = groupData.name;
 
+  user.accessToken = activeUser?.accessToken
+
   const users: GroupUsers = await fetchImproved(`/api/profiles/group`);
-
-
 
   const profilePhotoResponse = await fetch(`${process.env.BACKEND_URL}/api/profiles/profile-photo/download`, {
     headers: {
@@ -39,25 +41,15 @@ export default async function ProfileDataPage() {
   const profilePhotoSrc = `data:image/png;base64,${profilePhotoBase64}`;
   user.profilePhoto = profilePhotoSrc;
 
-
-  async function reloadPageClient(newGroupName: string, newGroupDescription: string) {
-    "use server";
-
-    revalidatePath('/profile');
-  };
-
   return (
-    <>
-      <ProfileGroupComponent
-        user={user}
-        accessToken={activeUser?.accessToken}
-        group={groupData}
-        users={users}
-        reloadPage={reloadPageClient}
-      />
-    </>
+    <Box className='md:flex md:h-screen md:justify-center md:items-center'>
+      <Box className='md:shadow-lg md:w-9/12 md:h-5/6'>
+        <ProfileGroupComponent user={user} />
+      </Box>
+    </Box>
   );
 
 }
+// <ProfileData user={user} accessToken={activeUser?.accessToken} />
 
 

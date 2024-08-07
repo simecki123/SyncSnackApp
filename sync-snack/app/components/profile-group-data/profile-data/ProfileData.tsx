@@ -5,11 +5,13 @@ import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra
 import { useDropzone } from 'react-dropzone'
 import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
 import clsx from 'clsx'
+import { BarChart, DonutChart } from '@tremor/react'
+import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 
-export default function ProfileData({ user, accessToken }: { user: ProfileUser, accessToken: string }) {
-  const finalRate = Math.round(user.score);
+export default function ProfileData({ user }: any) {
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-  const [isProfilePictureEnlarged, setIsProfilePictureEnlarged] = useState(false)
+  const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
 
   useEffect(() => {
     const uploadFiles = async () => {
@@ -18,10 +20,10 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
         formData.append('file', file);
 
         try {
-          const response = await fetch(`http://localhost:8080/api/profiles/edit`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/edit`, {
             method: 'PATCH',
             headers: {
-              'Authorization': `Bearer ${accessToken}`
+              'Authorization': `Bearer ${user?.accessToken}`
             },
             body: formData
           });
@@ -40,61 +42,139 @@ export default function ProfileData({ user, accessToken }: { user: ProfileUser, 
     if (acceptedFiles.length > 0) {
       uploadFiles();
     }
-  }, [acceptedFiles, accessToken]);
+  }, [acceptedFiles]);
 
   return (
-    <Box className='bg-gray-400'>
-      <Heading size="lg" color="orange.500" mb={6}>User Profile</Heading>
-      <Flex justifyContent="space-between">
-        <VStack align="start" spacing={4} flex={1}>
-          <HStack>
-            <Image onClick={() => {
-              if (isProfilePictureEnlarged) {
-                setIsProfilePictureEnlarged(false)
-              } else {
-                setIsProfilePictureEnlarged(true)
-              }
-            }} alt='No profile picture' src={user.profilePhoto} className={
-              clsx(
-                'size-16 rounded-full',
-                {
-                  'size-96': isProfilePictureEnlarged,
-                }
-              )
-            }
-            />
-            <Text>Click to enlarge</Text>
-          </HStack>
-          <HStack>
-            <Text>{user.firstName}</Text>
-          </HStack>
-          <HStack>
-            <Text>{user.lastName}</Text>
-          </HStack>
-          <HStack>
-            <Text>{user.email}</Text>
-          </HStack>
-          <HStack>
-            <Text>{user.groupName}</Text>
-          </HStack>
-          <HStack>
+    <Box className='md:h-full'>
+      <Box className='space-y-8 md:flex md:items-center md:justify-around'>
+        <Box className='flex flex-col items-center space-y-4'>
+          <Image className='rounded-full' alt='No profile picture' src={user.photoUrl} boxSize={36} />
+          <Text className='text-xl font-semibold'>{user.firstName} {user.lastName}</Text>
+          <Text className='italic'>{user.email}</Text>
+          <Box className='flex space-x-2'>
             <div {...getRootProps()}>
               <input {...getInputProps()} />
-              <Button>upload</Button>
+              <Button>Add Photo</Button>
             </div>
-          </HStack>
-          <Button colorScheme="orange" mt={4}>Edit user</Button>
-        </VStack>
+            <Button>Edit User</Button>
+          </Box>
+        </Box>
 
-        <VStack align="center" justify="center" spacing={4}>
-          <Text fontWeight="bold">Score</Text>
-          <Flex alignItems="center">
-            <Text fontSize="3xl" fontWeight="bold" mr={2}>{user.score.toFixed(1)}</Text>
-            <RatingPrettyProfile rating={finalRate} />
-          </Flex>
-        </VStack>
-      </Flex>
+        <Box className='md:flex space-y-8 md:space-y-0'>
+
+          <Box className='space-y-8'>
+            <Box className='bg-orange-200 p-4 mx-2 rounded-xl'>
+              <Box className='flex items-center'>
+                <CheckCircleIcon className='size-5' />
+                <Text className='text-tremor-default p-1'>Total completed orders</Text>
+              </Box>
+              <Box className='bg-white rounded-xl py-4'>
+                <Text className='text-tremor-metric flex justify-center'>12</Text>
+              </Box>
+            </Box>
+
+            <Box className='bg-orange-200 p-4 mx-2 rounded-xl'>
+              <Box className='flex items-center'>
+                <ExclamationCircleIcon className='size-5' />
+                <Text className='text-tremor-default p-1'>Total canceled orders</Text>
+              </Box>
+              <Box className='bg-white rounded-xl py-4'>
+                <Text className='text-tremor-metric flex justify-center'>12</Text>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box>
+            <DonutChart className="flex justify-center md:w-72 md:items-center md:h-full md:p-10"
+              data={datahero}
+              variant="donut"
+              colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
+              valueFormatter={dataFormatter} />
+          </Box>
+        </Box>
+      </Box>
+      <Box className='md:mt-4 hidden md:block'>
+        <BarChart
+          data={chartdata}
+          index="name"
+          categories={['Amount of orders']}
+          colors={['orange']}
+          valueFormatter={dataFormatter}
+          yAxisWidth={48} />
+      </Box>
     </Box>
   );
 
 }
+
+const datahero = [
+  {
+    name: 'Coffee',
+    value: 39,
+  },
+  {
+    name: 'Mix',
+    value: 24,
+  },
+  {
+    name: 'Food',
+    value: 21,
+  },
+  {
+    name: 'Beverage',
+    value: 13,
+  },
+];
+
+const chartdata = [
+  {
+    name: 'January',
+    'Amount of orders': 45,
+  },
+  {
+    name: 'February',
+    'Amount of orders': 62,
+  },
+  {
+    name: 'March',
+    'Amount of orders': 37,
+  },
+  {
+    name: 'April',
+    'Amount of orders': 58,
+  },
+  {
+    name: 'May',
+    'Amount of orders': 73,
+  },
+  {
+    name: 'June',
+    'Amount of orders': 29,
+  },
+  {
+    name: 'July',
+    'Amount of orders': 84,
+  },
+  {
+    name: 'August',
+    'Amount of orders': 91,
+  },
+  {
+    name: 'September',
+    'Amount of orders': 33,
+  },
+  {
+    name: 'October',
+    'Amount of orders': 77,
+  },
+  {
+    name: 'November',
+    'Amount of orders': 49,
+  },
+  {
+    name: 'December',
+    'Amount of orders': 65,
+  },
+];
+
+
