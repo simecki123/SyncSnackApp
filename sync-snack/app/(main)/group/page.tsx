@@ -15,7 +15,7 @@ export default async function GroupPage() {
   const session = await auth();
   const activeUser: any = session?.user;
 
-  const members = await fetchImproved('/api/profiles/group')
+  const members = await fetchImproved('/api/profiles/group?sortCondition=ORDER_COUNT')
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
 
   console.log(groupData, 'groupData')

@@ -11,7 +11,7 @@ export default async function InProgressEvents({ searchParams }: inProgressEvent
   const session = await auth();
   const activeUser: any = session?.user;
 
-  const eventsResponse = await fetch('http://localhost:8080/api/events/search', {
+  const eventsResponse = await fetch('http://localhost:8080/api/events/filter', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

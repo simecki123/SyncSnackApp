@@ -17,6 +17,8 @@ export async function fetchImproved(url: string,
   const activeUser: any = session?.user;
   const userToken = activeUser?.accessToken;
 
+  console.log(process.env.BACKEND_URL, url, 'fjakldjfkl')
+
   const response = await fetch(`${process.env.BACKEND_URL}${url}`, {
     method: defaultMethod,
     headers: {
@@ -25,6 +27,9 @@ export async function fetchImproved(url: string,
     },
     body: body
   })
+
+  console.log(userToken, 'token')
+  console.log(process.env.BACKEND_URL, 'url')
 
   if (!response.ok) {
     throw new Error('RESPONSE IS NOT OK')

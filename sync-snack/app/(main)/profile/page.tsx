@@ -27,7 +27,7 @@ export default async function ProfileDataPage() {
 
   user.accessToken = activeUser?.accessToken
 
-  const users: GroupUsers = await fetchImproved(`/api/profiles/group`);
+  const users: GroupUsers = await fetchImproved(`/api/profiles/group?sortCondition=ORDER_COUNT`);
 
   const profilePhotoResponse = await fetch(`${process.env.BACKEND_URL}/api/profiles/profile-photo/download`, {
     headers: {
