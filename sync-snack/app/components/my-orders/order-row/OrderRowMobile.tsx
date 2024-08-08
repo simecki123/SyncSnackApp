@@ -8,7 +8,7 @@ import Modal from '../../modals/Modal';
 import OrderRateModalComponent from '../order-modal-component/OrderRateModalComponent';
 import OrderDescriptionModalComponent from '../order-modal-component/OrderDescriptionModalComponent';
 
-export default function OrderRow({ order, accessToken }: any) {
+export default function OrderRowMobile({ order, accessToken }: any) {
   const [isRateModalOpened, setRateModalOpen] = useState(false);
   const [isDescriptionModalOpened, setDescriptionModalOpen] = useState(false);
 
@@ -25,19 +25,36 @@ export default function OrderRow({ order, accessToken }: any) {
 
   return (
     <>
-      <Tr>
-        <Td><OrderTypePretty orderType={order.eventType} /></Td>
-        <Td className='w-96 dark:text-white'>time</Td>
-        <Td>
-          <Box className='flex'>
+      <Box className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md mb-4">
+        <Box className="flex justify-between items-center">
+            <Box className="font-medium text-gray-900 dark:text-white">
+            <OrderTypePretty orderType={order.eventType} />
+            </Box>
+            <Box className="text-gray-500 dark:text-gray-400">
+            time
+            </Box>
+        </Box>
+
+        <Box className="mt-2">
             <StatusPretty statusType={order.status} />
-          </Box>
-        </Td>
-        <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
-        <Td>
-          {orderRating ? <RatingPretty rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
-        </Td>
-      </Tr>
+        </Box>
+
+        <Box className="mt-2">
+            <Button colorScheme="blue" size="sm" onClick={() => setDescriptionModalOpen(true)}>
+            Description
+            </Button>
+        </Box>
+
+        <Box className="mt-2">
+            {orderRating ? (
+            <RatingPretty rating={orderRating} />
+            ) : (
+            <Button colorScheme="yellow" size="sm" onClick={() => setRateModalOpen(true)}>
+                Rate
+            </Button>
+            )}
+        </Box>
+      </Box>
       {isRateModalOpened && (
         <Modal isOpen={isRateModalOpened} onClose={handleRateCloseModal}>
           <OrderRateModalComponent setRating={setOrderRating} accessToken={accessToken} coffeeOrderId={order.orderId} onClose={handleRateCloseModal} />
@@ -67,6 +84,8 @@ function objectToString(obj: any): string {
     })
     .join('\n');
 }
+
+
 
 
 
