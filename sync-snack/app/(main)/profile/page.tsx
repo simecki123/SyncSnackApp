@@ -2,12 +2,12 @@ import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
 import React from 'react'
 
-import dynamic from 'next/dynamic';
 import { GroupUsers } from '@/app/interfaces';
 import { Box } from '@chakra-ui/react';
 import ProfileData from '@/app/components/profile-group-data/profile-data/ProfileData';
 
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import dynamic from 'next/dynamic';
 
 const ProfileGroupComponent = dynamic(
   () => import('@/app/components/profile-group-data/ProfileGroupComponent'),
