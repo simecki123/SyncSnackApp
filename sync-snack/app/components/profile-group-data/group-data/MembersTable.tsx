@@ -15,21 +15,54 @@ import {
   Button,
 } from '@chakra-ui/react'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function MembersTable({ members }: any) {
+export default function MembersTable({ members, userToken }: any) {
 
-  const fakeMembers = members.concat(members.slice(1, 3))
+  const [sortStrategy, setSortStrategy] = useState('Score')
+
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    let strategyModifed = "ORDER_COUNT"
+    switch (sortStrategy) {
+      case ('Score'):
+        strategyModifed = 'SCORE'
+        break
+      case ('Orders'):
+        strategyModifed = 'ORDER_COUNT'
+        break
+      case ('Name'):
+        strategyModifed = 'FIRSTNAME'
+        break
+    }
+    fetch(`http://localhost:8080/api/profiles/group?sortCondition=${strategyModifed}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, 'data in fetch')
+        setData(data);
+      })
+  }, [sortStrategy]);
 
   const MEMBERS_PER_PAGE = 5
 
-  const numberOfPaginationButtons = Math.ceil(fakeMembers.length / MEMBERS_PER_PAGE)
+  const numberOfPaginationButtons = Math.ceil(data.length / MEMBERS_PER_PAGE)
 
   const [currentPage, setCurrentPage] = useState(1)
 
-  const [shownMembers, setShownMembers] = useState(fakeMembers.slice(0, MEMBERS_PER_PAGE * currentPage))
+  const [shownMembers, setShownMembers] = useState(data.slice(0, MEMBERS_PER_PAGE * currentPage))
 
   const headers = ['Name', 'Orders', 'Score']
+
+  useEffect(() => {
+    const lastMemberNumber = MEMBERS_PER_PAGE * currentPage;
+    setShownMembers(data.slice(lastMemberNumber - MEMBERS_PER_PAGE, lastMemberNumber));
+  }, [data, currentPage]);
 
   function TableHeader({ value }: any) {
     return (
@@ -40,8 +73,6 @@ export default function MembersTable({ members }: any) {
         onClick={() => setSortStrategy(value)}>{value}</Th>
     )
   }
-
-  const [sortStrategy, setSortStrategy] = useState('Score')
 
   return (
     <Box className='w-full flex flex-col'>

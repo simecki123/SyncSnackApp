@@ -1,4 +1,5 @@
 import { auth } from "@/app/auth";
+import GroupOrdersDonut from "@/app/components/profile-group-data/group-data/GroupOrdersDonut";
 import MembersTable from "@/app/components/profile-group-data/group-data/MembersTable";
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
@@ -13,14 +14,12 @@ const GroupButtons = dynamic(
 
 export default async function GroupPage() {
 
+
   const session = await auth();
   const activeUser: any = session?.user;
 
   const members = await fetchImproved('/api/profiles/group?sortCondition=ORDER_COUNT')
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
-
-  console.log(groupData, 'groupData')
-  console.log(members, 'members')
 
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-full">
@@ -31,7 +30,7 @@ export default async function GroupPage() {
         <GroupButtons group={groupData} />
       </Box>
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
-        jafkldjfkl
+        <MvpMemberCard user={members[0]} />
       </Box>
       <Box>
         <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
@@ -42,11 +41,11 @@ export default async function GroupPage() {
           })}
         </Box>
         <Box className="hidden md:h-full md:flex md:justify-center">
-          <MembersTable members={members} />
+          <MembersTable members={members} userToken={activeUser?.accessToken} />
         </Box>
       </Box>
-      <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
-        jafkldjfkl
+      <Box className="hidden md:flex md:h-full md:justify-center">
+        <GroupOrdersDonut />
       </Box>
     </Box>
   )
@@ -88,3 +87,30 @@ function MemberCard({ index, user }: any) {
     </Box>
   );
 }
+
+function MvpMemberCard({ user }: any) {
+  return (
+    <Box className="flex rounded-xl shadow-lg overflow-hidden relative bg-amber-400">
+      <Image
+        className="h-[150px] w-[150px] rounded-l-xl mr-4"
+        src={user.photoUrl}
+        alt="Profile picture"
+      />
+      <Box className="grow flex flex-col justify-center space-y-2 p-4">
+        <Text className="font-semibold">
+          {user.firstName} {user.lastName}
+        </Text>
+        <Box className="flex">
+          <Text className="mr-1 italic bg-white p-1 rounded-md font-semibold">
+            {user.score.toFixed(2)}⭐
+          </Text>
+        </Box>
+        <Text className="italic">
+          {user.orderCount + 10} Orders Completed
+        </Text>
+      </Box>
+      <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
+    </Box>
+  );
+}
+
