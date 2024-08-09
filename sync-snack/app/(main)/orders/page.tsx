@@ -1,8 +1,4 @@
 import { auth } from '@/app/auth';
-import { fetchImproved } from '@/app/fetch';
-import { Order } from '@/app/interfaces';
-import { revalidatePath } from 'next/cache';
-
 import dynamic from 'next/dynamic';
 
 const OrdersTable = dynamic(
@@ -15,10 +11,9 @@ export default async function OrdersPage() {
   const activeUser: any = session?.user;
   const accessToken: any = activeUser?.accessToken;
 
-  console.log(accessToken);
-
   let orders: Array<any> = [];
   const startSearch = "";
+  
   try {
     const response = await fetch("http://localhost:8080/api/orders/search", {
       method: 'POST',
@@ -30,47 +25,40 @@ export default async function OrdersPage() {
     });
     
     orders = await response.json();
-    console.log("orders: ",orders);
   } catch (e: any) {
     console.error('Error fetching orders:', e);
   }
 
-  async function searchSpecificOrders(searchTerm:string) {
+  async function searchSpecificOrders(searchTerm: string) {
     "use server";
     
-    if (searchTerm && searchTerm !== "") {
-      console.log(accessToken)
-      
-      try {
-        const response = await fetch("http://localhost:8080/api/orders/search", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          },
-          body: JSON.stringify({ searchTerm }),
-        });
-        const data = await response.json();
-        console.log("data: ", data)
-        return data;
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      }
-    } else {
-      console.log("Nesto drugo")
-      
+    try {
+      const response = await fetch("http://localhost:8080/api/orders/search", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ searchTerm }),
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      return [];
     }
-    
-    
-    
   }
 
-  orders.map((order: any) => {
+  orders = orders.map((order: any) => {
     order.createdAt = new Date(order.createdAt);
+    return order;
   });
 
   return (
-    <OrdersTable accessToken={accessToken} orders={sortDataByCreatedAtDescending(orders)} searchSpecificOrders={searchSpecificOrders} />
+    <OrdersTable
+      accessToken={accessToken}
+      orders={sortDataByCreatedAtDescending(orders)}
+      searchSpecificOrders={searchSpecificOrders}
+    />
   );
 }
 

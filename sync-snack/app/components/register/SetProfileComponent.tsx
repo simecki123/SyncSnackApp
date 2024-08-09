@@ -51,28 +51,28 @@ export default function SetProfileComponent() {
 
   const handleSubmit = async () => {
     try {
-        let groupId;
+      let groupId;
       if (formData.groupChoice === 'create') {
         groupId = await createGroup();
       } else {
         groupId = await joinGroup();
       }
-
+  
       if (!groupId) {
         showToast('Error', 'Failed to create or join group', 'error');
         return;
       }
-
-      const userId =  searchParams.get('userId'); // Assuming userId is in the URL
+  
+      const userId = searchParams.get('userId'); // Assuming userId is in the URL
       await createUserProfile(userId, groupId);
-
+  
       showToast('Success', 'Profile setup successful!', 'success');
       setTimeout(() => {
         router.push('/login');
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Profile setup error:', error);
-      showToast('Error', 'An unexpected error occurred. Please try again.', 'error');
+      
     }
   };
 
@@ -104,11 +104,16 @@ export default function SetProfileComponent() {
         password: formData.groupPassword,
       }),
     });
-
+  
+    if (response.status === 404) {
+      showToast('Error', 'Group not found', 'error');
+      throw new Error('Group not found'); // Ensure the error is thrown to halt further processing
+    }
+  
     if (!response.ok) {
       throw new Error('Failed to join group');
     }
-
+  
     const groupData = await response.json();
     return groupData.groupId;
   };
