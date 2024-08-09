@@ -8,16 +8,10 @@ import { useRouter } from 'next/navigation';
 import { SortOptionsProps, User } from '@/app/interfaces';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-
-
 export default function LeaderboardTable({ sortOption, onSortChange, users }: SortOptionsProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
     const maxPageButtons = 5;
-
-    
-
-    
 
     const totalPages = Math.ceil(users.length / usersPerPage);
 
@@ -31,8 +25,6 @@ export default function LeaderboardTable({ sortOption, onSortChange, users }: So
 
         return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
-
-    
 
     // Get current users
     const indexOfLastUser = currentPage * usersPerPage;

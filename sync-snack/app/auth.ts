@@ -10,7 +10,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        console.log(credentials, '>>> user credentials')
         const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
           method: "POST",
           headers: {
@@ -22,7 +21,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error('Login failed')
         }
         const token = await res.json()
-        console.log('token retrieved')
         const user = await fetch(`${process.env.BACKEND_URL}/api/auth/fetchMe`, {
           headers: {
             'Content-Type': 'application/json',
@@ -34,7 +32,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         let returnUser = await user.json()
         returnUser.accessToken = token?.accessToken;
-        console.log(returnUser, 'returned user')
         return returnUser;
       },
     }),
@@ -45,7 +42,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log('Sign in callback called', { user, account, profile, email, credentials });
       return true;
     },
     async jwt({ token, user, account }) {
@@ -67,7 +63,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      console.log('Redirect callback called', { url, baseUrl });
       // If the url is relative, prepend the baseUrl
       if (url.startsWith("/")) {
         return `${baseUrl}${url}`
