@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Textarea, VStack, Heading, useColorModeValue, useToast } from '@chakra-ui/react';
 import { Event, OrderFoodProps } from '@/app/interfaces';
+import { Client } from '@stomp/stompjs';
 
 export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFoodProps) {
   const [orderText, setOrderText] = useState('');
@@ -35,6 +36,15 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         });
         setOrderText('');
         onOrderSuccess(); // Close the modal
+
+        // const client = new Client();
+        // client.brokerURL = 'ws://localhost:8080/ws'
+        //
+        // client.onConnect = function(frame) {
+        //   client.publish({ destination: '/topic/orders', body: 'Hello world' });
+        // };
+        //
+        // client.activate()
       } else {
         throw new Error('Failed to place order');
       }

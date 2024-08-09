@@ -8,34 +8,12 @@ import { useRouter } from 'next/navigation';
 import { SortOptionsProps, User } from '@/app/interfaces';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-
-
 export default function LeaderboardTable({ sortOption, onSortChange, users }: SortOptionsProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
     const maxPageButtons = 5;
 
-    
-
-    let isSortedName = false;
-    let isSortedOrders = false;
-    let isSortedRating = false;
-
-
-    
-
-    let sortedUsers = [...users].sort((a, b) => {
-        if (sortOption === SortOption.Rating) {
-            return b.score - a.score;
-        }
-        if (sortOption === SortOption.Name) {
-            return a.firstName.localeCompare(b.firstName);
-        } else {
-            return b.orderCount - a.orderCount;
-        }
-    });
-
-    const totalPages = Math.ceil(sortedUsers.length / usersPerPage);
+    const totalPages = Math.ceil(users.length / usersPerPage);
 
     const getPageNumbers = () => {
         let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
@@ -48,28 +26,10 @@ export default function LeaderboardTable({ sortOption, onSortChange, users }: So
         return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
     };
 
-    const handleSort = (value: string) => {
-        let newSortOption: SortOption;
-        switch (value.toLowerCase()) {
-            case 'name':
-                newSortOption = SortOption.Name;
-                break;
-            case 'orders':
-                newSortOption = SortOption.CoffeeCount;
-                break;
-            case 'rating':
-                newSortOption = SortOption.Rating;
-                break;
-            default:
-                newSortOption = SortOption.CoffeeCount;
-        }
-        onSortChange(newSortOption);
-    };
-
     // Get current users
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = sortedUsers.slice(indexOfFirstUser, indexOfLastUser);
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
     // Change page
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -80,9 +40,9 @@ export default function LeaderboardTable({ sortOption, onSortChange, users }: So
                 <Table variant="simple" colorScheme="orange" size="sm">
                     <Thead>
                         <Tr>
-                            <ClickableTableTh value='Name' sortStrategy={handleSort} isSorted={sortOption === SortOption.Name} />
-                            <ClickableTableTh value='orders' sortStrategy={handleSort} isSorted={sortOption === SortOption.CoffeeCount} />
-                            <ClickableTableTh value='rating' sortStrategy={handleSort} isSorted={sortOption === SortOption.Rating} />
+                            <ClickableTableTh value={SortOption.FIRSTNAME} sortStrategy={onSortChange} isSorted={sortOption === SortOption.FIRSTNAME} />
+                            <ClickableTableTh value={SortOption.ORDER_COUNT} sortStrategy={onSortChange} isSorted={sortOption === SortOption.ORDER_COUNT} />
+                            <ClickableTableTh value={SortOption.SCORE} sortStrategy={onSortChange} isSorted={sortOption === SortOption.SCORE} />
                         </Tr>
                     </Thead>
                     <Tbody>

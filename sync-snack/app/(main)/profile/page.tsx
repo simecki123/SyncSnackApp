@@ -2,6 +2,8 @@ import { auth } from '@/app/auth';
 import { fetchImproved } from '@/app/fetch';
 import React from 'react'
 
+import { Client, Message } from '@stomp/stompjs';
+
 import { GroupUsers } from '@/app/interfaces';
 import { Box } from '@chakra-ui/react';
 import ProfileData from '@/app/components/profile-group-data/profile-data/ProfileData';
@@ -35,6 +37,19 @@ export default async function ProfileDataPage() {
       'Authorization': `Bearer ${activeUser?.accessToken}`
     }
   });
+
+  // const client = new Client();
+  // client.brokerURL = 'ws://localhost:8080/ws'
+  //
+  // client.onConnect = function(frame) {
+  //   client.subscribe(`/topic/orders/${activeUser?.userProfileId}`, (message) => {
+  //     console.log('AJDEEEEEE AJDEE AJDEE', message)
+  //   });
+  // };
+  //
+  // client.activate()
+
+  console.log(`${activeUser?.userProfileId}`, 'user user user')
 
   const profilePhotoBuffer = await profilePhotoResponse.arrayBuffer();
   const profilePhotoBase64 = Buffer.from(profilePhotoBuffer).toString('base64');

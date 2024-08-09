@@ -20,8 +20,8 @@ export default function GroupButtons({ group }: any) {
   };
 
   return (
-    <Box className="flex justify-around">
-      <Button colorScheme="orange" mt={4} onClick={() => {
+    <Box className="flex justify-around md:justify-center">
+      <Button className="md:mr-2 shadow-lg" colorScheme="orange" mt={4} onClick={() => {
         navigator.clipboard.writeText('http://localhost:3000/register-link?groupId=151&groupCode=12345678')
         toast({
           title: 'Invite',
@@ -32,7 +32,7 @@ export default function GroupButtons({ group }: any) {
           position: 'top-right'
         });
       }}>Invite</Button>
-      <Button colorScheme="orange" mt={4} onClick={onOpen}>Edit</Button>
+      <Button className="md:ml-2 shadow-lg" colorScheme="orange" mt={4} onClick={onOpen}>Edit</Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <EditGroupWindow
           groupName={group.name}

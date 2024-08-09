@@ -1,4 +1,5 @@
 import { auth } from "@/app/auth";
+import LeaderboardTable from "@/app/components/leaderboard/LeaderboardTable";
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
@@ -22,19 +23,29 @@ export default async function GroupPage() {
   console.log(members, 'members')
 
   return (
-    <>
-      <Text className="flex justify-center mt-2 text-4xl font-semibold">{groupData?.name}</Text>
-      <Text className="italic text-tremor-content m-6">{groupData?.description}lication that is designed to break all the rules of app
-        building in a way that no other set of developers will be able to match.</Text>
-      <GroupButtons group={groupData} />
-      <Box className="grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
-        {members.map((user: any, index: number) => {
-          return (
-            <MemberCard user={user} key={index} index={index} />
-          )
-        })}
+    <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-2 md:h-full">
+      <Box>
+        <Text className="flex md:justify-start md:m-6 justify-center mt-2 text-4xl font-semibold">{groupData?.name}</Text>
+        <Text className="italic text-tremor-content m-6">{groupData?.description}lication that is designed to break all the rules of app
+          building in a way that no other set of developers will be able to match.</Text>
+        <GroupButtons group={groupData} />
       </Box>
-    </>
+      <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
+        jafkldjfkl
+      </Box>
+      <Box>
+        <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
+          {members.map((user: any, index: number) => {
+            return (
+              <MemberCard user={user} key={index} index={index} />
+            )
+          })}
+        </Box>
+        <Box className="hidden md:h-full md:flex md:justify-center md:items-center">
+          <LeaderboardTable users={members} />
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

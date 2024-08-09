@@ -1,8 +1,14 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import FilteredEvents from './filttered-events/FilteredEvents';
 import { auth } from '@/app/auth';
 import { Event } from '@/app/interfaces';
+
+import dynamic from 'next/dynamic';
+
+const FilteredEvents = dynamic(
+  () => import('./filttered-events/FilteredEvents'),
+  { ssr: false }
+);
 
 export default async function InProgressEvents({ searchParams }: inProgressEventsProps) {
 

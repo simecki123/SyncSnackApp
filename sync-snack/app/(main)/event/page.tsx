@@ -1,11 +1,20 @@
-import EventDetails from "@/app/components/my-events/EventDetails";
 import { fetchImproved } from "@/app/fetch";
 import { Box, VStack, Container, Heading, Divider, Text, Alert, AlertIcon } from "@chakra-ui/react";
-import OrdersTable from "@/app/components/my-events/OrdersTable";
 import { EventOrder } from "@/app/interfaces";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/app/auth";
 
+import dynamic from 'next/dynamic';
+
+const OrdersTable = dynamic(
+  () => import('@/app/components/my-events/OrdersTable'),
+  { ssr: false }
+);
+
+const EventDetails = dynamic(
+  () => import('@/app/components/my-events/EventDetails'),
+  { ssr: false }
+);
 
 export default async function EventPage() {
   let event = null;
@@ -21,13 +30,13 @@ export default async function EventPage() {
   } catch (error) {
     eventError = "Failed to fetch event details.";
     console.error("Error fetching event:", error);
-    return(
+    return (
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mb={4} color="red.500">
           Server is not available,
         </Heading>
         <Heading as="h2" size="xl" mb={4} color="red.500">
-        or you dont have any active event yet...
+          or you dont have any active event yet...
         </Heading>
         <Text fontSize="lg" color="gray.700">
           Please try again later or create an event.
@@ -42,7 +51,7 @@ export default async function EventPage() {
     } catch (error) {
       ordersError = "Failed to fetch orders.";
       console.error("Error fetching orders:", error);
-      return(
+      return (
         <Box textAlign="center" py={10} px={6}>
           <Heading as="h2" size="xl" mb={4} color="red.500">
             Server is not available
@@ -69,7 +78,7 @@ export default async function EventPage() {
         throw new Error("Failed to update event status");
       }
 
-    } catch(error) {
+    } catch (error) {
       console.error("Error updating event status:", error);
       revalidatePath('/event-page'); // Adjust this path as needed
       return "FAIL";
@@ -82,7 +91,7 @@ export default async function EventPage() {
   async function setStatusOfTheOrder(status: string, orderId: string) {
     "use server";
     try {
-      
+
       const response = await fetch(`http://localhost:8080/api/orders/update?orderId=${orderId}&status=${status}`, {
         method: "PATCH",
         headers: {
