@@ -61,6 +61,7 @@ export default function ProfileGroupComponent({getUsersNew, user, accessToken, g
             <ProfileData user={user} accessToken={accessToken} />
           ) : (
             <GroupData
+              groupId={user?.groupId}
               group={group}
               initialSortOption={sortOption}
               users={sortedUsers}
