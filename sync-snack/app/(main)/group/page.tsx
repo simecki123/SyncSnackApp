@@ -1,6 +1,5 @@
 import { auth } from "@/app/auth";
 import GroupOrdersDonut from "@/app/components/profile-group-data/group-data/GroupOrdersDonut";
-import MembersTable from "@/app/components/profile-group-data/group-data/MembersTable";
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
@@ -11,6 +10,12 @@ const GroupButtons = dynamic(
   () => import('@/app/components/group/GroupButtons'),
   { ssr: false }
 );
+
+const MembersTable = dynamic(
+  () => import('@/app/components/profile-group-data/group-data/MembersTable'),
+  { ssr: false }
+);
+
 
 export default async function GroupPage() {
 

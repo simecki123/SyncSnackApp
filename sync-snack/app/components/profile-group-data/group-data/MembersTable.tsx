@@ -104,7 +104,7 @@ export default function MembersTable({ members, userToken }: any) {
           </Tbody>
         </Table>
       </TableContainer>
-      <Box className='flex grow justify-center items-end'>
+      <Box className={clsx('flex grow justify-center items-end', { 'hidden': numberOfPaginationButtons === 1 })}>
         {Array.from({ length: numberOfPaginationButtons }).map((_, index) => {
           return (
             <Button
@@ -118,7 +118,7 @@ export default function MembersTable({ members, userToken }: any) {
               onClick={() => {
                 setCurrentPage(index + 1)
                 const lastMemberNumber: number = MEMBERS_PER_PAGE * (index + 1)
-                setShownMembers(fakeMembers.slice(lastMemberNumber - MEMBERS_PER_PAGE, lastMemberNumber))
+                setShownMembers(data.slice(lastMemberNumber - MEMBERS_PER_PAGE, lastMemberNumber))
               }
               }>{index + 1}</Button>
           )
