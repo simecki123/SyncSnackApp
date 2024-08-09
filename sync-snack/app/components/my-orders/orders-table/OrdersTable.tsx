@@ -75,6 +75,8 @@ export default function OrdersTable({ orders, accessToken, searchSpecificOrders 
             placeholder='Enter status of order'
             size='md'
             width='40vh'
+            marginBottom={4}
+            borderColor="orange"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
