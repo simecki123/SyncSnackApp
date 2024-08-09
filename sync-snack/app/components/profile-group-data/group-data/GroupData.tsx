@@ -7,11 +7,12 @@ import { SortOption } from '@/app/types/types';
 import Modal from '../../modals/Modal';
 import EditGroupWindow from '../edit-group-window/EditGroupWindow';
 
-export default function GroupData({ group, initialSortOption, users, setSortOption }: {
-  group: any, initialSortOption: SortOption, users: any, setSortOption: (sortOption: SortOption) => void }) {
+export default function GroupData({groupId, group, initialSortOption, users, setSortOption }: {
+  groupId: any, group: any, initialSortOption: SortOption, users: any, setSortOption: (sortOption: SortOption) => void }) {
   
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  console.log("group: ", group )
 
   const handleEditGroup = (newGroupName: string, newGroupDescription: string) => {
     // Assuming reloadPage is handled by parent component
@@ -41,7 +42,7 @@ export default function GroupData({ group, initialSortOption, users, setSortOpti
             </Box>
             <Button colorScheme="orange" mt={4} onClick={onOpen}>Edit</Button>
             <Button colorScheme="orange" mt={4} onClick={() => {
-              navigator.clipboard.writeText('http://localhost:3000/register-link?groupId=151&groupCode=12345678')
+              navigator.clipboard.writeText(`http://localhost:3000/register-link?groupId=${groupId}&groupCode=12345678`)
               toast({
                 title: 'Invite',
                 description: 'Copied to clipboard',
