@@ -29,6 +29,9 @@ export async function loginUser(prevState: any, formData: FormData) {
       message: result.error
     };
   }
+
+  //Fetch user profile and check if it exists. If not redirect to /setprofile?userId=66b61229a558375b24aa822d
+  
   redirect('/home');
 }
 

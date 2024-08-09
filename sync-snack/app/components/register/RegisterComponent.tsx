@@ -49,7 +49,7 @@ export default function RegisterComponent() {
 
       showToast('Success', 'We have sent you an email verification. Please verify your email.', 'success');
       setTimeout(() => {
-        //router.push('https://mail.google.com/mail/u/0/#inbox');
+        router.push('https://mail.google.com/mail/u/0/#inbox');
       }, 2000);
     } catch (error: any) {
       if (error.message === 'EmailAlreadyInUse') {

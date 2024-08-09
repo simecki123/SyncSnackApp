@@ -9,7 +9,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import OrderRow from '../order-row/OrderRow';
 import OrderRowMobile from '../order-row/OrderRowMobile';
 
-export default function OrdersTable({ orders, accessToken, searchSpecificOrders }: { orders: any, accessToken: any, searchSpecificOrders: (searchTerm: string) => Promise<Array<any>> }) {
+export default function OrdersTable({ orders, accessToken, searchSpecificOrders }: { orders: any[], accessToken: any, searchSpecificOrders: (searchTerm: string) => Promise<Array<any>> }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOrders, setFilteredOrders] = useState(orders);
@@ -25,12 +25,9 @@ export default function OrdersTable({ orders, accessToken, searchSpecificOrders 
   };
 
   const fetchOrdersByStatus = useCallback(
-    
     debounce(async (searchTerm: string) => {
-      
       const newOrders = await searchSpecificOrders(searchTerm);
       setFilteredOrders(newOrders);
-
     }, 300),
     [searchSpecificOrders]
   );

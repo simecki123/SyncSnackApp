@@ -23,8 +23,8 @@ export default function OrderRowMobile({ order, accessToken }: any) {
 
   // Dynamic background based on light/dark mode
   const bgGradient = useColorModeValue(
-    "linear(to-r, orange.200, orange.400)",
-    "linear(to-r, orange.500, orange.700)"
+    "linear(to-r, white.200, white.400)",
+    "linear(to-r, white.500, white.700)"
   );
   const boxShadowColor = useColorModeValue("yellow.400", "yellow.800");
 
