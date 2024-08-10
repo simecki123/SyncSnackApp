@@ -12,7 +12,7 @@ export default function StatusPretty({ statusType }: any) {
     case "IN_PROGRESS":
       return (
         <Box
-          className='dark:bg-yellow-700 px-4 py-2 rounded-md text-white'
+          className='px-4 py-2 rounded-md text-white'
           animation={`${shineAnimation} 2s ease-in-out infinite`}
           bg='#fbbf24'  // Initial normal yellow
         >
@@ -21,13 +21,13 @@ export default function StatusPretty({ statusType }: any) {
       );
     case "READY":
       return (
-        <Box className='dark:bg-green-700 px-4 py-2 bg-green-500 rounded-md text-white'>
+        <Box className='px-4 py-2 bg-green-500 rounded-md text-white'>
           <Text>Done</Text>
         </Box>
       );
     case "CANCELLED":
       return (
-        <Box className='dark:bg-red-800 px-4 py-2 bg-red-600 rounded-md text-white'>
+        <Box className='px-4 py-2 bg-red-600 rounded-md text-white'>
           <Text>Canceled</Text>
         </Box>
       );

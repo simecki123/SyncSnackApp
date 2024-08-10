@@ -18,7 +18,7 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
           </Box>
         </Box>
         <Box className="flex flex-col ml-28">
-          <Text className="flex justify-center text-xl font-semibold mb-4 dark:text-white">Order types</Text>
+          <Text className="flex justify-center text-xl font-semibold mb-4">Order types</Text>
           <DonutChart className="w-56"
             data={transformOrders(stats.ordersPerType)}
             variant="donut"
@@ -27,7 +27,7 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
         </Box>
       </Box>
       <Divider />
-      <Text className="mt-12 text-xl font-semibold dark:text-white">Recent orders</Text>
+      <Text className="mt-12 text-xl font-semibold">Recent orders</Text>
       <BarChart className="mt-6"
         data={transformData(fakeMonthsData)}
         index="name"
@@ -41,13 +41,13 @@ export default function Statistics({ stats }: { stats: StatisticsData }) {
 
 function DataBoxNumber({ status, nmbStatus }: { status: string, nmbStatus: number }) {
   return (
-    <Box className="dark:bg-orange-400 bg-orange-100 rounded-2xl p-4 mx-6">
+    <Box className="bg-orange-100 rounded-2xl p-4 mx-6">
       <Box className="flex items-center mb-2">
         {status === 'Canceled' ? <WarningIcon /> : <CheckCircleIcon />}
-        <Text className="dark:text-white ml-1 text-tremor-default text-tremor-content">Total {status}</Text>
+        <Text className="ml-1 text-tremor-default text-tremor-content">Total {status}</Text>
       </Box>
-      <Box className="bg-white dark:bg-black rounded-xl p-6 flex justify-center">
-        <Text className="px-32 text-tremor-content-strong dark:text-white font-semibold
+      <Box className="bg-white rounded-xl p-6 flex justify-center">
+        <Text className="px-32 text-tremor-content-strong font-semibold
           text-tremor-metric">{nmbStatus}</Text>
       </Box>
     </Box>

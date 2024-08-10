@@ -27,7 +27,7 @@ export default function OrderRow({ order, accessToken }: any) {
     <>
       <Tr>
         <Td><OrderTypePretty orderType={order.eventType} /></Td>
-        <Td className='w-96 dark:text-white'>{formatDate(order.createdAt)}</Td>
+        <Td className='w-96'>{formatDate(order.createdAt)}</Td>
         <Td>
           <Box className='flex'>
             <StatusPretty statusType={order.status} />
