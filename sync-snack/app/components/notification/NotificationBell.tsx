@@ -1,5 +1,5 @@
 'use client'
-import { Box, Image, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { BellIcon, BellSnoozeIcon } from "@heroicons/react/24/outline";
 import { Client } from "@stomp/stompjs";
 import clsx from "clsx";
@@ -23,18 +23,28 @@ export default function NotificationBell({ activeUser }: any) {
   const clientRef = useRef<Client | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [messages, setMessages] = useState<string[]>([]);
+  const toast = useToast()
+  const id = 'toast-id'
 
   useEffect(() => {
     const client = new Client({
       brokerURL: 'ws://localhost:8080/ws',
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
-          if (message.body !== "CONNECTED") {
-            setMessages(prev => [message.body, ...prev]);
-            setNotificationState(true)
+          setMessages(prev => [message.body, ...prev]);
+          setNotificationState(true)
+          if (!toast.isActive(id)) {
+            toast({
+              id,
+              title: 'Order',
+              description: 'New order on your event',
+              status: 'info',
+              duration: 5000,
+              isClosable: true,
+              position: 'top'
+            })
           }
         });
-        client.publish({ destination: `/topic/orders/${activeUser.userProfileId}`, body: 'CONNECTED' });
       },
       onDisconnect: () => {
         console.log('Disconnected');
