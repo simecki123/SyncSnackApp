@@ -1,5 +1,5 @@
 'use client'
-import { Box, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Image, Text, useDisclosure } from "@chakra-ui/react";
 import { BellIcon, BellSnoozeIcon } from "@heroicons/react/24/outline";
 import { Client } from "@stomp/stompjs";
 import clsx from "clsx";
@@ -14,9 +14,11 @@ import {
   DrawerCloseButton,
 } from '@chakra-ui/react'
 import { parse } from "path";
+import { useRouter } from "next/navigation";
 
 export default function NotificationBell({ activeUser }: any) {
 
+  const router = useRouter()
   const [notificationState, setNotificationState] = useState(false)
   const clientRef = useRef<Client | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -27,12 +29,9 @@ export default function NotificationBell({ activeUser }: any) {
       brokerURL: 'ws://localhost:8080/ws',
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
-          console.log('Received:', message);
-          if (containsNewOrderPattern(message.body)) {
-            setMessages(prev => [...prev, getOrderId(message.body)]);
+          if (message.body !== "CONNECTED") {
+            setMessages(prev => [message.body, ...prev]);
             setNotificationState(true)
-          } else {
-            console.log('wierd')
           }
         });
         client.publish({ destination: `/topic/orders/${activeUser.userProfileId}`, body: 'CONNECTED' });
@@ -54,37 +53,41 @@ export default function NotificationBell({ activeUser }: any) {
     };
   }, [activeUser.userProfileId]);
   return (
-    <Box className={clsx("fixed top-4 right-4 py-2 px-4 rounded-md shadow-md", {
-      "bg-red-500 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
+    <Box className={clsx("md:fixed md:top-4 md:right-4 md:py-2 md:px-4 rounded-md md:shadow-md", {
+      "md:bg-red-500 shadow-md bg-orange-300 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
     })}>
       <BellIcon className="size-8" onClick={() => {
         onOpen()
         setNotificationState(false)
       }} />
-      <Drawer placement={'right'} onClose={onClose} isOpen={isOpen}>
+      <Drawer placement={'right'} onClose={onClose} isOpen={isOpen} size={'sm'}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth='1px'>Notifications</DrawerHeader>
           <DrawerBody>
-            {messages.map(async (value, index) => {
-              const order = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${value}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${activeUser?.accessToken}`
-                },
-              }).then((value) => value.json())
+            {messages.map((value: any, index) => {
 
-              const user = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/${order.userProfileId}`, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${activeUser?.accessToken}`
-                },
-              }).then((value) => value.json())
+              value = JSON.parse(value)
 
               return (
-                <Box key={index} className="border-black border-2 mb-2">
-                  <Text className="p-10">{user.firstName} {user.lastName}</Text>
-                  <Text>{order.additionalOptions.orderDetails}</Text>
+                <Box className="flex shadow-lg mb-2 hover:bg-gray-100" onClick={() => {
+                  router.push('/event')
+                  onClose()
+                }}>
+                  <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} fallbackSrc="/profile_picture.png" />
+                  <Box className="flex flex-col mt-6 grow">
+                    <Box className="flex">
+                      <Text className="mr-1 font-semibold">{value.firstName} {value.lastName}</Text>
+                      <Text className="italic">made an order</Text>
+                    </Box>
+                    <Text>{value.additionalOptions.orderDetails}</Text>
+                    <Box className="flex items-end justify-end grow">
+                      <Box className="flex items-center p-2 mr-2">
+                        <Box className="mr-1 size-2 rounded-full bg-blue-400"></Box>
+                        <Text>Just now</Text>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Box>
               )
             })}
@@ -95,19 +98,3 @@ export default function NotificationBell({ activeUser }: any) {
   )
 }
 
-function containsNewOrderPattern(jsonString: string): boolean {
-  try {
-    // Parse the JSON string
-    const parsedObject = JSON.parse(jsonString);
-
-    // Check if the description property contains the required pattern
-    return parsedObject.description === "New order was placed for your event";
-  } catch (error) {
-    return false;
-  }
-}
-
-function getOrderId(jsonString: string): string {
-  const parsedObject = JSON.parse(jsonString);
-  return parsedObject.orderId
-}

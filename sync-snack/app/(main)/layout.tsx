@@ -22,7 +22,7 @@ export default async function Layout({
 
     <Box>
       <Box className="md:hidden">
-        <HeaderPhone />
+        <HeaderPhone activeUser={activeUser} />
         {children}
       </Box>
       <Box className="hidden md:flex md:h-screen">
@@ -30,11 +30,11 @@ export default async function Layout({
         <Box className="flex flex-col">
           <HeaderLogo />
           <NavLinksWeb />
-          <Box className="grow flex items-end">
+          <Box className="flex grow items-end">
             <SignOutButton />
           </Box>
         </Box>
-        <Box className="grow w-screen">
+        <Box className="w-screen grow">
           {children}
         </Box>
       </Box>
