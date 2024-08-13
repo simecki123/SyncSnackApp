@@ -17,8 +17,10 @@ export default function FilteredEvents({
   initialEvents: Event[],
   initialFilter: string
 }) {
+  console.log(initialEvents, 'initial events')
+  console.log(initialFilter, 'initial filter')
   const [events, setEvents] = useState(initialEvents);
-  const [filter, setFilter] = useState(initialFilter);
+  const [filter, setFilter] = useState('all');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -42,7 +44,7 @@ export default function FilteredEvents({
       {/* Select Dropdown for Small Screens */}
       <Box display={{ base: 'block', md: 'none' }} mb={6}>
         <Select
-          
+
           value={filter}
           onChange={(e) => handleFilterChange(e.target.value)}
         >

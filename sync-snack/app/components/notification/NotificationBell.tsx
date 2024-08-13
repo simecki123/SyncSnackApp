@@ -64,7 +64,7 @@ export default function NotificationBell({ activeUser }: any) {
   }, [activeUser.userProfileId]);
   return (
     <Box className={clsx("md:fixed md:top-4 md:right-4 md:py-2 md:px-4 rounded-md md:shadow-md", {
-      "md:bg-red-500 shadow-md bg-orange-300 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
+      "md:bg-blue-500 shadow-md bg-orange-300 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
     })}>
       <BellIcon className="size-8" onClick={() => {
         onOpen()
