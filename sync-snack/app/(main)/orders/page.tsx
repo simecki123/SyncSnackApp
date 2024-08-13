@@ -13,7 +13,7 @@ export default async function OrdersPage() {
 
   let orders: Array<any> = [];
   const startSearch = "";
-  
+
   try {
     const response = await fetch("http://localhost:8080/api/orders/search", {
       method: 'POST',
@@ -23,7 +23,7 @@ export default async function OrdersPage() {
       },
       body: JSON.stringify({ startSearch }),
     });
-    
+
     orders = await response.json();
   } catch (e: any) {
     console.error('Error fetching orders:', e);
@@ -31,7 +31,7 @@ export default async function OrdersPage() {
 
   async function searchSpecificOrders(searchTerm: string) {
     "use server";
-    
+
     try {
       const response = await fetch("http://localhost:8080/api/orders/search", {
         method: 'POST',
