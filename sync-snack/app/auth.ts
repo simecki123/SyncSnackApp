@@ -17,6 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
           body: JSON.stringify(credentials),
         })
+        console.log("response auth ", res)
         if (!res.ok) {
           throw new Error('Login failed')
         }
