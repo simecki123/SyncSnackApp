@@ -10,6 +10,7 @@ export default async function HomePage() {
   console.log(activeUser, ' >>> Authenticated user')
 
   return (
+    
     <Box >
       <BrewComponent activeUser={activeUser}></BrewComponent>
 

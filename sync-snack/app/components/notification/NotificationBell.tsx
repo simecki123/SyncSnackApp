@@ -1,23 +1,20 @@
 'use client'
 import { Box, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
-import { BellIcon, BellSnoozeIcon } from "@heroicons/react/24/outline";
+import { BellIcon } from "@heroicons/react/24/outline";
 import { Client } from "@stomp/stompjs";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
 } from '@chakra-ui/react'
-import { parse } from "path";
 import { useRouter } from "next/navigation";
+import eventBus from "@/app/eventBus";
 
 export default function NotificationBell({ activeUser }: any) {
-
   const router = useRouter()
   const [notificationState, setNotificationState] = useState(false)
   const clientRef = useRef<Client | null>(null);
@@ -25,6 +22,11 @@ export default function NotificationBell({ activeUser }: any) {
   const [messages, setMessages] = useState<string[]>([]);
   const toast = useToast()
   const id = 'toast-id'
+
+  const handleNewNotification = () => {
+    console.log('Dispatching newNotification event');
+    eventBus.dispatch('newNotification', { filter: 'MIXED' });
+  };
 
   useEffect(() => {
     const client = new Client({
@@ -50,6 +52,7 @@ export default function NotificationBell({ activeUser }: any) {
           if (eventNotification.userProfileId !== activeUser.userProfileId) {
             setMessages(prev => [message.body, ...prev]);
             setNotificationState(true)
+            handleNewNotification(); 
             if (!toast.isActive(id)) {
               toast({
                 id,
@@ -79,7 +82,8 @@ export default function NotificationBell({ activeUser }: any) {
     return () => {
       client.deactivate();
     };
-  }, [activeUser.userProfileId]);
+  }, [activeUser.userProfileId, activeUser.groupId, toast, id]);
+
   return (
     <Box className={clsx("md:fixed md:top-4 md:right-4 md:py-2 md:px-4 rounded-md md:shadow-md", {
       "md:bg-blue-500 shadow-md bg-orange-300 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
@@ -94,16 +98,14 @@ export default function NotificationBell({ activeUser }: any) {
           <DrawerHeader borderBottomWidth='1px'>Notifications</DrawerHeader>
           <DrawerBody>
             {messages.map((value: any, index) => {
-
               value = JSON.parse(value)
-
               let isEventNotification = false;
               if (typeof value.additionalOptions?.orderDetails === 'undefined') {
                 isEventNotification = true;
               }
 
               return (
-                <Box className="flex shadow-lg mb-2 hover:bg-gray-100" onClick={() => {
+                <Box key={index} className="flex shadow-lg mb-2 hover:bg-gray-100" onClick={() => {
                   router.push('/event')
                   onClose()
                 }}>
@@ -136,4 +138,3 @@ export default function NotificationBell({ activeUser }: any) {
     </Box>
   )
 }
-

@@ -1,8 +1,8 @@
+// InProgressEvents.tsx
 import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { auth } from '@/app/auth';
 import { Event } from '@/app/interfaces';
-
 import dynamic from 'next/dynamic';
 
 const FilteredEvents = dynamic(
@@ -10,43 +10,51 @@ const FilteredEvents = dynamic(
   { ssr: false }
 );
 
-export default async function InProgressEvents({ searchParams }: inProgressEventsProps) {
-
+export default async function InProgressEvents({ searchParams }: InProgressEventsProps) {
   const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'MIX';
-
   const session = await auth();
   const activeUser: any = session?.user;
+  
 
-  const eventsResponse = await fetch('http://localhost:8080/api/events/filter', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${activeUser?.accessToken}`
-    },
-    body: JSON.stringify({
-      creatorId: activeUser?.id,
-      groupId: activeUser?.groupId,
-      status: "PENDING",
-      eventType: filter.toUpperCase
+  async function fetchEvents(filter: string) {
+    "use server"
+    const eventsResponse = await fetch('http://localhost:8080/api/events/filter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${activeUser?.accessToken}`
+      },
+      body: JSON.stringify({
+        status: "PENDING",
+        eventType: filter.toUpperCase()
+      }),
+    });
 
-    }),
-  });
+    if (!eventsResponse.ok) {
+      console.log('FAILED TO FETCH EVENTS');
+      return [];
+    }
 
-  if (!eventsResponse.ok) {
-    // throw new Error(`HTTP error! status: ${eventsResponse.status}`);
-    console.log('FAILED TO FETCH EVENTS')
+    const events: Event[] = await eventsResponse.json();
+    return events;
   }
 
-  const events: Event[] = await eventsResponse.json();
+  
+  const initialEvents = await fetchEvents(filter);
 
   return (
     <Box p={6} className='bg-gray-50' borderRadius="lg">
-      <FilteredEvents activeUser={activeUser} initialEvents={events} initialFilter={filter} />
+      
+      <FilteredEvents 
+        activeUser={activeUser} 
+        initialEvents={initialEvents} 
+        initialFilter={filter} 
+        fetchEvents={fetchEvents}
+      />
     </Box>
   );
 }
 
-interface inProgressEventsProps {
+interface InProgressEventsProps {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
-
