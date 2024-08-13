@@ -17,8 +17,6 @@ export default function FilteredEvents({
   initialEvents: Event[],
   initialFilter: string
 }) {
-  console.log(initialEvents, 'initial events')
-  console.log(initialFilter, 'initial filter')
   const [events, setEvents] = useState(initialEvents);
   const [filter, setFilter] = useState('all');
   const router = useRouter();

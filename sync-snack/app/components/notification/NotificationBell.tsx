@@ -45,6 +45,24 @@ export default function NotificationBell({ activeUser }: any) {
             })
           }
         });
+        client.subscribe(`/topic/groups/${activeUser.groupId}`, (message: any) => {
+          const eventNotification = JSON.parse(message.body)
+          if (eventNotification.userProfileId !== activeUser.userProfileId) {
+            setMessages(prev => [message.body, ...prev]);
+            setNotificationState(true)
+            if (!toast.isActive(id)) {
+              toast({
+                id,
+                title: 'Event',
+                description: 'New event in your group',
+                status: 'info',
+                duration: 5000,
+                isClosable: true,
+                position: 'top'
+              })
+            }
+          }
+        })
       },
       onDisconnect: () => {
         console.log('Disconnected');
@@ -79,6 +97,11 @@ export default function NotificationBell({ activeUser }: any) {
 
               value = JSON.parse(value)
 
+              let isEventNotification = false;
+              if (typeof value.additionalOptions?.orderDetails === 'undefined') {
+                isEventNotification = true;
+              }
+
               return (
                 <Box className="flex shadow-lg mb-2 hover:bg-gray-100" onClick={() => {
                   router.push('/event')
@@ -88,9 +111,15 @@ export default function NotificationBell({ activeUser }: any) {
                   <Box className="flex flex-col mt-6 grow">
                     <Box className="flex">
                       <Text className="mr-1 font-semibold">{value.firstName} {value.lastName}</Text>
-                      <Text className="italic">made an order</Text>
+                      {isEventNotification ?
+                        <Text className="italic">created an event</Text> :
+                        <Text className="italic">made an order</Text>
+                      }
                     </Box>
-                    <Text>{value.additionalOptions.orderDetails}</Text>
+                    {isEventNotification ?
+                      <Text>{value.description}</Text> :
+                      <Text>{value.additionalOptions.orderDetails}</Text>
+                    }
                     <Box className="flex items-end justify-end grow">
                       <Box className="flex items-center p-2 mr-2">
                         <Box className="mr-1 size-2 rounded-full bg-blue-400"></Box>

@@ -14,6 +14,7 @@ export default async function Layout({
 }>) {
   const session = await auth();
   const activeUser: any = session?.user
+  console.log(activeUser)
   if (!activeUser) {
     redirect('/login');
   }
