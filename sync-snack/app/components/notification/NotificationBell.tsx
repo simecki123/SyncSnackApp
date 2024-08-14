@@ -12,7 +12,10 @@ import {
   DrawerContent,
 } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
-import eventBus from "@/app/eventBus";
+import eventBusHome from "@/app/eventBus";
+import eventBusEvent from "@/app/eventBusEvent";
+import eventBusOrdersEvent from "../../eventBusOrdersEvent";
+import { revalidatePath } from "next/cache";
 
 export default function NotificationBell({ activeUser }: any) {
   const router = useRouter()
@@ -23,10 +26,20 @@ export default function NotificationBell({ activeUser }: any) {
   const toast = useToast()
   const id = 'toast-id'
 
-  const handleNewNotification = () => {
+  const handleNewNotificationNewEventHome = () => {
     console.log('Dispatching newNotification event');
-    eventBus.dispatch('newNotification', { filter: 'MIXED' });
+    eventBusHome.dispatch('newNotification', { filter: 'MIXED' });
   };
+
+  const handleNewNotificationNewEventEvent = () => {
+    console.log('Dispatching newNotification event event page');
+    eventBusEvent.dispatch('newNotification');
+  }
+
+  const handleNewNotificationNewOrderEvent = () => {
+    console.log('Dispatching newNotification order event page');
+    eventBusOrdersEvent.dispatch('newNotification');
+  }
 
   useEffect(() => {
     const client = new Client({
@@ -34,7 +47,8 @@ export default function NotificationBell({ activeUser }: any) {
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
           setMessages(prev => [message.body, ...prev]);
-          setNotificationState(true)
+          setNotificationState(true);
+          //handleNewNotificationNewOrderEvent();
           if (!toast.isActive(id)) {
             toast({
               id,
@@ -48,11 +62,13 @@ export default function NotificationBell({ activeUser }: any) {
           }
         });
         client.subscribe(`/topic/groups/${activeUser.groupId}`, (message: any) => {
-          const eventNotification = JSON.parse(message.body)
-          if (eventNotification.userProfileId !== activeUser.userProfileId) {
+          const eventNotification = JSON.parse(message.body) 
+          if (eventNotification.userProfileId !== activeUser.userProfileId) { 
             setMessages(prev => [message.body, ...prev]);
+
             setNotificationState(true)
             handleNewNotification();
+
             if (!toast.isActive(id)) {
               toast({
                 id,
