@@ -67,7 +67,7 @@ export default function NotificationBell({ activeUser }: any) {
             setMessages(prev => [message.body, ...prev]);
 
             setNotificationState(true)
-            handleNewNotification();
+            handleNewNotificationNewEventHome();
 
             if (!toast.isActive(id)) {
               toast({
