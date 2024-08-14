@@ -15,7 +15,7 @@ export default async function OrdersPage() {
   const startSearch = "";
 
   try {
-    const response = await fetch("http://localhost:8080/api/orders/search", {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/orders/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export default async function OrdersPage() {
     "use server";
 
     try {
-      const response = await fetch("http://localhost:8080/api/orders/search", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/orders/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

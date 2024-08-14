@@ -7,8 +7,8 @@ import { SortOption } from '@/app/types/types';
 export interface Event {
     eventId: string;
     creatorId: string;
-    creatorFirstName: string;
-    creatorLastName: string;
+    firstName: string;
+    lastName: string;
     description: string;
     groupId: string;
     status: string;
@@ -52,7 +52,7 @@ export interface User {
 export interface Order {
     userProfileId: string,
     eventType: string,
-    status: 'PREPARING' | 'READY' | 'DELIVERED' | 'CANCELLED',
+    status: 'IN_PROGRESS' | 'READY' | 'DELIVERED' | 'CANCELLED',
     additionalOptions: any,
     rating: number,
     createdAt: string | Date

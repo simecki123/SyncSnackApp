@@ -4,9 +4,9 @@ import React from 'react';
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Flex, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from '@chakra-ui/react';
 import { EventOrder } from '@/app/interfaces';
 
-export default function OrderCards({ order, setStatusOfTheOrder }: { 
+export default function OrderCards({ order, setStatusOfTheOrder }: {
   order: EventOrder,
-  setStatusOfTheOrder: (status: string, orderId: string) => Promise<string> 
+  setStatusOfTheOrder: (status: string, orderId: string) => Promise<string>
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [actionStatus, setActionStatus] = React.useState("");
@@ -60,7 +60,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
           </Badge>
         </Flex>
         <Text fontSize="xs" color="gray.600" noOfLines={2}>
-          {order.additionalOptions.orderDetails}
+          {JSON.stringify(order.additionalOptions.orderDetails)}
         </Text>
         <Flex mt="auto" pt={2} justify="space-between">
           <Button size="xs" colorScheme="green" onClick={() => handleStatusChange("READY")}>

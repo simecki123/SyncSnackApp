@@ -65,10 +65,10 @@ export default function NotificationBell({ activeUser }: any) {
           const eventNotification = JSON.parse(message.body) 
           if (eventNotification.userProfileId !== activeUser.userProfileId) { 
             setMessages(prev => [message.body, ...prev]);
-            setNotificationState(true);
-            console.log("Probavam...")
-            handleNewNotificationNewEventHome();
-            //handleNewNotificationNewEventEvent();
+
+            setNotificationState(true)
+            handleNewNotification();
+
             if (!toast.isActive(id)) {
               toast({
                 id,
@@ -136,7 +136,7 @@ export default function NotificationBell({ activeUser }: any) {
                     </Box>
                     {isEventNotification ?
                       <Text>{value.description}</Text> :
-                      <Text>{value.additionalOptions.orderDetails}</Text>
+                      <Text>{JSON.stringify(value.additionalOptions.orderDetails)}</Text>
                     }
                     <Box className="flex items-end justify-end grow">
                       <Box className="flex items-center p-2 mr-2">

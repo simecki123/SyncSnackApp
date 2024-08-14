@@ -19,7 +19,7 @@ export default function OrdersManagement({ orders, accessToken }: { orders: any[
       case 'pie':
         return <PieChart data={orders} option={option} setOption={setOption} />;
       default:
-        return <OrdersTable orders={orders} />;
+        return <OrdersTable orders={orders} accessToken={accessToken} />;
     }
   };
 
