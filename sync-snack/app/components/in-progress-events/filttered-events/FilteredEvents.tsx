@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
 import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
-import eventBus from "@/app/eventBus";
+import eventBusHome from "@/app/eventBus";
 
 export default function FilteredEvents({
   activeUser,
@@ -38,19 +38,20 @@ export default function FilteredEvents({
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    
       const handleNewNotification = async (e: CustomEvent) => {
         console.log('Received newNotification event', e.detail);
         const newEvents = await fetchEvents(filter); // Use current filter
         setEvents(newEvents);
+        
       };
 
-      eventBus.on('newNotification', handleNewNotification as unknown as EventListener);
+      eventBusHome.on('newNotification', handleNewNotification as unknown as EventListener);
 
       return () => {
-        eventBus.remove('newNotification', handleNewNotification as unknown as EventListener);
+        eventBusHome.remove('newNotification', handleNewNotification as unknown as EventListener);
       };
-    }
+    
   }, [fetchEvents, filter]); // Added filter as a dependency
 
   return (

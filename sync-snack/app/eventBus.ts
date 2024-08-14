@@ -1,8 +1,11 @@
-const eventBus = {
+
+
+const eventBusHome = {
     on(event: string, callback: EventListenerOrEventListenerObject) {
       document.addEventListener(event, callback);
     },
     dispatch(event: string, data?: any) {
+      
       document.dispatchEvent(new CustomEvent(event, { detail: data }));
     },
     remove(event: string, callback: EventListenerOrEventListenerObject) {
@@ -10,5 +13,4 @@ const eventBus = {
     },
   };
   
-  export default eventBus;
-  
+  export default eventBusHome;
