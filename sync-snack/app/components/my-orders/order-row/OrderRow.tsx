@@ -22,7 +22,6 @@ export default function OrderRow({ order, accessToken }: any) {
     setDescriptionModalOpen(false);
   }
 
-
   return (
     <>
       <Tr>
