@@ -49,7 +49,7 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
           animation={`${blink} 5s infinite`}
         />
         <Text fontWeight="bold">
-          Event by {event.creatorFirstName} {event.creatorLastName}
+          Event
         </Text>
         <Text mt={2}>{event.description}</Text>
       </Box>
