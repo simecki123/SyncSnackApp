@@ -1,5 +1,5 @@
 'use client'
-import { Box, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Image, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { Client } from "@stomp/stompjs";
 import clsx from "clsx";
@@ -19,6 +19,7 @@ import { revalidatePath } from "next/cache";
 
 export default function NotificationBell({ activeUser, notifications }: { activeUser: any, notifications: any[] }) {
 
+  const [clientNotifications, setClientNotifications] = useState<any[]>([])
   const router = useRouter()
   const [notificationState, setNotificationState] = useState(false)
   const clientRef = useRef<Client | null>(null);
@@ -26,15 +27,60 @@ export default function NotificationBell({ activeUser, notifications }: { active
   const [messages, setMessages] = useState<string[]>([]);
   const toast = useToast()
   const id = 'toast-id'
+  const [page, setPage] = useState(0)
 
   const hasEffectRun = useRef(false);
+
   useEffect(() => {
-    if (!hasEffectRun.current && typeof notifications !== 'undefined') {
-      notifications.map((notification) => {
+
+    if (hasEffectRun.current) return;
+    hasEffectRun.current = true;
+
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notifications/recipient?page=${page}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${activeUser?.accessToken}`
+      }
+    }).then((res) => {
+      if (!res.ok) {
+        // Handle HTTP errors (e.g., 404, 500)
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+      .then((value) => {
+        console.log(value, 'client notifications here')
+        if (typeof value !== 'undefined') {
+          console.log('does this run', value.length)
+          value.map((notification: any) => {
+            const stringNotification = JSON.stringify(notification);
+            console.log(stringNotification)
+            setMessages(prev => [...prev, stringNotification]);
+          });
+        }
+        setClientNotifications(value)
+        hasEffectRun.current = false
+      }).catch((e: any) => {
+        toast({
+          title: 'Error',
+          description: 'No more notifications to load',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+          position: 'top'
+        })
+      })
+  }, [page])
+
+
+  useEffect(() => {
+    if (typeof clientNotifications !== 'undefined') {
+      console.log('does this run', clientNotifications.length)
+      clientNotifications.map((notification) => {
         const stringNotification = JSON.stringify(notification);
+        console.log(stringNotification)
         setMessages(prev => [...prev, stringNotification]);
       });
-      hasEffectRun.current = true;
     }
   }, []);
 
@@ -112,6 +158,11 @@ export default function NotificationBell({ activeUser, notifications }: { active
     };
   }, [activeUser.userProfileId, activeUser.groupId, toast, id]);
 
+  function handleClick() {
+    setPage((prev) => prev + 1)
+    console.log(page)
+  }
+
   return (
     <Box className={clsx("md:fixed md:top-4 md:right-4 md:py-2 md:px-4 rounded-md md:shadow-md", {
       "md:bg-blue-500 shadow-md bg-orange-300 animate-[wiggle_0.3s_ease-in-out_infinite]": notificationState
@@ -166,6 +217,9 @@ export default function NotificationBell({ activeUser, notifications }: { active
                 </Box>
               )
             })}
+            <Box className="flex justify-center" >
+              <Button onClick={handleClick}>Load more</Button>
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

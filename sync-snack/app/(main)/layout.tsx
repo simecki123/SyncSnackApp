@@ -20,18 +20,13 @@ export default async function Layout({
     redirect('/login');
   }
 
-  const res = await fetch(`${process.env.BACKEND_URL}/api/notifications/recipient?page=${currentPage}`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/notifications/recipient?page=0`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${activeUser?.accessToken}`
     }
   })
-
   const notifications: any[] = await res.json()
-
-  console.log(typeof notifications, 'notifications inside the layout')
-
-  console.log(notifications.length, 'duzina')
 
   return (
 
