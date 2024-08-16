@@ -25,6 +25,8 @@ export default async function GroupPage() {
 
   const members = await fetchImproved('/api/profiles/group?sortCondition=ORDER_COUNT')
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
+  const orderDounuts = await fetchImproved(`/api/groups/count`);
+  console.log("order dounuts ", orderDounuts);
 
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-full">
@@ -50,7 +52,7 @@ export default async function GroupPage() {
         </Box>
       </Box>
       <Box className="hidden md:flex md:h-full md:justify-center">
-        <GroupOrdersDonut />
+        <GroupOrdersDonut datahero={orderDounuts} />
       </Box>
     </Box>
   )
