@@ -5,7 +5,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
   const toast = useToast();
 
   const [eventData, setEventData] = useState({
-    creatorId: activeUser.id,
+    creatorId: activeUser.id, 
     title: `Event by ${activeUser.firstName}`,
     description: '',
     groupId: activeUser.groupId,
@@ -47,7 +47,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
     }
 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/events/create`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/events/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
