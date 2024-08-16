@@ -13,13 +13,13 @@ export default function OrdersManagement({ orders, accessToken }: { orders: any[
   const renderView = () => {
     switch (view) {
       case 'table':
-        return <OrdersTable accessToken={accessToken} orders={orders} />;
+        return <OrdersTable accessToken={accessToken} orders={orders} currentPage={0} />;
       case 'column':
         return <Statistics stats={calculateStatistics(orders)} />;
       case 'pie':
         return <PieChart data={orders} option={option} setOption={setOption} />;
       default:
-        return <OrdersTable orders={orders} accessToken={accessToken} />;
+        return <OrdersTable orders={orders} accessToken={accessToken} currentPage={0} />;
     }
   };
 

@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import NotificationBell from "../notification/NotificationBell"
 
-export default function HeaderPhone({ activeUser }: any) {
+export default function HeaderPhone({ activeUser, notifications }: any) {
 
   const [isOpenNav, setIsOpen] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,7 +38,7 @@ export default function HeaderPhone({ activeUser }: any) {
           <Text className="text-2xl font-semibold">SyncSnack</Text>
         </Box>
         <Box className="flex space-x-2 items-center">
-          <NotificationBell activeUser={activeUser} />
+          <NotificationBell activeUser={activeUser} notifications={notifications} />
           <HamburgerMenu isOpen={onOpen} setIsOpen={setIsOpen} />
         </Box>
       </Box>

@@ -32,7 +32,7 @@ export default async function Layout({
 
     <Box>
       <Box className="md:hidden">
-        <HeaderPhone activeUser={activeUser} />
+        <HeaderPhone activeUser={activeUser} notifications={notifications} />
         {children}
       </Box>
       <Box className="hidden md:flex md:h-screen">
