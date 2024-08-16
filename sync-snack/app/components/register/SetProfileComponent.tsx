@@ -57,27 +57,27 @@ export default function SetProfileComponent() {
       } else {
         groupId = await joinGroup();
       }
-  
+
       if (!groupId) {
         showToast('Error', 'Failed to create or join group', 'error');
         return;
       }
-  
+
       const userId = searchParams.get('userId'); // Assuming userId is in the URL
       await createUserProfile(userId, groupId);
-  
+
       showToast('Success', 'Profile setup successful!', 'success');
       setTimeout(() => {
         router.push('/login');
       }, 2000);
     } catch (error: any) {
       console.error('Profile setup error:', error);
-      
+
     }
   };
 
   const createGroup = async () => {
-    const response = await fetch(`http://localhost:8080/api/groups/create`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/groups/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -96,7 +96,7 @@ export default function SetProfileComponent() {
   };
 
   const joinGroup = async (): Promise<string> => {
-    const response = await fetch(`http://localhost:8080/api/groups/join`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/groups/join`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -104,22 +104,22 @@ export default function SetProfileComponent() {
         password: formData.groupPassword,
       }),
     });
-  
+
     if (response.status === 404) {
       showToast('Error', 'Group not found', 'error');
       throw new Error('Group not found'); // Ensure the error is thrown to halt further processing
     }
-  
+
     if (!response.ok) {
       throw new Error('Failed to join group');
     }
-  
+
     const groupData = await response.json();
     return groupData.groupId;
   };
 
-   // Last step in our registration process. Creating user profile. If user didnt verify email backend will return forbidden.
-   const createUserProfile = async (userId: string | null, groupId: string) => {
+  // Last step in our registration process. Creating user profile. If user didnt verify email backend will return forbidden.
+  const createUserProfile = async (userId: string | null, groupId: string) => {
     const userProfileData = new FormData();
     const jsonBlob = new Blob([JSON.stringify({
       userId,
@@ -130,7 +130,7 @@ export default function SetProfileComponent() {
 
     userProfileData.append('body', jsonBlob, 'body.json');
 
-    const response = await fetch('http://localhost:8080/api/profiles/create', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/create`, {
       method: 'POST',
       body: userProfileData,
     });

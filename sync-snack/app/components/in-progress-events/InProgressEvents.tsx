@@ -14,11 +14,11 @@ export default async function InProgressEvents({ searchParams }: InProgressEvent
   const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'MIX';
   const session = await auth();
   const activeUser: any = session?.user;
-  
+
 
   async function fetchEvents(filter: string) {
     "use server"
-    const eventsResponse = await fetch('http://localhost:8080/api/events/filter', {
+    const eventsResponse = await fetch(`${process.env.BACKEND_URL}/api/events/filter`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,16 +39,16 @@ export default async function InProgressEvents({ searchParams }: InProgressEvent
     return events;
   }
 
-  
+
   const initialEvents = await fetchEvents(filter);
 
   return (
     <Box p={6} className='bg-gray-50' borderRadius="lg">
-      
-      <FilteredEvents 
-        activeUser={activeUser} 
-        initialEvents={initialEvents} 
-        initialFilter={filter} 
+
+      <FilteredEvents
+        activeUser={activeUser}
+        initialEvents={initialEvents}
+        initialFilter={filter}
         fetchEvents={fetchEvents}
       />
     </Box>

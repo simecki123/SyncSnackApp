@@ -34,10 +34,10 @@ export default function ProfileData({ user }: any) {
             throw new Error('File upload failed');
           }
 
-          // const responseFinal = await response.json()
-          // setPhotoUrl(responseFinal.photoUrl)
+          const responseFinal = await response.json()
+          setPhotoUrl(responseFinal.photoUrl)
 
-          window.location.reload()
+          // window.location.reload()
         } catch (error) {
           console.error('Error uploading file:', error);
         }

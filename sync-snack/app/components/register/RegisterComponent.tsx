@@ -64,7 +64,7 @@ export default function RegisterComponent() {
   };
 
   const registerUser = async () => {
-    const response = await fetch(`http://localhost:8080/api/auth/register`, {
+    const response = await fetch(`${process.env.PUBLIC_NEXT_BACKEND_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -87,23 +87,23 @@ export default function RegisterComponent() {
 
   const isUserEmailValid = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
     if (!emailRegex.test(formData.email)) {
       return true;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:8080/api/users/check', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/check`, {
         method: 'GET',
         body: formData.email,
       });
-  
+
       return response.ok;
     } catch {
       return false;
     }
   };
-  
+
 
   return (
     <Box className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">

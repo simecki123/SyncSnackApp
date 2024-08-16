@@ -28,6 +28,7 @@ export default function NotificationBell({ activeUser, notifications }: { active
   const toast = useToast()
   const id = 'toast-id'
   const [page, setPage] = useState(0)
+  const [showButton, setShowButton] = useState(true)
 
   const hasEffectRun = useRef(false);
 
@@ -61,14 +62,7 @@ export default function NotificationBell({ activeUser, notifications }: { active
         setClientNotifications(value)
         hasEffectRun.current = false
       }).catch((e: any) => {
-        toast({
-          title: 'Error',
-          description: 'No more notifications to load',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-          position: 'top'
-        })
+        setShowButton(false)
       })
   }, [page])
 
@@ -101,7 +95,7 @@ export default function NotificationBell({ activeUser, notifications }: { active
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: 'ws://localhost:8080/ws',
+      brokerURL: `${process.env.WEBSOCKET}/ws`,
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
           setMessages(prev => [message.body, ...prev]);
@@ -217,9 +211,11 @@ export default function NotificationBell({ activeUser, notifications }: { active
                 </Box>
               )
             })}
-            <Box className="flex justify-center" >
-              <Button onClick={handleClick}>Load more</Button>
-            </Box>
+            {showButton &&
+              <Box className="flex justify-center" >
+                <Button onClick={handleClick}>Load more</Button>
+              </Box>
+            }
           </DrawerBody>
         </DrawerContent>
       </Drawer>

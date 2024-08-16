@@ -36,7 +36,7 @@ export default function MembersTable({ members, userToken }: any) {
         strategyModifed = 'FIRSTNAME'
         break
     }
-    fetch(`http://localhost:8080/api/profiles/group?sortCondition=${strategyModifed}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/group?sortCondition=${strategyModifed}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`

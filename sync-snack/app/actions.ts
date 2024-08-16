@@ -25,7 +25,7 @@ export async function loginUser(prevState: any, formData: FormData) {
 
   try {
     // Check if the user exists
-    const userExistsResponse = await fetch(`http://localhost:8080/api/users/check?email=${validatedFields.data.email}`, {
+    const userExistsResponse = await fetch(`${process.env.BACKEND_URL}/api/users/check?email=${validatedFields.data.email}`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     });
 
     // Check if the email is verified
-    const verifyResponse = await fetch(`http://localhost:8080/api/users/verify?email=${validatedFields.data.email}`, {
+    const verifyResponse = await fetch(`${process.env.BACKEND_URL}/api/users/verify?email=${validatedFields.data.email}`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     }
 
     // Fetch user ID
-    const getUser = await fetch(`http://localhost:8080/api/users/id?email=${validatedFields.data.email}`, {
+    const getUser = await fetch(`${process.env.BACKEND_URL}/api/users/id?email=${validatedFields.data.email}`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     const userIdjson = await getUser.json();
 
     // Check if the user has a profile
-    const checkProfileResponse = await fetch(`http://localhost:8080/api/users/profile?userId=${userIdjson.userId}`, {
+    const checkProfileResponse = await fetch(`${process.env.BACKEND_URL}/api/users/profile?userId=${userIdjson.userId}`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     });
 
     console.log("result ", result)
-    
+
 
     if (result.error) {
       return {
@@ -95,9 +95,9 @@ export async function loginUser(prevState: any, formData: FormData) {
       };
     }
 
-    return {success: true}
+    return { success: true }
 
-    
+
   } catch (error) {
     return {
       isVerified: true,

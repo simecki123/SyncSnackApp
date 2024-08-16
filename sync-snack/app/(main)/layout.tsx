@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
 import { auth } from "../auth";
 import HeaderLogo from "../components/header/HeaderLogo";
 import { SignOutButton } from "../components/header/SignOutButton";

@@ -67,7 +67,7 @@ export default async function EventPage() {
   async function setStatusOfEvent(status: string, eventID: string) {
     "use server";
     try {
-      const response = await fetch(`http://localhost:8080/api/events/update?eventId=${eventID}&status=${status}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/events/update?eventId=${eventID}&status=${status}`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export default async function EventPage() {
     "use server";
     try {
 
-      const response = await fetch(`http://localhost:8080/api/orders/update?orderId=${orderId}&status=${status}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/orders/update?orderId=${orderId}&status=${status}`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
