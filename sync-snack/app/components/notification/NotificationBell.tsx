@@ -17,7 +17,8 @@ import eventBusEvent from "@/app/eventBusEvent";
 import eventBusOrdersEvent from "../../eventBusOrdersEvent";
 import { revalidatePath } from "next/cache";
 
-export default function NotificationBell({ activeUser }: any) {
+export default function NotificationBell({ activeUser, notifications }: { activeUser: any, notifications: any[] }) {
+
   const router = useRouter()
   const [notificationState, setNotificationState] = useState(false)
   const clientRef = useRef<Client | null>(null);
@@ -25,6 +26,17 @@ export default function NotificationBell({ activeUser }: any) {
   const [messages, setMessages] = useState<string[]>([]);
   const toast = useToast()
   const id = 'toast-id'
+
+  const hasEffectRun = useRef(false);
+  useEffect(() => {
+    if (!hasEffectRun.current && typeof notifications !== 'undefined') {
+      notifications.map((notification) => {
+        const stringNotification = JSON.stringify(notification);
+        setMessages(prev => [...prev, stringNotification]);
+      });
+      hasEffectRun.current = true;
+    }
+  }, []);
 
   const handleNewNotificationNewEventHome = () => {
     console.log('Dispatching newNotification event');
@@ -62,8 +74,8 @@ export default function NotificationBell({ activeUser }: any) {
           }
         });
         client.subscribe(`/topic/groups/${activeUser.groupId}`, (message: any) => {
-          const eventNotification = JSON.parse(message.body) 
-          if (eventNotification.userProfileId !== activeUser.userProfileId) { 
+          const eventNotification = JSON.parse(message.body)
+          if (eventNotification.userProfileId !== activeUser.userProfileId) {
             setMessages(prev => [message.body, ...prev]);
 
             setNotificationState(true)
@@ -125,8 +137,13 @@ export default function NotificationBell({ activeUser }: any) {
                   router.push('/event')
                   onClose()
                 }}>
-                  <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} objectFit='cover'
-                    fallbackSrc="/profile_picture.png" />
+                  {value.profilePhoto ?
+                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} objectFit='cover'
+                      fallbackSrc="/profile_picture.png" />
+                    :
+                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.photoUri} objectFit='cover'
+                      fallbackSrc="/profile_picture.png" />
+                  }
                   <Box className="flex flex-col mt-6 grow">
                     <Box className="flex">
                       <Text className="mr-1 font-semibold">{value.firstName} {value.lastName}</Text>

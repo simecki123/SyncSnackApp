@@ -6,6 +6,7 @@ import { Box, Text } from "@chakra-ui/react";
 import HeaderPhone from "../components/header/HeaderPhone";
 import NavLinksWeb from "../components/header/NavLinksWeb";
 import NotificationBell from "../components/notification/NotificationBell";
+import { fetchImproved } from "../fetch";
 
 export default async function Layout({
   children,
@@ -19,6 +20,19 @@ export default async function Layout({
     redirect('/login');
   }
 
+  const res = await fetch(`${process.env.BACKEND_URL}/api/notifications/recipient?page=${currentPage}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    }
+  })
+
+  const notifications: any[] = await res.json()
+
+  console.log(typeof notifications, 'notifications inside the layout')
+
+  console.log(notifications.length, 'duzina')
+
   return (
 
     <Box>
@@ -27,7 +41,7 @@ export default async function Layout({
         {children}
       </Box>
       <Box className="hidden md:flex md:h-screen">
-        <NotificationBell activeUser={activeUser} />
+        <NotificationBell activeUser={activeUser} notifications={notifications} />
         <Box className="flex flex-col">
           <HeaderLogo />
           <NavLinksWeb />
