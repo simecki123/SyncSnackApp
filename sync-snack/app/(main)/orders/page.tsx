@@ -1,67 +1,42 @@
 import { auth } from '@/app/auth';
+import { fetchImproved } from '@/app/fetch';
 import dynamic from 'next/dynamic';
+import { redirect } from 'next/navigation';
 
 const OrdersTable = dynamic(
   () => import('@/app/components/my-orders/orders-table/OrdersTable'),
   { ssr: false }
 );
 
-export default async function OrdersPage() {
+export default async function OrdersPage({ searchParams }: { searchParams: { page?: string } }) {
   const session = await auth();
   const activeUser: any = session?.user;
   const accessToken: any = activeUser?.accessToken;
 
-  let orders: Array<any> = [];
-  const startSearch = "";
+  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 0;
+  const pageSize = 5; // You can adjust this as needed
 
-  try {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/orders/search`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({ startSearch }),
-    });
-
-    orders = await response.json();
-  } catch (e: any) {
-    console.error('Error fetching orders:', e);
-  }
-
-  async function searchSpecificOrders(searchTerm: string) {
-    "use server";
-
+  const fetchOrders = async (pageNumber: number): Promise<any[]> => {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/orders/search`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({ searchTerm }),
-      });
-      return await response.json();
+      const response = await fetchImproved(`/api/orders/all?page=${pageNumber}&size=${pageSize}`);
+      return response;
     } catch (error) {
       console.error('Error fetching orders:', error);
       return [];
     }
-  }
+  };
 
-  orders = orders.map((order: any) => {
-    order.createdAt = new Date(order.createdAt);
-    return order;
-  });
+  const orders = await fetchOrders(currentPage);
+
+  if (orders.length === 0 && currentPage > 0) {
+    redirect(`/orders?page=${currentPage - 1}`);
+  }
 
   return (
     <OrdersTable
       accessToken={accessToken}
-      orders={sortDataByCreatedAtDescending(orders)}
-      searchSpecificOrders={searchSpecificOrders}
+      orders={orders}
+      currentPage={currentPage}
     />
   );
-}
-
-function sortDataByCreatedAtDescending(data: any[]) {
-  return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
