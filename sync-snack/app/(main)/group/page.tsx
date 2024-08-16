@@ -23,7 +23,7 @@ export default async function GroupPage() {
   const session = await auth();
   const activeUser: any = session?.user;
 
-  const members = await fetchImproved('/api/profiles/group?sortCondition=ORDER_COUNT')
+  const members = await fetchImproved('/api/profiles/group?sortCondition=SCORE')
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
 
   return (
@@ -68,6 +68,7 @@ function MemberCard({ index, user }: any) {
         className="h-[150px] w-[150px] rounded-l-xl mr-4"
         src={user.photoUrl}
         alt="Profile picture"
+        objectFit='cover'
       />
       <Box className="grow flex flex-col justify-center space-y-2 p-4">
         <Text className="font-semibold">
@@ -100,6 +101,8 @@ function MvpMemberCard({ user }: any) {
         className="h-[150px] w-[150px] rounded-l-xl mr-4"
         src={user.photoUrl}
         alt="Profile picture"
+        fallbackSrc="/profile_picture.png"
+        objectFit='cover'
       />
       <Box className="grow flex flex-col justify-center space-y-2 p-4">
         <Text className="font-semibold">

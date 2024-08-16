@@ -10,6 +10,8 @@ import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outl
 
 export default function ProfileData({ user }: any) {
 
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
 
@@ -48,7 +50,7 @@ export default function ProfileData({ user }: any) {
     <Box className='md:h-full mt-2'>
       <Box className='space-y-8 md:flex md:items-center md:justify-around'>
         <Box className='flex flex-col items-center space-y-4'>
-          <Image className='rounded-full' fallbackSrc='/profile_picture.png' src={user.photoUrl} boxSize={36} />
+          <Image className='rounded-full' fallbackSrc='/profile_picture.png' objectFit='cover' src={user.photoUrl} boxSize={36} />
           <Text className='text-xl font-semibold'>{user.firstName} {user.lastName}</Text>
           <Text className='italic'>{user.email}</Text>
           <Box className='flex space-x-2'>

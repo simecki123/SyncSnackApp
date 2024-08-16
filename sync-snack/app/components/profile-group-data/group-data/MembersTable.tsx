@@ -93,7 +93,8 @@ export default function MembersTable({ members, userToken }: any) {
               return (
                 <Tr key={index}>
                   <Td className='flex items-center'>
-                    <Image src={member.photoUrl} fallbackSrc='/profile_picture.png' className='size-10 rounded-full mr-2' />
+                    <Image src={member.photoUrl} fallbackSrc='/profile_picture.png'
+                      objectFit='cover' className='size-10 rounded-full mr-2' />
                     <Text>{member.firstName} {member.lastName}</Text>
                   </Td>
                   <Td>{member.orderCount}</Td>

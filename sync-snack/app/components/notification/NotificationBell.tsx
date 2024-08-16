@@ -125,7 +125,8 @@ export default function NotificationBell({ activeUser }: any) {
                   router.push('/event')
                   onClose()
                 }}>
-                  <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} fallbackSrc="/profile_picture.png" />
+                  <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} objectFit='cover'
+                    fallbackSrc="/profile_picture.png" />
                   <Box className="flex flex-col mt-6 grow">
                     <Box className="flex">
                       <Text className="mr-1 font-semibold">{value.firstName} {value.lastName}</Text>
