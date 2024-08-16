@@ -34,6 +34,9 @@ export default function ProfileData({ user }: any) {
             throw new Error('File upload failed');
           }
 
+          // const responseFinal = await response.json()
+          // setPhotoUrl(responseFinal.photoUrl)
+
           window.location.reload()
         } catch (error) {
           console.error('Error uploading file:', error);
@@ -50,7 +53,7 @@ export default function ProfileData({ user }: any) {
     <Box className='md:h-full mt-2'>
       <Box className='space-y-8 md:flex md:items-center md:justify-around'>
         <Box className='flex flex-col items-center space-y-4'>
-          <Image className='rounded-full' fallbackSrc='/profile_picture.png' objectFit='cover' src={user.photoUrl} boxSize={36} />
+          <Image className='rounded-full' fallbackSrc='/profile_picture.png' objectFit='cover' src={photoUrl} boxSize={36} />
           <Text className='text-xl font-semibold'>{user.firstName} {user.lastName}</Text>
           <Text className='italic'>{user.email}</Text>
           <Box className='flex space-x-2'>
