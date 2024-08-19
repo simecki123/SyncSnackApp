@@ -12,7 +12,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
 
 
     try {
-      const orderResponse = await fetch(`${process.env.BACKEND_URL}/api/orders/create`, {
+      const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

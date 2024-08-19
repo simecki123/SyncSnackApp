@@ -92,7 +92,7 @@ export default async function EventPage() {
     "use server";
     try {
 
-      const response = await fetch(`${process.env.BACKEND_URL}/api/orders/update?orderId=${orderId}&status=${status}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/update?orderId=${orderId}&status=${status}`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',
