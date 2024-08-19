@@ -17,12 +17,18 @@ export default async function OrdersPage({ searchParams }: { searchParams: { pag
   const activeUser: any = session?.user;
   const accessToken: any = activeUser?.accessToken;
 
-  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 0;
+  let currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 0;
+
+  if (isNaN(currentPage)) {
+    currentPage = 0
+  }
+
+  const orders = await fetchImproved('/api/orders/all')
 
   return (
     <Box className='mt-24'>
       <Box className='flex flex-col items-center'>
-        <SearchInputFilter />
+        <SearchInputFilter page={currentPage} />
         <RateFilterSlider />
       </Box>
       <OrdersTable

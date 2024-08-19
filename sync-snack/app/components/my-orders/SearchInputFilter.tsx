@@ -2,8 +2,9 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
 import { ChangeEvent, useEffect, useState, useCallback } from "react"
 import { debounce } from 'lodash'
+import { useRouter } from "next/navigation"
 
-export default function DebouncedSearch() {
+export default function SearchInputFilter({ page }: any) {
   const [inputValue, setInputValue] = useState('')
 
   const debouncedLog = useCallback(

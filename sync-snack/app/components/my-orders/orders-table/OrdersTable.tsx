@@ -9,11 +9,11 @@ import { useRouter } from 'next/navigation';
 export default function OrdersTable({
   orders,
   accessToken,
-  currentPage
+  currentPage,
 }: {
   orders: any[],
   accessToken: any,
-  currentPage: number
+  currentPage: number,
 }) {
   const router = useRouter();
 
