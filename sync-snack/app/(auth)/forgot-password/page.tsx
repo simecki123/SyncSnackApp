@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import { cookies } from 'next/headers'
 
-export default function ForgotPasswordPage({ searchParams }: { searchParams: { passwordResetToken: string, resetCode: string } }) {
+export default function ForgotPasswordPage({ searchParams }: { searchParams: { passwordResetTokenId: string, resetCode: string } }) {
   async function handleSubmit(formData: FormData) {
     'use server'
 
@@ -12,14 +12,14 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { p
 
     if (newPassword === confirmPassword) {
       try {
-        const { passwordResetToken, resetCode } = searchParams
+        const { passwordResetTokenId, resetCode } = searchParams
         const response = await fetch(`${process.env.BACKEND_URL}/api/auth/resetPassword`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            passwordResetToken,
+            passwordResetTokenId,
             resetCode,
             newPassword
           }),
