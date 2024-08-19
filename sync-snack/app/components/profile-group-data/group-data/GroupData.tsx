@@ -12,7 +12,6 @@ export default function GroupData({groupId, group, initialSortOption, users, set
   
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  console.log("group: ", group )
 
   const handleEditGroup = (newGroupName: string, newGroupDescription: string) => {
     // Assuming reloadPage is handled by parent component

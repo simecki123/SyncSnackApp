@@ -4,7 +4,6 @@ import { Box, Text } from "@chakra-ui/react";
 import { DonutChart } from "@tremor/react";
 
 export default function GroupOrdersDonut({datahero}: {datahero: Array<any>}) {
-  console.log(datahero)
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
   return (
     <Box className="hidden md:block">

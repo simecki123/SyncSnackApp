@@ -62,10 +62,10 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
           })}
         </Box>
         <Box className="hidden md:h-full md:flex md:justify-center">
-          <MembersTable 
-            members={members} 
-            userToken={activeUser?.accessToken} 
-            currentPage={currentPage} 
+          <MembersTable
+            members={members}
+            userToken={activeUser?.accessToken}
+            currentPage={currentPage}
           />
         </Box>
       </Box>

@@ -68,7 +68,6 @@ export async function loginUser(prevState: any, formData: FormData) {
     });
 
     const checkProfile = await checkProfileResponse.json();
-    console.log("checkProfile ", checkProfile);
 
     if (!checkProfile.isProfilePresent) {
       return {
@@ -84,9 +83,6 @@ export async function loginUser(prevState: any, formData: FormData) {
       password: validatedFields.data.password,
       redirect: false,
     });
-
-    console.log("result ", result)
-
 
     if (result.error) {
       return {

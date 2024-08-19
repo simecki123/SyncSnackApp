@@ -46,7 +46,6 @@ export default function MembersTable({ members, userToken, currentPage }: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, 'data in fetch')
         setData(data);
       })
   }, [sortStrategy, currentPage, userToken]);

@@ -50,11 +50,9 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
       return res.json();
     })
       .then((value) => {
-        console.log(value, 'client notifications here')
         if (typeof value !== 'undefined') {
           value.map((notification: any) => {
             const stringNotification = JSON.stringify(notification);
-            console.log(stringNotification)
             setMessages(prev => [...prev, stringNotification]);
           });
         }
@@ -70,24 +68,20 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
     if (typeof clientNotifications !== 'undefined') {
       clientNotifications.map((notification) => {
         const stringNotification = JSON.stringify(notification);
-        console.log(stringNotification)
         setMessages(prev => [...prev, stringNotification]);
       });
     }
   }, []);
 
   const handleNewNotificationNewEventHome = () => {
-    console.log('Dispatching newNotification event');
     eventBusHome.dispatch('newNotification', { filter: 'MIXED' });
   };
 
   const handleNewNotificationNewEventEvent = () => {
-    console.log('Dispatching newNotification event event page');
     eventBusEvent.dispatch('newNotification');
   }
 
   const handleNewNotificationNewOrderEvent = () => {
-    console.log('Dispatching newNotification order event page');
     eventBusOrdersEvent.dispatch('newNotification');
   }
 
@@ -134,7 +128,6 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
         })
       },
       onDisconnect: () => {
-        console.log('Disconnected');
       },
       onStompError: (frame) => {
         console.error('Broker reported error: ' + frame.headers['message']);
@@ -152,7 +145,6 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
 
   function handleClick() {
     setPage((prev) => prev + 1)
-    console.log(page)
   }
 
   return (

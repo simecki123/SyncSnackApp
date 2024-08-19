@@ -31,7 +31,6 @@ export default async function InProgressEvents({ searchParams }: InProgressEvent
     });
 
     if (!eventsResponse.ok) {
-      console.log('FAILED TO FETCH EVENTS');
       return [];
     }
 

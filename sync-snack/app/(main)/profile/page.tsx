@@ -43,13 +43,11 @@ export default async function ProfileDataPage() {
   //
   // client.onConnect = function(frame) {
   //   client.subscribe(`/topic/orders/${activeUser?.userProfileId}`, (message) => {
-  //     console.log('AJDEEEEEE AJDEE AJDEE', message)
   //   });
   // };
   //
   // client.activate()
 
-  console.log(`${activeUser?.userProfileId}`, 'user user user')
 
   const profilePhotoBuffer = await profilePhotoResponse.arrayBuffer();
   const profilePhotoBase64 = Buffer.from(profilePhotoBuffer).toString('base64');

@@ -20,7 +20,6 @@
 //     client.onConnect = function(frame) {
 //       client.publish({ destination: `/topic/orders/${activeUser.userProfileId}`, body: 'CONNECTED' });
 //       client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message) => {
-//         console.log('it works', message)
 //       });
 //       if (client.connected) {
 //         setConnection('CONNECTED')
@@ -31,14 +30,12 @@
 //   }, [])
 //
 //   client.activate()
-//   console.log(client.connected, ' -- connection')
 //
 //   const handleInputChange = (e: any) => {
 //     setInputValue(e.target.value);
 //   };
 //
 //   const handleButtonClick = () => {
-//     console.log(inputValue);
 //     client.onConnect = function(frame) {
 //       client.publish({ destination: `/topic/orders/${activeUser.userProfileId}`, body: inputValue });
 //     }
@@ -54,7 +51,6 @@
 //       <Button onClick={() => {
 //         if (client.connected) {
 //           setConnection('CONNECTED')
-//           console.log(client.connected, ' ,, connection ')
 //           client.activate()
 //         } else (
 //           setConnection('CAN\'T CONNECT')
@@ -103,16 +99,13 @@ export default function AreaClientPage({ activeUser }: { activeUser: { userProfi
     const client = new Client({
       brokerURL: `${process.env.NEXT_PUBLIC_WEBSOCKET}/ws`,
       onConnect: () => {
-        console.log('Connected');
         setConnection('CONNECTED');
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message) => {
-          console.log('Received:', message.body);
           setMessages(prev => [...prev, message.body]);
         });
         client.publish({ destination: `/topic/orders/${activeUser.userProfileId}`, body: 'CONNECTED' });
       },
       onDisconnect: () => {
-        console.log('Disconnected');
         setConnection('DISCONNECTED');
       },
       onStompError: (frame) => {

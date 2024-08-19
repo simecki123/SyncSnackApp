@@ -40,7 +40,6 @@ export default function FilteredEvents({
   useEffect(() => {
     
       const handleNewNotification = async (e: CustomEvent) => {
-        console.log('Received newNotification event', e.detail);
         const newEvents = await fetchEvents(filter); // Use current filter
         setEvents(newEvents);
         

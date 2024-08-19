@@ -34,7 +34,6 @@ export default function RegisterComponent() {
 
     try {
       const isEmailValid = await isUserEmailValid();
-      console.log(isEmailValid)
       if (isEmailValid) {
         showToast('Error', "Your email is not valid", 'error');
         return;

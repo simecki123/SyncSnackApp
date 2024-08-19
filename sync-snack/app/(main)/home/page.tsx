@@ -7,7 +7,6 @@ export default async function HomePage() {
 
   const session = await auth();
   const activeUser: any = session?.user;
-  console.log(activeUser, ' >>> Authenticated user')
 
   return (
     

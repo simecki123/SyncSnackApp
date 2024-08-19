@@ -29,7 +29,6 @@ export default function LoginForm() {
   const [state, formAction] = useFormState(handleLogin, initialState);
 
   useEffect(() => {
-    console.log(state);
     
     if (state.message) {
       toast({

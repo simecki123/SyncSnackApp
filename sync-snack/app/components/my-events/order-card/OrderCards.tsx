@@ -17,7 +17,6 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
   const onClose = () => setIsOpen(false);
 
   const handleStatusChange = (status: string) => {
-    console.log('this executes')
     setActionStatus(status);
     setIsOpen(true);
   };
