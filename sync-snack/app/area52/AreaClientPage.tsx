@@ -101,7 +101,7 @@ export default function AreaClientPage({ activeUser }: { activeUser: { userProfi
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: `${process.env.WEBSOCKET}/ws`,
+      brokerURL: `${process.env.NEXT_PUBLIC_WEBSOCKET}/ws`,
       onConnect: () => {
         console.log('Connected');
         setConnection('CONNECTED');

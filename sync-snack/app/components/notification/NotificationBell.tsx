@@ -17,7 +17,7 @@ import eventBusEvent from "@/app/eventBusEvent";
 import eventBusOrdersEvent from "../../eventBusOrdersEvent";
 import { revalidatePath } from "next/cache";
 
-export default function NotificationBell({ activeUser, notifications }: { activeUser: any, notifications: any[] }) {
+export default function NotificationBell({ activeUser }: { activeUser: any }) {
 
   const [clientNotifications, setClientNotifications] = useState<any[]>([])
   const router = useRouter()
@@ -95,7 +95,7 @@ export default function NotificationBell({ activeUser, notifications }: { active
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: `${process.env.WEBSOCKET}/ws`,
+      brokerURL: `${process.env.NEXT_PUBLIC_WEBSOCKET}/ws`,
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
           setMessages(prev => [message.body, ...prev]);
