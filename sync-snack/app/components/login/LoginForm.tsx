@@ -5,6 +5,7 @@ import { useFormState, useFormStatus } from "react-dom"
 import { Box, Button, Card, CardBody, CardHeader, Input, Link, Text, useToast } from '@chakra-ui/react'
 import { useEffect, useCallback } from 'react'
 import { useRouter } from "next/navigation"
+import { fetchImproved } from "@/app/fetch"
 
 const initialState: any = {
   message: null,
@@ -23,7 +24,7 @@ export default function LoginForm() {
       router.push("/home");
     }
     return { ...result, timestamp: Date.now() }; // Force state update with timestamp
-  }, []);
+  }, [router]);
 
   const [state, formAction] = useFormState(handleLogin, initialState);
 
@@ -44,8 +45,82 @@ export default function LoginForm() {
       router.push(`/setprofile?userId=${state.userId}`)
     }
     
-    
-  }, [state.message, state.isVerified, toast, state.timestamp, state.redirectURL, router]);
+  }, [state.message, state.isVerified, toast, state.timestamp, state.userId, router]);
+
+  async function handleForgotYourPassword() {
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const mail = emailInput?.value;
+
+    if (mail && mail.trim() !== "") {
+      try {
+        
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/reset-password-request`,{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: mail
+            }),
+        }
+        
+        )
+
+        if (response.ok) {
+          toast({
+            title: "Password reset email sent",
+            description: "Please check your email for further instructions.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+
+          window.open("https://mail.google.com/mail/u/0/#inbox", "_blank");
+        } else {
+          const errorData = await response.json();
+          if (response.status === 404) {
+            toast({
+              title: "User not found",
+              description: "There is no account associated with this email address.",
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+              position: "top",
+            });
+          } else {
+            toast({
+              title: "Error",
+              description: errorData.message || "Something went wrong. Please try again.",
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+              position: "top",
+            });
+          }
+        }
+      } catch (error: any) {
+        console.error("Error during password reset request:", error);
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+    } else {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address before requesting a password reset.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  }
 
   return (
     <Card className="w-96" colorScheme="red">
@@ -65,6 +140,14 @@ export default function LoginForm() {
             </Box>
             <Box className="flex justify-center items-center">
               <SubmitButton />
+            </Box>
+            <Box className="flex justify-center items-center mt-4">
+              <Text 
+                onClick={handleForgotYourPassword}
+                className="cursor-pointer text-blue-500 hover:text-blue-700"
+              >
+                Forgot password?
+              </Text>
             </Box>
             <Box className="flex justify-center items-center mt-4">
               <Link href="/register">Sign up for SyncSnack</Link>
