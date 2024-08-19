@@ -63,7 +63,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
           {JSON.stringify(order.additionalOptions.orderDetails)}
         </Text>
         <Flex mt="auto" pt={2} justify="space-between">
-          <Button size="xs" colorScheme="green" onClick={() => handleStatusChange("READY")}>
+          <Button size="xs" colorScheme="green" onClick={() => handleStatusChange("COMPLETED")}>
             Done
           </Button>
           <Button size="xs" colorScheme="red" onClick={() => handleStatusChange("CANCELLED")}>
