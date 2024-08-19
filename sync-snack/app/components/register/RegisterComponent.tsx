@@ -64,7 +64,7 @@ export default function RegisterComponent() {
   };
 
   const registerUser = async () => {
-    const response = await fetch(`${process.env.PUBLIC_NEXT_BACKEND_URL}/api/auth/register`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
