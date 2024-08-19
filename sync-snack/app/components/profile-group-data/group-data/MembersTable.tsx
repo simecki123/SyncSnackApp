@@ -3,28 +3,30 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Text,
   Image,
   Box,
   Button,
+  Flex,
+  HStack,
+  IconButton,
 } from '@chakra-ui/react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function MembersTable({ members, userToken }: any) {
-
+export default function MembersTable({ members, userToken, currentPage }: any) {
+  const router = useRouter();
   const [sortStrategy, setSortStrategy] = useState('Score')
-
-  const [data, setData] = useState([])
+  const [data, setData] = useState(members)
 
   useEffect(() => {
-    let strategyModifed = "ORDER_COUNT"
+    let strategyModifed = "SCORE"
     switch (sortStrategy) {
       case ('Score'):
         strategyModifed = 'SCORE'
@@ -36,9 +38,9 @@ export default function MembersTable({ members, userToken }: any) {
         strategyModifed = 'FIRSTNAME'
         break
     }
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/group?sortCondition=${strategyModifed}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/group?sortCondition=${strategyModifed}&page=${currentPage}&size=4`, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
         'Authorization': `Bearer ${userToken}`
       },
     })
@@ -47,22 +49,11 @@ export default function MembersTable({ members, userToken }: any) {
         console.log(data, 'data in fetch')
         setData(data);
       })
-  }, [sortStrategy]);
+  }, [sortStrategy, currentPage, userToken]);
 
-  const MEMBERS_PER_PAGE = 5
-
-  const numberOfPaginationButtons = Math.ceil(data.length / MEMBERS_PER_PAGE)
-
-  const [currentPage, setCurrentPage] = useState(1)
-
-  const [shownMembers, setShownMembers] = useState(data.slice(0, MEMBERS_PER_PAGE * currentPage))
-
-  const headers = ['Name', 'Orders', 'Score']
-
-  useEffect(() => {
-    const lastMemberNumber = MEMBERS_PER_PAGE * currentPage;
-    setShownMembers(data.slice(lastMemberNumber - MEMBERS_PER_PAGE, lastMemberNumber));
-  }, [data, currentPage]);
+  const handlePageChange = (newPage: number) => {
+    router.push(`/group?page=${newPage}`);
+  };
 
   function TableHeader({ value }: any) {
     return (
@@ -81,51 +72,44 @@ export default function MembersTable({ members, userToken }: any) {
         <Table variant='simple' className='shadow-lg'>
           <Thead className='bg-orange-200 text-white'>
             <Tr>
-              {headers.map((header: any, index: number) => {
-                return (
-                  <TableHeader key={index} value={header} />
-                )
-              })}
+              {['Name', 'Orders', 'Score'].map((header: any, index: number) => (
+                <TableHeader key={index} value={header} />
+              ))}
             </Tr>
           </Thead>
           <Tbody>
-            {shownMembers.map((member: any, index: number) => {
-              return (
-                <Tr key={index}>
-                  <Td className='flex items-center'>
-                    <Image src={member.photoUrl} fallbackSrc='/profile_picture.png'
-                      objectFit='cover' className='size-10 rounded-full mr-2' />
-                    <Text>{member.firstName} {member.lastName}</Text>
-                  </Td>
-                  <Td>{member.orderCount}</Td>
-                  <Td>{member.score.toFixed(2)}</Td>
-                </Tr>
-              )
-            })}
+            {data.map((member: any, index: number) => (
+              <Tr key={index}>
+                <Td className='flex items-center'>
+                  <Image src={member.photoUrl} fallbackSrc='/profile_picture.png'
+                    objectFit='cover' className='size-10 rounded-full mr-2' />
+                  <Text>{member.firstName} {member.lastName}</Text>
+                </Td>
+                <Td>{member.orderCount}</Td>
+                <Td>{member.score.toFixed(2)}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </TableContainer>
-      <Box className={clsx('flex grow justify-center items-end', { 'hidden': numberOfPaginationButtons === 1 })}>
-        {Array.from({ length: numberOfPaginationButtons }).map((_, index) => {
-          return (
-            <Button
-              key={index}
-              className={clsx(
-                'mx-1 mb-5',
-                {
-                  'border-orange-400 border-2': currentPage === index + 1,
-                }
-              )}
-              onClick={() => {
-                setCurrentPage(index + 1)
-                const lastMemberNumber: number = MEMBERS_PER_PAGE * (index + 1)
-                setShownMembers(data.slice(lastMemberNumber - MEMBERS_PER_PAGE, lastMemberNumber))
-              }
-              }>{index + 1}</Button>
-          )
-        })}
-      </Box>
+      <Flex justifyContent="flex-end" alignItems="flex-end" mt={4} className='mr-4 mb-2 grow'>
+        <HStack spacing={2}>
+          <IconButton
+            aria-label="Previous page"
+            icon={<ChevronLeftIcon />}
+            onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
+            isDisabled={currentPage === 0}
+            size="sm"
+          />
+          <IconButton
+            aria-label="Next page"
+            icon={<ChevronRightIcon />}
+            onClick={() => handlePageChange(currentPage + 1)}
+            size="sm"
+            isDisabled={data.length === 0}
+          />
+        </HStack>
+      </Flex>
     </Box>
   )
 }
-

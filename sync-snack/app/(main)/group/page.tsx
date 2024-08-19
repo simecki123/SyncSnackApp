@@ -5,6 +5,7 @@ import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
 
 import dynamic from 'next/dynamic';
+import { redirect } from "next/navigation";
 
 const GroupButtons = dynamic(
   () => import('@/app/components/group/GroupButtons'),
@@ -16,17 +17,30 @@ const MembersTable = dynamic(
   { ssr: false }
 );
 
-
-export default async function GroupPage() {
-
-
+export default async function GroupPage({ searchParams }: { searchParams: { page?: string } }) {
   const session = await auth();
   const activeUser: any = session?.user;
 
-  const members = await fetchImproved('/api/profiles/group?sortCondition=SCORE')
+  const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 0;
+  const pageSize = 4; // You can adjust this as needed
+
+  const fetchMembers = async (pageNumber: number): Promise<any[]> => {
+    try {
+      const response = await fetchImproved(`/api/profiles/group?sortCondition=SCORE&page=${pageNumber}&size=${pageSize}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching members:', error);
+      return [];
+    }
+  };
+
+  const members = await fetchMembers(currentPage);
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   const orderDounuts = await fetchImproved(`/api/groups/count`);
-  console.log("order dounuts ", orderDounuts);
+
+  if (members.length === 0 && currentPage > 0) {
+    redirect(`/group?page=${currentPage - 1}`);
+  }
 
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-full">
@@ -48,7 +62,11 @@ export default async function GroupPage() {
           })}
         </Box>
         <Box className="hidden md:h-full md:flex md:justify-center">
-          <MembersTable members={members} userToken={activeUser?.accessToken} />
+          <MembersTable 
+            members={members} 
+            userToken={activeUser?.accessToken} 
+            currentPage={currentPage} 
+          />
         </Box>
       </Box>
       <Box className="hidden md:flex md:h-full md:justify-center">
