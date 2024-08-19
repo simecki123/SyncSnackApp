@@ -52,7 +52,6 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
       .then((value) => {
         console.log(value, 'client notifications here')
         if (typeof value !== 'undefined') {
-          console.log('does this run', value.length)
           value.map((notification: any) => {
             const stringNotification = JSON.stringify(notification);
             console.log(stringNotification)
@@ -69,7 +68,6 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
 
   useEffect(() => {
     if (typeof clientNotifications !== 'undefined') {
-      console.log('does this run', clientNotifications.length)
       clientNotifications.map((notification) => {
         const stringNotification = JSON.stringify(notification);
         console.log(stringNotification)

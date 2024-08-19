@@ -67,6 +67,7 @@ export default async function EventPage() {
   async function setStatusOfEvent(status: string, eventID: string) {
     "use server";
     try {
+      console.log(process.env.BACKEND_URL, 'backend url in set status')
       const response = await fetch(`${process.env.BACKEND_URL}/api/events/update?eventId=${eventID}&status=${status}`, {
         method: "PATCH",
         headers: {
@@ -90,6 +91,7 @@ export default async function EventPage() {
 
   async function setStatusOfTheOrder(status: string, orderId: string) {
     "use server";
+    console.log('will this run')
     try {
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/update?orderId=${orderId}&status=${status}`, {
