@@ -1,9 +1,9 @@
 import { auth } from '@/app/auth';
-import OrdersPageTable from '@/app/components/my-orders/OrdersPageTable';
+import { Box } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
-const OrdersTable = dynamic(
-  () => import('@/app/components/my-orders/orders-table/OrdersTable'),
+const OrdersPageTable = dynamic(
+  () => import('@/app/components/my-orders/OrdersPageTable'),
   { ssr: false }
 );
 
@@ -20,10 +20,12 @@ export default async function OrdersPage({ searchParams }: { searchParams: { pag
   }
 
   return (
-    <OrdersPageTable
-      currentPage={currentPage}
-      accessToken={accessToken}
-    />
+    <Box className='h-full pt-12 flex flex-col'>
+      <OrdersPageTable
+        currentPage={currentPage}
+        accessToken={accessToken}
+      />
+    </Box>
   );
 }
 

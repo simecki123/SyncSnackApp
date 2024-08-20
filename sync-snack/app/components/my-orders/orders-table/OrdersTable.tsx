@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import OrderRow from '../order-row/OrderRow';
 import OrderRowMobile from '../order-row/OrderRowMobile';
 import { useRouter } from 'next/navigation';
+import { calculateOrderSizeBasedOnScreenHeight } from '@/app/screen';
 
 export default function OrdersTable({
   orders,
@@ -50,7 +51,7 @@ export default function OrdersTable({
           </HStack>
         </Flex>
       </Box>
-      <Box className='hidden md:flex flex-col h-full'>
+      <Box className='hidden md:flex flex-col grow'>
         <Box className='p-4 flex-none'>
           <TableContainer>
             <Table variant="simple" colorScheme="gray">
@@ -85,7 +86,7 @@ export default function OrdersTable({
               icon={<ChevronRightIcon />}
               onClick={() => handlePageChange(currentPage + 1)}
               size="sm"
-              isDisabled={orders.length === 0}
+              isDisabled={orders.length < calculateOrderSizeBasedOnScreenHeight()}
             />
           </HStack>
         </Flex>

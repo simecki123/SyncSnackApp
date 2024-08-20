@@ -30,8 +30,8 @@ export default function OrderRow({ order, accessToken }: any) {
     if (desc.length > 11) {
       desc = `${desc.slice(0, 9)}...`
       return (
-        <Box className='flex cursor-pointer'>
-          <Text className='shadow-md p-2 rounded-xl hover:bg-gray-100' onClick={() => setDescriptionModalOpen(true)}>{desc}</Text>
+        <Box className='flex'>
+          <Text className='cursor-pointer hover:text-yellow-400' onClick={() => setDescriptionModalOpen(true)}>{desc}</Text>
         </Box>
       )
     } else {
@@ -53,8 +53,10 @@ export default function OrderRow({ order, accessToken }: any) {
           <DescriptionBox desc={order.additionalOptions.description} />
         </Td>
         <Td>
-          {orderRating !== 0 ? <RatingPretty desc={order.additionalOptions.description}
-            rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
+          <Box className='h-10 flex items-center'>
+            {orderRating !== 0 ? <RatingPretty desc={order.additionalOptions.description}
+              rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
+          </Box>
         </Td>
       </Tr>
       {isRateModalOpened && (
