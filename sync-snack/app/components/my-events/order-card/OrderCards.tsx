@@ -60,7 +60,8 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
           </Badge>
         </Flex>
         <Text fontSize="xs" color="gray.600" noOfLines={2}>
-          {JSON.stringify(order.additionalOptions.orderDetails)}
+          {order.additionalOptions?.orderDetails ? JSON.stringify(order.additionalOptions.orderDetails) :
+            JSON.stringify(order.additionalOptions.description)}
         </Text>
         <Flex mt="auto" pt={2} justify="space-between">
           <Button size="xs" colorScheme="green" onClick={() => handleStatusChange("COMPLETED")}>

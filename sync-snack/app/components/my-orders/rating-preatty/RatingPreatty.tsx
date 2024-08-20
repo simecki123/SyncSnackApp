@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 
-export default function RatingPretty({ rating }: any) {
+export default function RatingPretty({ rating, desc }: any) {
   return (
     <Box>
       {[...Array(5)].map((_, index) => (

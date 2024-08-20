@@ -1,9 +1,9 @@
 "use client"
-import { Tr, Td, Button, Box } from '@chakra-ui/react';
+import { Tr, Td, Button, Box, Text } from '@chakra-ui/react';
 import OrderTypePretty from '../order-type-preatty/OrderTypePreatty';
 import StatusPretty from '../status-preatty/StatusPreatty';
 import RatingPretty from '../rating-preatty/RatingPreatty';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '../../modals/Modal';
 import OrderRateModalComponent from '../order-modal-component/OrderRateModalComponent';
 import OrderDescriptionModalComponent from '../order-modal-component/OrderDescriptionModalComponent';
@@ -14,6 +14,10 @@ export default function OrderRow({ order, accessToken }: any) {
 
   const [orderRating, setOrderRating] = useState(order.rating)
 
+  useEffect(() => {
+    setOrderRating(order.rating);
+  }, [order.rating]);
+
   const handleRateCloseModal = () => {
     setRateModalOpen(false);
   };
@@ -22,19 +26,35 @@ export default function OrderRow({ order, accessToken }: any) {
     setDescriptionModalOpen(false);
   }
 
+  function DescriptionBox({ desc }: { desc: string }) {
+    if (desc.length > 11) {
+      desc = `${desc.slice(0, 9)}...`
+      return (
+        <Box className='flex cursor-pointer'>
+          <Text className='shadow-md p-2 rounded-xl hover:bg-gray-100' onClick={() => setDescriptionModalOpen(true)}>{desc}</Text>
+        </Box>
+      )
+    } else {
+      return <Text>{desc}</Text>
+    }
+  }
+
   return (
     <>
       <Tr>
         <Td><OrderTypePretty orderType={order.eventType} /></Td>
-        <Td className='w-96'>{formatDate(order.createdAt)}</Td>
+        <Td className='w-96 font-semibold'>{formatDate(order.createdAt)}</Td>
         <Td>
           <Box className='flex'>
             <StatusPretty statusType={order.status} />
           </Box>
         </Td>
-        <Td><Button onClick={() => setDescriptionModalOpen(true)}>Description</Button></Td>
+        <Td className='font-semibold'>
+          <DescriptionBox desc={order.additionalOptions.description} />
+        </Td>
         <Td>
-          {orderRating ? <RatingPretty rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
+          {orderRating !== 0 ? <RatingPretty desc={order.additionalOptions.description}
+            rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
         </Td>
       </Tr>
       {isRateModalOpened && (
@@ -45,12 +65,13 @@ export default function OrderRow({ order, accessToken }: any) {
 
       {isDescriptionModalOpened && (
         <Modal isOpen={isDescriptionModalOpened} onClose={handleDescriptionCloseModal}>
-          <OrderDescriptionModalComponent description={objectToString(order.additionalOptions)} onClose={handleDescriptionCloseModal}></OrderDescriptionModalComponent>
+          <OrderDescriptionModalComponent description={order.additionalOptions.description} onClose={handleDescriptionCloseModal}></OrderDescriptionModalComponent>
         </Modal>
       )}
     </>
   );
 }
+
 
 function objectToString(obj: any): string {
   if (typeof obj !== 'object' || obj === null) {

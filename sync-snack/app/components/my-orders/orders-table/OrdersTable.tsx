@@ -10,15 +10,17 @@ export default function OrdersTable({
   orders,
   accessToken,
   currentPage,
+  setCurrentPage,
 }: {
   orders: any[],
   accessToken: any,
   currentPage: number,
+  setCurrentPage: any
 }) {
   const router = useRouter();
 
   const handlePageChange = (newPage: number) => {
-    router.push(`/orders?page=${newPage}`);
+    setCurrentPage(newPage)
   };
 
   return (

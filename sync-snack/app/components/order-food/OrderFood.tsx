@@ -10,7 +10,6 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-
     try {
       const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/create`, {
         method: 'POST',
@@ -22,7 +21,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           userProfileId: activeUser?.userProfileId,
           eventId: event.eventId,
           additionalOptions: {
-            orderDetails: orderText
+            description: orderText,
           }
         }),
       });

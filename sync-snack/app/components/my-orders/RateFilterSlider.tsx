@@ -2,10 +2,10 @@
 
 import { Box, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack } from "@chakra-ui/react"
 
-export default function RateFilterSlider() {
+export default function RateFilterSlider({ setRateFilter }: any) {
   return (
     <Box className='w-80'>
-      <Slider defaultValue={0} min={0} max={5} step={1} onChangeEnd={(val) => console.log('slider value:', val)}>
+      <Slider defaultValue={0} min={0} max={5} step={1} onChangeEnd={(val) => setRateFilter(val)}>
         <SliderMark value={0} {...styleForAll}>
           All
         </SliderMark>

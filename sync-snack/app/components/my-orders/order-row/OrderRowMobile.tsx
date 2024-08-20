@@ -52,7 +52,8 @@ export default function OrderRowMobile({ order, accessToken }: any) {
         </Box>
 
         <Text className="mt-4 text-md" color={useColorModeValue("gray.800", "gray.300")}>
-          {JSON.stringify(order.additionalOptions.orderDetails)}
+          {order.additionalOptions?.orderDetails ? JSON.stringify(order.additionalOptions.orderDetails) :
+            JSON.stringify(order.additionalOptions.description)}
         </Text>
 
         <Box className="mt-4">

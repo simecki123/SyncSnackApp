@@ -1,11 +1,6 @@
 import { auth } from '@/app/auth';
-import RateFilterSlider from '@/app/components/my-orders/RateFilterSlider';
-import SearchInputFilter from '@/app/components/my-orders/SearchInputFilter';
-import { fetchImproved } from '@/app/fetch';
-import { Box, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack } from '@chakra-ui/react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import OrdersPageTable from '@/app/components/my-orders/OrdersPageTable';
 import dynamic from 'next/dynamic';
-import { redirect } from 'next/navigation';
 
 const OrdersTable = dynamic(
   () => import('@/app/components/my-orders/orders-table/OrdersTable'),
@@ -13,6 +8,7 @@ const OrdersTable = dynamic(
 );
 
 export default async function OrdersPage({ searchParams }: { searchParams: { page?: string } }) {
+
   const session = await auth();
   const activeUser: any = session?.user;
   const accessToken: any = activeUser?.accessToken;
@@ -23,20 +19,11 @@ export default async function OrdersPage({ searchParams }: { searchParams: { pag
     currentPage = 0
   }
 
-  const orders = await fetchImproved('/api/orders/all')
-
   return (
-    <Box className='mt-24'>
-      <Box className='flex flex-col items-center'>
-        <SearchInputFilter page={currentPage} />
-        <RateFilterSlider />
-      </Box>
-      <OrdersTable
-        accessToken={accessToken}
-        orders={orders}
-        currentPage={currentPage}
-      />
-    </Box>
+    <OrdersPageTable
+      currentPage={currentPage}
+      accessToken={accessToken}
+    />
   );
 }
 

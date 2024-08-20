@@ -94,7 +94,7 @@ export interface EventOrder {
     userProfileId: string,
     firstName: string,
     lastName: string,
-    additionalOptions: { orderDetails: string },
+    additionalOptions: { orderDetails: string, description: string },
     status: string,
     createdAt: string
 }

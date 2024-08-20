@@ -4,12 +4,12 @@ import { ChangeEvent, useEffect, useState, useCallback } from "react"
 import { debounce } from 'lodash'
 import { useRouter } from "next/navigation"
 
-export default function SearchInputFilter({ page }: any) {
+export default function SearchInputFilter({ setInput, setStatusFilter }: any) {
   const [inputValue, setInputValue] = useState('')
 
   const debouncedLog = useCallback(
     debounce((value: string) => {
-      console.log('input value:', value)
+      setInput(value)
     }, 700),
     []
   )
@@ -25,6 +25,11 @@ export default function SearchInputFilter({ page }: any) {
       debouncedLog.cancel()
     }
   }, [debouncedLog])
+
+  function handleSelectChange(event: ChangeEvent<HTMLSelectElement>): void {
+    console.log('changing the select: ', event.target.value)
+    setStatusFilter(event.target.value)
+  }
 
   return (
     <div className="relative mb-6 flex">
@@ -43,12 +48,13 @@ export default function SearchInputFilter({ page }: any) {
         />
       </div>
       <select
+        onChange={handleSelectChange}
         className="font-semibold bg-gray-50 border border-gray-300 text-gray-900 text-sm
         rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block py-2.5">
-        <option value="all-orders">All</option>
-        <option value="option1">Completed</option>
-        <option value="option2">In Progress</option>
-        <option value="option3">Canceled</option>
+        <option value="">All</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="CANCELLED">Canceled</option>
       </select>
     </div>
   )
