@@ -164,7 +164,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
             {messages.map((value: any, index) => {
               value = JSON.parse(value)
               let isEventNotification = false;
-              if (typeof value.additionalOptions?.description === 'undefined') {
+              if (value.notificationType === 'EVENT') {
                 isEventNotification = true;
               }
 
@@ -190,7 +190,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
                     </Box>
                     {isEventNotification ?
                       <Text>{value.description}</Text> :
-                      <Text>{JSON.stringify(value.additionalOptions.orderDetails)}</Text>
+                      <Text>{JSON.stringify(value.additionalOptions.description)}</Text>
                     }
                     <Box className="flex items-end justify-end grow">
                       <Box className="flex items-center p-2 mr-2">
