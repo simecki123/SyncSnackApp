@@ -161,10 +161,10 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
         <DrawerContent>
           <DrawerHeader onClick={onClose} borderBottomWidth='1px'>Notifications</DrawerHeader>
           <DrawerBody>
-            {messages.map((value: any, index) => {
-              value = JSON.parse(value)
+            {messages.map((notification: any, index) => {
+              notification = JSON.parse(notification)
               let isEventNotification = false;
-              if (value.notificationType === 'EVENT') {
+              if (notification.notificationType === 'EVENT') {
                 isEventNotification = true;
               }
 
@@ -173,29 +173,29 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
                   router.push('/event')
                   onClose()
                 }}>
-                  {value.profilePhoto ?
-                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.profilePhoto} objectFit='cover'
+                  {notification.profilePhoto ?
+                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={notification.profilePhoto} objectFit='cover'
                       fallbackSrc="/profile_picture.png" />
                     :
-                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={value.photoUri} objectFit='cover'
+                    <Image boxSize={20} className="rounded-full mr-2 mt-6 ml-4" src={notification.photoUri} objectFit='cover'
                       fallbackSrc="/profile_picture.png" />
                   }
                   <Box className="flex flex-col mt-6 grow">
                     <Box className="flex">
-                      <Text className="mr-1 font-semibold">{value.firstName} {value.lastName}</Text>
+                      <Text className="mr-1 font-semibold">{notification.firstName} {notification.lastName}</Text>
                       {isEventNotification ?
                         <Text className="italic">created an event</Text> :
                         <Text className="italic">made an order</Text>
                       }
                     </Box>
                     {isEventNotification ?
-                      <Text>{value.description}</Text> :
-                      <Text>{JSON.stringify(value.additionalOptions.description)}</Text>
+                      <Text>{notification.description}</Text> :
+                      <Text>{JSON.stringify(notification.additionalOptions.description)}</Text>
                     }
                     <Box className="flex items-end justify-end grow">
                       <Box className="flex items-center p-2 mr-2">
                         <Box className="mr-1 size-2 rounded-full bg-blue-400"></Box>
-                        <Text>Just now</Text>
+                        <Text>{getRelativeTimeString(notification.createdAt)}</Text>
                       </Box>
                     </Box>
                   </Box>
@@ -213,3 +213,26 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
     </Box>
   )
 }
+
+function getRelativeTimeString(dateString: string): string {
+  const inputDate = new Date(dateString);
+  const currentDate = new Date();
+
+  const diffTime = currentDate.getTime() - inputDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
+
+  if (diffDays === 0) {
+    return "Today";
+  } else if (diffDays === 1) {
+    return "Yesterday";
+  } else if (diffDays < 7) {
+    return "A Few Days Ago";
+  } else if (diffDays < 30) {
+    return "A Week Ago";
+  } else if (diffDays < 60) {
+    return "A Month Ago";
+  } else {
+    return "Long Long Time Ago";
+  }
+}
+
