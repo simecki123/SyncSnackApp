@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Textarea, VStack, Heading, useColorModeValue, useToast } from '@chakra-ui/react';
 import { Event, OrderFoodProps } from '@/app/interfaces';
 import { Client } from '@stomp/stompjs';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFoodProps) {
   const [orderText, setOrderText] = useState('');
@@ -36,6 +37,8 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           isClosable: true,
         });
         setOrderText('');
+        // revalidatePath(`${process.env.BACKEND_URL}/api/events/active`)
+        // revalidateTag('event')
         onOrderSuccess(); // Close the modal
 
         // const client = new Client();
