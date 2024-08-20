@@ -21,7 +21,7 @@ export default function BrewComponent({ activeUser }: any) {
           alignItems="center"
           justifyContent="center"
         >
-          <Button bg='orange.200' onClick={() => setModalOpen(true)}>
+          <Button colorScheme="orange" onClick={() => setModalOpen(true)}>
             Create Event
           </Button>
         </Box>

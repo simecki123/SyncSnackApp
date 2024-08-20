@@ -1,5 +1,6 @@
 import { Box, Button, Heading, Select, Textarea, VStack, useToast, FormControl, FormLabel } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { orange } from 'tailwindcss/colors';
 
 export default function CreateEvent({ activeUser, onCloseModal }: any) {
   const toast = useToast();
@@ -9,7 +10,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
     title: `Event by ${activeUser.firstName}`,
     description: '',
     groupId: activeUser.groupId,
-    eventType: 'FOOD',
+    eventType: 'ALL',
     pendingTime: 5
   });
 
@@ -112,24 +113,25 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
       overflow="hidden"
       p={6}
       bg="white"
+      width="100%" // Ensures the form takes up the full width
     >
-      <form onSubmit={handleSubmit}>
-        <VStack spacing={4} align="start">
+      <form className='w-full' onSubmit={handleSubmit}>
+        <VStack spacing={4} align="stretch" width="100%">
           <FormControl id="pendingTime" isRequired>
             <FormLabel>Select time:</FormLabel>
-            <Select name="pendingTime" value={eventData.pendingTime} onChange={handleChange}>
-              <option value='5'>5</option>
-              <option value='10'>10</option>
-              <option value='15'>15</option>
+            <Select focusBorderColor="orange.400" name="pendingTime" value={eventData.pendingTime} onChange={handleChange}>
+              <option value='5'>5 minutes</option>
+              <option value='10'>10 minutes</option>
+              <option value='15'>15 minutes</option>
             </Select>
           </FormControl>
 
           <FormControl id="eventType" isRequired>
             <FormLabel>Select category:</FormLabel>
-            <Select name="eventType" value={eventData.eventType} onChange={handleChange}>
+            <Select focusBorderColor="orange.400" name="eventType" value={eventData.eventType} onChange={handleChange}>
+              <option value='ALL'>ALL</option>
               <option value='FOOD'>Food</option>
               <option value='COFFEE'>Coffee</option>
-              <option value='MIXED'>Mixed</option>
               <option value='DRINKS'>Drinks</option>
             </Select>
           </FormControl>
@@ -137,19 +139,25 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           <FormControl id="description" isRequired>
             <FormLabel>Description:</FormLabel>
             <Textarea
+              focusBorderColor="orange.400"
               name="description"
               resize="none"
               placeholder='Enter description here...'
               value={eventData.description}
               onChange={handleChange}
+              maxLength={80}
             />
           </FormControl>
 
-          <Button bg='orange.200' width="100%" type="submit">
+          <Button
+            colorScheme="orange"
+            width="100%"
+            type="submit">
             Create Event
           </Button>
         </VStack>
       </form>
     </Box>
   );
+  
 }

@@ -11,7 +11,7 @@ const FilteredEvents = dynamic(
 );
 
 export default async function InProgressEvents({ searchParams }: InProgressEventsProps) {
-  const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'MIX';
+  const filter = typeof searchParams?.filter === 'string' ? searchParams.filter : 'ALL';
   const session = await auth();
   const activeUser: any = session?.user;
 
