@@ -37,7 +37,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
     if (hasEffectRun.current) return;
     hasEffectRun.current = true;
 
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notifications/recipient?page=${page}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notifications/recipient?page=${page}&size=7`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${activeUser?.accessToken}`
@@ -53,7 +53,6 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
         if (typeof value !== 'undefined') {
           value.map((notification: any) => {
             const stringNotification = JSON.stringify(notification);
-            console.log(stringNotification)
             setMessages(prev => [...prev, stringNotification]);
           });
         }
@@ -190,7 +189,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
                     </Box>
                     {isEventNotification ?
                       <Text>{notification.description}</Text> :
-                      <Text>{JSON.stringify(notification.additionalOptions.description)}</Text>
+                      <Text>{notification.additionalOptions?.description && notification.additionalOptions?.description}</Text>
                     }
                     <Box className="flex items-end justify-end grow">
                       <Box className="flex items-center p-2 mr-2">
@@ -219,9 +218,19 @@ function getRelativeTimeString(dateString: string): string {
   const currentDate = new Date();
 
   const diffTime = currentDate.getTime() - inputDate.getTime();
+  const diffMinutes = Math.floor(diffTime / (1000 * 60));
+  const diffHours = Math.floor(diffTime / (1000 * 3600));
   const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
 
-  if (diffDays === 0) {
+  if (diffMinutes < 5) {
+    return "Just Now";
+  } else if (diffMinutes < 20) {
+    return "5 Minutes Ago";
+  } else if (diffMinutes < 60) {
+    return "20 Minutes Ago";
+  } else if (diffHours < 2) {
+    return "An Hour Ago";
+  } else if (diffDays === 0) {
     return "Today";
   } else if (diffDays === 1) {
     return "Yesterday";
@@ -235,4 +244,3 @@ function getRelativeTimeString(dateString: string): string {
     return "Long Long Time Ago";
   }
 }
-

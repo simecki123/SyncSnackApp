@@ -13,21 +13,39 @@ export default function NavLinksWeb() {
     <Box className="flex flex-col">
       {links.map((link, index) => {
         const IconLink = link.icon;
-        return (
-          <Link key={index} href={link.href}>
-            <Box className={clsx(
-              "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
-              {
-                'bg-orange-100 text-orange-400': pathname === link.href,
-              }
-            )}>
-              <IconLink className="h-6 w-6 mr-2" />
-              <Box className="font-semibold">
-                {link.name}
+        if (link.name === 'Event') {
+          return (
+            <a key={index} href={link.href}>
+              <Box className={clsx(
+                "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
+                {
+                  'bg-orange-100 text-orange-400': pathname === link.href,
+                }
+              )}>
+                <IconLink className="h-6 w-6 mr-2" />
+                <Box className="font-semibold">
+                  {link.name}
+                </Box>
               </Box>
-            </Box>
-          </Link>
-        )
+            </a>
+          )
+        } else {
+          return (
+            <Link key={index} href={link.href}>
+              <Box className={clsx(
+                "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
+                {
+                  'bg-orange-100 text-orange-400': pathname === link.href,
+                }
+              )}>
+                <IconLink className="h-6 w-6 mr-2" />
+                <Box className="font-semibold">
+                  {link.name}
+                </Box>
+              </Box>
+            </Link>
+          )
+        }
       })}
     </Box>
   );

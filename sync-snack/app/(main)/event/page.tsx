@@ -26,7 +26,15 @@ export default async function EventPage() {
   const userToken = activeUser?.accessToken;
 
   try {
-    event = await fetchImproved('/api/events/active');
+    // event = await fetchImproved('/api/events/active');
+    console.log('THIS IS EXECUTED YES SIR')
+    event = await fetch(`${process.env.BACKEND_URL}/api/events/active`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      },
+    }).then((value) => value.json())
+    console.log(event, 'event hahahahhah')
   } catch (error) {
     eventError = "Failed to fetch event details.";
     console.error("Error fetching event:", error);
