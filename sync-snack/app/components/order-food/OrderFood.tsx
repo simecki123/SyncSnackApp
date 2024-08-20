@@ -26,6 +26,8 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         }),
       });
 
+      console.log("order: ", orderResponse);
+
       if (orderResponse.ok) {
         toast({
           title: "Order placed successfully",
