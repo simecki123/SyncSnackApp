@@ -6,7 +6,7 @@ export default function OrderTypePretty({ orderType }: any) {
       return (
         <Image src='/coffee_green_circle.png' alt='coffee' boxSize='30px' />
       );
-    case "MIX":
+    case "ALL":
       return (
         <Image src='/orange_drink.png' alt='mix' boxSize='30px' />
       );
