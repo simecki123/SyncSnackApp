@@ -5,6 +5,7 @@ import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
 
 import dynamic from 'next/dynamic';
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const GroupButtons = dynamic(
@@ -33,6 +34,14 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
       return [];
     }
   };
+
+  await fetch(`${process.env.BACKEND_URL}/api/profiles/scores`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    }
+  })
 
   const members = await fetchMembers(currentPage);
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);

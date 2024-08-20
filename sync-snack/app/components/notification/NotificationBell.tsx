@@ -53,6 +53,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
         if (typeof value !== 'undefined') {
           value.map((notification: any) => {
             const stringNotification = JSON.stringify(notification);
+            console.log(stringNotification)
             setMessages(prev => [...prev, stringNotification]);
           });
         }
@@ -163,7 +164,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
             {messages.map((value: any, index) => {
               value = JSON.parse(value)
               let isEventNotification = false;
-              if (typeof value.additionalOptions?.orderDetails === 'undefined') {
+              if (typeof value.additionalOptions?.description === 'undefined') {
                 isEventNotification = true;
               }
 
