@@ -26,7 +26,7 @@ export default function FilteredEvents({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const currentFilter = searchParams.get('filter') || 'MIX';
+    const currentFilter = searchParams.get('filter') || 'ALL';
     if (currentFilter !== filter) {
       setFilter(currentFilter);
       fetchEvents(currentFilter).then(setEvents);
@@ -59,19 +59,19 @@ export default function FilteredEvents({
         <Select
           value={filter}
           onChange={(e) => handleFilterChange(e.target.value)}
+          
         >
-          <option value="MIX">All</option>
+          <option value="ALL">All</option>
           <option value="COFFEE">Coffee</option>
           <option value="FOOD">Food</option>
-          <option value="MIX">Mix</option>
           <option value="DRINKS">Drinks</option>
         </Select>
       </Box>
 
       <Flex wrap="wrap" justify="center" display={{ base: 'none', md: 'flex' }} mb={6} gap={4}>
-        <FilterButton filter='MIX' currentFilter={filter} onClick={() => handleFilterChange('MIX')}>
-          <Image className='mr-1' src='/orange_drink.png' alt="Mix" width={24} height={24} />
-          Mix
+        <FilterButton filter='ALL' currentFilter={filter} onClick={() => handleFilterChange('ALL')}>
+          <Image className='mr-1' src='/orange_drink.png' alt="ALL" width={24} height={24} />
+          ALL
         </FilterButton>
         <FilterButton filter="COFFEE" currentFilter={filter} onClick={() => handleFilterChange('COFFEE')}>
           <Image className='mr-1' src='/coffee_green_circle.png' alt="Coffee" width={24} height={24} />

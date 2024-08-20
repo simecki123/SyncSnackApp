@@ -158,7 +158,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
       <Drawer placement={'right'} onClose={onClose} isOpen={isOpen} size={'sm'}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'>Notifications</DrawerHeader>
+          <DrawerHeader onClick={onClose} borderBottomWidth='1px'>Notifications</DrawerHeader>
           <DrawerBody>
             {messages.map((value: any, index) => {
               value = JSON.parse(value)

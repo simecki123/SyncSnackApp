@@ -38,9 +38,12 @@ export default function HeaderPhone({ activeUser }: any) {
           <Text className="text-2xl font-semibold">SyncSnack</Text>
         </Box>
         <Box className="flex space-x-2 items-center">
-          <NotificationBell activeUser={activeUser} />
+          
           <HamburgerMenu isOpen={onOpen} setIsOpen={setIsOpen} />
         </Box>
+      </Box>
+      <Box display="flex" justifyContent="flex-end" mt={4} mr={4}>
+        <NotificationBell activeUser={activeUser} />
       </Box>
       <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />

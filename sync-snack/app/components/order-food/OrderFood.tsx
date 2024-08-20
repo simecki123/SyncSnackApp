@@ -60,11 +60,8 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
 
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.700')}
       p={8}
-      borderRadius="lg"
-      boxShadow="md"
-      maxWidth="500px"
+      width="100%"
       mx="auto"
       my={8}
     >
@@ -80,6 +77,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           focusBorderColor="orange.400"
           value={orderText}
           onChange={(e) => setOrderText(e.target.value)}
+          maxLength={80}
         />
         <Button
           colorScheme="orange"
