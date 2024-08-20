@@ -42,7 +42,7 @@ export default async function InProgressEvents({ searchParams }: InProgressEvent
   const initialEvents = await fetchEvents(filter);
 
   return (
-    <Box p={6} className='bg-gray-50' borderRadius="lg">
+    <Box width="80%" p={6} className='bg-gray-50' borderRadius="lg">
 
       <FilteredEvents
         activeUser={activeUser}
