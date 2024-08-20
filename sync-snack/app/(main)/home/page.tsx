@@ -15,7 +15,6 @@ export default async function HomePage() {
       <BrewComponent activeUser={activeUser}></BrewComponent>
 
       <Box className="flex items-center justify-center">
-        <a href={'/event'}>event</a>
         <InProgressEvents />
       </Box>
     </Box>
