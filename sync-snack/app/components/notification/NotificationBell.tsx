@@ -13,9 +13,9 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
 import eventBusHome from "@/app/eventBus";
-import eventBusEvent from "@/app/eventBusEvent";
-import eventBusOrdersEvent from "../../eventBusOrdersEvent";
-import { revalidatePath } from "next/cache";
+import useNotificationStore from '@/app/store/notificationStore'; // Import the Zustand store
+import useNotificationEventPageStore from '@/app/store/notificationEventPageStore';
+import useNotificationEventPageOrdersStore from '@/app/store/notificationEventPageOrdersStore';
 
 export default function NotificationBell({ activeUser }: { activeUser: any }) {
 
@@ -28,7 +28,10 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
   const toast = useToast()
   const id = 'toast-id'
   const [page, setPage] = useState(0)
-  const [showButton, setShowButton] = useState(true)
+  const [showButton, setShowButton] = useState(true);
+  const { setHasNewEventNotification } = useNotificationStore(); // Use the Zustand store
+  const { setHasNewEventPageNotification } = useNotificationEventPageStore(); // use the Zustand store
+  const { setNewOrderForYourEventNotification } = useNotificationEventPageOrdersStore(); // use the Zustand store
 
   const hasEffectRun = useRef(false);
 
@@ -74,25 +77,20 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
   }, []);
 
   const handleNewNotificationNewEventHome = () => {
-    eventBusHome.dispatch('newNotification', { filter: 'MIXED' });
+    eventBusHome.dispatch('newNotification', { filter: 'ALL' });
   };
 
-  const handleNewNotificationNewEventEvent = () => {
-    eventBusEvent.dispatch('newNotification');
-  }
-
-  const handleNewNotificationNewOrderEvent = () => {
-    eventBusOrdersEvent.dispatch('newNotification');
-  }
+  
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: `${process.env.NEXT_PUBLIC_WEBSOCKET}/ws`,
+      brokerURL: `ws://localhost:8080/ws`,
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
           setMessages(prev => [message.body, ...prev]);
           setNotificationState(true);
-          //handleNewNotificationNewOrderEvent();
+          setNewOrderForYourEventNotification(true);
+
           if (!toast.isActive(id)) {
             toast({
               id,
@@ -112,6 +110,7 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
 
             setNotificationState(true)
             handleNewNotificationNewEventHome();
+            setHasNewEventNotification(true);
 
             if (!toast.isActive(id)) {
               toast({
@@ -124,6 +123,8 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
                 position: 'top'
               })
             }
+          } else {
+            setHasNewEventPageNotification(true);
           }
         })
       },

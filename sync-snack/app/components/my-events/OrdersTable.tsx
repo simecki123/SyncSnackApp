@@ -1,15 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SimpleGrid, Button, HStack, Box, IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import OrderCards from "@/app/components/my-events/order-card/OrderCards";
 import { EventOrder } from '@/app/interfaces';
-import { fetchImproved } from '@/app/fetch';
+import useNotificationEventPageOrdersStore from '@/app/store/notificationEventPageOrdersStore';
 
-export default function OrdersTable({ orders, setStatusOfTheOrder }: { orders: Array<EventOrder>,
-  setStatusOfTheOrder: (status: string, orderId: string) => Promise<string> } ) {
 
+export default function OrdersTable({ startOrders, setStatusOfTheOrder, fetchAllOrdersOfThisEvent }: { startOrders: Array<EventOrder>,
+  setStatusOfTheOrder: (status: string, orderId: string) => Promise<string>,
+  fetchAllOrdersOfThisEvent: () => Promise<Array<EventOrder>>
+  } ) {
+
+  const [ orders, setOrders ] = useState(startOrders);
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 3;
 
@@ -19,6 +23,16 @@ export default function OrdersTable({ orders, setStatusOfTheOrder }: { orders: A
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(orders.length / ordersPerPage);
   const maxPageButtons = 5;
+
+  const { hasNewOrderForYOurEventNotification, setNewOrderForYourEventNotification } = useNotificationEventPageOrdersStore();
+
+  useEffect(() => {
+    if (hasNewOrderForYOurEventNotification) {
+      console.log("ima")
+      fetchAllOrdersOfThisEvent().then(setOrders);
+      setNewOrderForYourEventNotification(false); // Reset the state after fetching new events
+    }
+  }, [hasNewOrderForYOurEventNotification, fetchAllOrdersOfThisEvent]);
 
   // Generate page numbers
   const getPageNumbers = () => {
@@ -35,9 +49,6 @@ export default function OrdersTable({ orders, setStatusOfTheOrder }: { orders: A
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
-
-  
 
   return (
     <Box>
