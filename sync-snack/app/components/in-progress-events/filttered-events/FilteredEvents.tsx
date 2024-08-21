@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
 import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
-import eventBusHome from "@/app/eventBus";
+import useNotificationStore from '@/app/store/notificationStore'; // Import the Zustand store
 
 export default function FilteredEvents({
   activeUser,
@@ -22,6 +22,7 @@ export default function FilteredEvents({
 }) {
   const [events, setEvents] = useState(initialEvents);
   const [filter, setFilter] = useState(initialFilter);
+  const { hasNewEventNotification, setHasNewEventNotification } = useNotificationStore(); // Use Zustand to get the state
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -38,20 +39,11 @@ export default function FilteredEvents({
   };
 
   useEffect(() => {
-    
-      const handleNewNotification = async (e: CustomEvent) => {
-        const newEvents = await fetchEvents(filter); // Use current filter
-        setEvents(newEvents);
-        
-      };
-
-      eventBusHome.on('newNotification', handleNewNotification as unknown as EventListener);
-
-      return () => {
-        eventBusHome.remove('newNotification', handleNewNotification as unknown as EventListener);
-      };
-    
-  }, [fetchEvents, filter]); // Added filter as a dependency
+    if (hasNewEventNotification) {
+      fetchEvents(filter).then(setEvents);
+      setHasNewEventNotification(false); // Reset the state after fetching new events
+    }
+  }, [hasNewEventNotification, fetchEvents, filter]);
 
   return (
     <>

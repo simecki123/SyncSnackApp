@@ -1,20 +1,24 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Collapse, useDisclosure, Icon, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Heading } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { EventOrder, EventEvent } from '@/app/interfaces';
+import useNotificationEventPageStore from '@/app/store/notificationEventPageStore';
 
-export default function EventDetails({ event, orders, setStatusOfEvent }: { 
-  event: EventEvent,
+export default function EventDetails({ startEvent, orders, setStatusOfEvent, fetchActiveEvents }: { 
+  startEvent: EventEvent,
   orders: Array<EventOrder>,
-  setStatusOfEvent: (status: string, eventId: string) => Promise<string> 
+  setStatusOfEvent: (status: string, eventId: string) => Promise<string> ,
+  fetchActiveEvents: () => Promise<EventEvent>
 }) {
   const toast = useToast();
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
+  const [event, setEvent] = useState(startEvent);
+  const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
 
   const handleStatusChange = (status: string) => {
     setActionStatus(status);
@@ -49,6 +53,13 @@ export default function EventDetails({ event, orders, setStatusOfEvent }: {
       });
     }
   }
+
+  useEffect(() => {
+    if (hasNewEventPageNotification) {
+      fetchActiveEvents().then(setEvent);
+      setHasNewEventPageNotification(false); // Reset the state after fetching new events
+    }
+  }, [hasNewEventPageNotification, fetchActiveEvents]);
 
   return (
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">

@@ -1,6 +1,6 @@
 import { fetchImproved } from "@/app/fetch";
 import { Box, VStack, Container, Heading, Divider, Text, Alert, AlertIcon } from "@chakra-ui/react";
-import { EventOrder } from "@/app/interfaces";
+import { EventEvent, EventOrder } from "@/app/interfaces";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/app/auth";
 
@@ -17,7 +17,7 @@ const EventDetails = dynamic(
 );
 
 export default async function EventPage() {
-  let event = null;
+  let event: EventEvent;
   let orders: EventOrder[] = [];
   let eventError = null;
   let ordersError = null;
@@ -25,15 +25,22 @@ export default async function EventPage() {
   const activeUser: any = session?.user;
   const userToken = activeUser?.accessToken;
 
-  try {
-    // event = await fetchImproved('/api/events/active');
-    console.log('THIS IS EXECUTED YES SIR')
-    event = await fetch(`${process.env.BACKEND_URL}/api/events/active`, {
+  async function fetchActiveEvents() {
+    "use server";
+    const newEvent = await fetch(`${process.env.BACKEND_URL}/api/events/active`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
-    }).then((value) => value.json())
+    }).then((value) => value.json());
+
+    return newEvent;
+  }
+
+  try {
+    // event = await fetchImproved('/api/events/active');
+    console.log('THIS IS EXECUTED YES SIR')
+    event = await fetchActiveEvents();
     console.log(event, 'event hahahahhah')
   } catch (error) {
     eventError = "Failed to fetch event details.";
@@ -53,9 +60,16 @@ export default async function EventPage() {
     );
   }
 
+  async function fetchAllOrdersOfThisEvent() {
+    "use server";
+      const newOrders = await fetchImproved(`/api/orders/event/${event.eventId}`);
+      return newOrders;
+    
+  }
+
   if (event) {
     try {
-      orders = await fetchImproved(`/api/orders/event/${event.eventId}`);
+      orders = await fetchAllOrdersOfThisEvent();
     } catch (error) {
       ordersError = "Failed to fetch orders.";
       console.error("Error fetching orders:", error);
@@ -134,7 +148,7 @@ export default async function EventPage() {
           </Alert>
         ) : (
           <>
-            <EventDetails event={event} orders={orders} setStatusOfEvent={setStatusOfEvent} />
+            <EventDetails startEvent={event} orders={orders} setStatusOfEvent={setStatusOfEvent} fetchActiveEvents={fetchActiveEvents} />
             <Divider my={6} borderColor="orange.300" />
             <Heading as="h2" size="xl" color="orange.600" mb={4}>
               Orders
@@ -150,7 +164,7 @@ export default async function EventPage() {
                 There are no orders yet.
               </Alert>
             ) : (
-              <OrdersTable orders={orders} setStatusOfTheOrder={setStatusOfTheOrder} />
+              <OrdersTable startOrders={orders} setStatusOfTheOrder={setStatusOfTheOrder} fetchAllOrdersOfThisEvent={fetchAllOrdersOfThisEvent}/>
             )}
           </>
         )}

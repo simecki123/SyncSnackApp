@@ -5,10 +5,6 @@ import { Event, OrderFoodProps } from '@/app/interfaces';
 import suggarIcon from '@/public/sugar.png';
 import milkIcon from '@/public/milk.png';
 
-import { Client } from '@stomp/stompjs';
-import { revalidatePath, revalidateTag } from 'next/cache';
-
-
 export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFoodProps) {
   const [orderText, setOrderText] = useState('');
   const [sugar, setSugar] = useState(0);
@@ -46,6 +42,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           isClosable: true,
         });
         setOrderText('');
+        //SET NOTIF FIRE EVENT
 
         setSugar(0);
         setMilk(0);
