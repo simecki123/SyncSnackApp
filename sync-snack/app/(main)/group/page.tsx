@@ -3,9 +3,7 @@ import GroupOrdersDonut from "@/app/components/profile-group-data/group-data/Gro
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
-
 import dynamic from 'next/dynamic';
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const GroupButtons = dynamic(
@@ -44,12 +42,11 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   })
 
   const members = await fetchMembers(currentPage);
+  const futureMembers = await fetchMembers(currentPage+1);
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   const orderDounuts = await fetchImproved(`/api/groups/count`);
 
-  if (members.length === 0 && currentPage > 0) {
-    redirect(`/group?page=${currentPage - 1}`);
-  }
+  
 
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-full">
@@ -73,6 +70,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
         <Box className="hidden md:h-full md:flex md:justify-center">
           <MembersTable
             members={members}
+            futureMembers={futureMembers}
             userToken={activeUser?.accessToken}
             currentPage={currentPage}
           />

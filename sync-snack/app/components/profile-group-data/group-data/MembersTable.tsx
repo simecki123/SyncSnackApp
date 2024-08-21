@@ -20,10 +20,11 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function MembersTable({ members, userToken, currentPage }: any) {
+export default function MembersTable({ members, futureMembers, userToken, currentPage }: any) {
   const router = useRouter();
   const [sortStrategy, setSortStrategy] = useState('Score')
   const [data, setData] = useState(members)
+  const [hasNextPage, setHasNextPage] = useState(true)
 
   useEffect(() => {
     let strategyModifed = "SCORE"
@@ -47,7 +48,8 @@ export default function MembersTable({ members, userToken, currentPage }: any) {
       .then((response) => response.json())
       .then((data) => {
         setData(data);
-      })
+        setHasNextPage(futureMembers.length > 0);
+      });
   }, [sortStrategy, currentPage, userToken]);
 
   const handlePageChange = (newPage: number) => {
@@ -105,7 +107,7 @@ export default function MembersTable({ members, userToken, currentPage }: any) {
             icon={<ChevronRightIcon />}
             onClick={() => handlePageChange(currentPage + 1)}
             size="sm"
-            isDisabled={data.length === 0}
+            isDisabled={!hasNextPage}
           />
         </HStack>
       </Flex>
