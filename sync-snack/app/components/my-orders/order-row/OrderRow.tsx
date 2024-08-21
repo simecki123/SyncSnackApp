@@ -53,10 +53,23 @@ export default function OrderRow({ order, accessToken }: any) {
           <DescriptionBox desc={order.additionalOptions.description} />
         </Td>
         <Td>
-          <Box className='h-10 flex items-center'>
-            {orderRating !== 0 ? <RatingPretty desc={order.additionalOptions.description}
-              rating={orderRating} /> : <Button onClick={() => setRateModalOpen(true)}>Rate</Button>}
-          </Box>
+          {order.status === "COMPLETED" ? (
+            <Box className='h-10 flex items-center'>
+              {orderRating !== 0 ? (
+                <RatingPretty desc={order.additionalOptions.description} rating={orderRating} />
+              ) : (
+                <Button onClick={() => setRateModalOpen(true)}>Rate</Button>
+              )}
+            </Box>
+          ) : order.status === "IN_PROGRESS" ? (
+            <Box className='h-10 flex items-center'>
+              <Text className='text-yellow-400'>Can't rate yet...</Text>
+            </Box>
+          ) : order.status === "CANCELLED" ? (
+            <Box className='h-10 flex items-center'>
+              <Text className='text-red-600' >Can't rate</Text>
+            </Box>
+          ) : null}
         </Td>
       </Tr>
       {isRateModalOpened && (
