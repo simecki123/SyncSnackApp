@@ -28,7 +28,7 @@ export default function OrdersTable({ startOrders, setStatusOfTheOrder, fetchAll
 
   useEffect(() => {
     if (hasNewOrderForYOurEventNotification) {
-      console.log("ima")
+      
       fetchAllOrdersOfThisEvent().then(setOrders);
       setNewOrderForYourEventNotification(false); // Reset the state after fetching new events
     }
