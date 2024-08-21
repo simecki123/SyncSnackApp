@@ -80,13 +80,14 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
     eventBusHome.dispatch('newNotification', { filter: 'ALL' });
   };
 
-  
+
 
   useEffect(() => {
     const client = new Client({
       brokerURL: `ws://localhost:8080/ws`,
       onConnect: () => {
         client.subscribe(`/topic/orders/${activeUser.userProfileId}`, (message: any) => {
+          console.log('new order: ', message.body)
           setMessages(prev => [message.body, ...prev]);
           setNotificationState(true);
           setNewOrderForYourEventNotification(true);
@@ -105,8 +106,11 @@ export default function NotificationBell({ activeUser }: { activeUser: any }) {
         });
         client.subscribe(`/topic/groups/${activeUser.groupId}`, (message: any) => {
           const eventNotification = JSON.parse(message.body)
+          eventNotification.notificationType = 'EVENT'
+          const event = JSON.stringify(eventNotification)
+          console.log('new event: ', message.body)
           if (eventNotification.userProfileId !== activeUser.userProfileId) {
-            setMessages(prev => [message.body, ...prev]);
+            setMessages(prev => [event, ...prev]);
 
             setNotificationState(true)
             handleNewNotificationNewEventHome();
