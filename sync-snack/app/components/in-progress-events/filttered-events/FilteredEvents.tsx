@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SimpleGrid, Flex, Text, Box, Select } from "@chakra-ui/react";
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -8,6 +8,7 @@ import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
 import { Event } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 import useNotificationStore from '@/app/store/notificationStore'; // Import the Zustand store
+import { NavLinksContext } from '@/app/providers';
 
 export default function FilteredEvents({
   activeUser,
@@ -51,7 +52,7 @@ export default function FilteredEvents({
         <Select
           value={filter}
           onChange={(e) => handleFilterChange(e.target.value)}
-          
+
         >
           <option value="ALL">All</option>
           <option value="COFFEE">Coffee</option>

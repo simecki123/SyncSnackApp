@@ -38,10 +38,7 @@ export default async function EventPage() {
   }
 
   try {
-    // event = await fetchImproved('/api/events/active');
-    console.log('THIS IS EXECUTED YES SIR')
     event = await fetchActiveEvents();
-    console.log(event, 'event hahahahhah')
   } catch (error) {
     eventError = "Failed to fetch event details.";
     console.error("Error fetching event:", error);
@@ -62,9 +59,9 @@ export default async function EventPage() {
 
   async function fetchAllOrdersOfThisEvent() {
     "use server";
-      const newOrders = await fetchImproved(`/api/orders/event/${event.eventId}`);
-      return newOrders;
-    
+    const newOrders = await fetchImproved(`/api/orders/event/${event.eventId}`);
+    return newOrders;
+
   }
 
   if (event) {
@@ -164,7 +161,7 @@ export default async function EventPage() {
                 There are no orders yet.
               </Alert>
             ) : (
-              <OrdersTable startOrders={orders} setStatusOfTheOrder={setStatusOfTheOrder} fetchAllOrdersOfThisEvent={fetchAllOrdersOfThisEvent}/>
+              <OrdersTable startOrders={orders} setStatusOfTheOrder={setStatusOfTheOrder} fetchAllOrdersOfThisEvent={fetchAllOrdersOfThisEvent} />
             )}
           </>
         )}

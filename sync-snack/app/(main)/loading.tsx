@@ -9,7 +9,7 @@ const DotLottieReact = dynamic(
 
 export default function Loading() {
   return (
-    <Box className="h-screen w-screen flex items-center justify-center text-white">
+    <Box className="h-screen w-full flex items-center justify-center text-white">
       <DotLottieReact
         src="/loading.json"
         loop

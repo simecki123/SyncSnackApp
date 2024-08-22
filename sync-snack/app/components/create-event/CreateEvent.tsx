@@ -1,12 +1,15 @@
+import { NavLinksContext } from '@/app/providers';
 import { Box, Button, Heading, Select, Textarea, VStack, useToast, FormControl, FormLabel } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { orange } from 'tailwindcss/colors';
 
 export default function CreateEvent({ activeUser, onCloseModal }: any) {
   const toast = useToast();
 
+  const eventContext = useContext(NavLinksContext)
+
   const [eventData, setEventData] = useState({
-    creatorId: activeUser.id, 
+    creatorId: activeUser.id,
     title: `Event by ${activeUser.firstName}`,
     description: '',
     groupId: activeUser.groupId,
@@ -64,6 +67,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
 
 
       if (response.ok) {
+        eventContext.setIsEventLinkShown(true)
         toast({
           title: 'Event Created',
           description: 'Your event has been successfully created.',
@@ -159,5 +163,5 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
       </form>
     </Box>
   );
-  
+
 }

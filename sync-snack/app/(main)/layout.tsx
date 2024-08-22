@@ -14,7 +14,7 @@ export default async function Layout({
 }>) {
   const session = await auth();
   const activeUser: any = session?.user
-  console.log(activeUser)
+  console.log(activeUser, 'loggin in user')
   if (!activeUser) {
     redirect('/login');
   }
@@ -29,7 +29,7 @@ export default async function Layout({
         <NotificationBell activeUser={activeUser} />
         <Box className="flex flex-col">
           <HeaderLogo />
-          <NavLinksWeb />
+          <NavLinksWeb token={activeUser.accessToken} />
           <Box className="flex grow items-end">
             <SignOutButton />
           </Box>

@@ -1,15 +1,16 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Collapse, useDisclosure, Icon, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Heading } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { EventOrder, EventEvent } from '@/app/interfaces';
 import useNotificationEventPageStore from '@/app/store/notificationEventPageStore';
+import { NavLinksContext } from '@/app/providers';
 
-export default function EventDetails({ startEvent, orders, setStatusOfEvent, fetchActiveEvents }: { 
+export default function EventDetails({ startEvent, orders, setStatusOfEvent, fetchActiveEvents }: {
   startEvent: EventEvent,
   orders: Array<EventOrder>,
-  setStatusOfEvent: (status: string, eventId: string) => Promise<string> ,
+  setStatusOfEvent: (status: string, eventId: string) => Promise<string>,
   fetchActiveEvents: () => Promise<EventEvent>
 }) {
   const toast = useToast();
@@ -19,6 +20,8 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const [event, setEvent] = useState(startEvent);
   const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
+
+  const eventContext = useContext(NavLinksContext)
 
   const handleStatusChange = (status: string) => {
     setActionStatus(status);
@@ -32,7 +35,8 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     try {
       const response = await setStatusOfEvent(actionStatus, event.eventId);
       if (response === "SUCCESS") {
-
+        eventContext.setIsEventLinkShown(false)
+        console.log(eventContext.isEventLinkShown, 'dflkhafdjlhfa')
         toast({
           title: `Event ${actionStatus === "cancel" ? "cancelled" : "finished"}`,
           description: `The event and all its orders have been marked as ${actionStatus}.`,
