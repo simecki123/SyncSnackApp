@@ -42,18 +42,17 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   })
 
   const members = await fetchMembers(currentPage);
-  const futureMembers = await fetchMembers(currentPage+1);
+  const futureMembers = await fetchMembers(currentPage + 1);
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   const orderDounuts = await fetchImproved(`/api/groups/count`);
 
-  
+
 
   return (
-    <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-full">
+    <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen">
       <Box>
         <Text className="flex md:justify-start md:m-6 justify-center mt-2 text-4xl font-semibold">{groupData?.name}</Text>
-        <Text className="italic text-tremor-content m-6">{groupData?.description}lication that is designed to break all the rules of app
-          building in a way that no other set of developers will be able to match.</Text>
+        <Text className="italic text-tremor-content m-6">{groupData?.description}</Text>
         <GroupButtons group={groupData} />
       </Box>
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
@@ -67,7 +66,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
             )
           })}
         </Box>
-        <Box className="hidden md:h-full md:flex md:justify-center">
+        <Box className="hidden md:flex md:justify-center">
           <MembersTable
             members={members}
             futureMembers={futureMembers}
@@ -76,7 +75,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
           />
         </Box>
       </Box>
-      <Box className="hidden md:flex md:h-full md:justify-center">
+      <Box className="hidden md:flex md:justify-center">
         <GroupOrdersDonut datahero={orderDounuts} />
       </Box>
     </Box>

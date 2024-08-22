@@ -11,7 +11,6 @@ import {
   Image,
   Box,
   Button,
-  Flex,
   HStack,
   IconButton,
 } from '@chakra-ui/react'
@@ -41,7 +40,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
     }
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/group?sortCondition=${strategyModifed}&page=${currentPage}&size=4`, {
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${userToken}`
       },
     })
@@ -93,7 +92,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
           </Tbody>
         </Table>
       </TableContainer>
-      <Flex justifyContent="flex-end" alignItems="flex-end" mt={4} className='mr-4 mb-2 grow'>
+      <Box mt={4} className='mr-4 mb-2 grow flex justify-center items-start'>
         <HStack spacing={2}>
           <IconButton
             aria-label="Previous page"
@@ -110,7 +109,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
             isDisabled={!hasNextPage}
           />
         </HStack>
-      </Flex>
+      </Box>
     </Box>
   )
 }
