@@ -20,6 +20,7 @@ export default async function ProfileDataPage() {
 
   const session = await auth();
   const activeUser: any = session?.user;
+  
 
   const user: any = await fetchImproved(`/api/profiles/${activeUser?.userProfileId}`);
   user.email = activeUser?.email;
@@ -37,6 +38,18 @@ export default async function ProfileDataPage() {
       'Authorization': `Bearer ${activeUser?.accessToken}`
     }
   });
+
+  	
+  const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/stats`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${user?.accessToken}`
+    },
+  });
+
+  const userData = await response.json()
+  console.log("user data: ", userData)
+  
 
   // const client = new Client();
   // client.brokerURL = 'ws://localhost:8080/ws'
@@ -57,7 +70,7 @@ export default async function ProfileDataPage() {
   return (
     <Box className='md:flex md:h-screen md:justify-center md:items-center'>
       <Box className='md:w-9/12 md:h-5/6'>
-        <ProfileGroupComponent user={user} />
+        <ProfileGroupComponent user={user} userData={userData} />
       </Box>
     </Box>
   );

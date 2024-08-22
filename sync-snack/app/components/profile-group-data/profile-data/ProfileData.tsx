@@ -1,19 +1,27 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { ProfileUser } from '@/app/interfaces'
+import { OrderStats, ProfileUser } from '@/app/interfaces'
 import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra-ui/react'
 import { useDropzone } from 'react-dropzone'
 import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
 import clsx from 'clsx'
 import { BarChart, DonutChart } from '@tremor/react'
 import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
+import { fetchImproved } from '@/app/fetch'
 
-export default function ProfileData({ user }: any) {
-
+export default function ProfileData({ user, userData }: {user: any, userData: OrderStats[]}) {
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
+
+  // Separate data into two lists: one for type and one for status
+  const typeData = userData.filter(item => 'type' in item);
+  const statusData = userData.filter(item => 'status' in item);
+
+  // Calculate completed and canceled orders
+  const completedOrders = statusData.find(item => item.status === 'COMPLETED')?.count || 0;
+  const canceledOrders = statusData.find(item => item.status === 'CANCELLED')?.count || 0;
 
   useEffect(() => {
     const uploadFiles = async () => {
@@ -36,8 +44,6 @@ export default function ProfileData({ user }: any) {
 
           const responseFinal = await response.json()
           setPhotoUrl(responseFinal.photoUrl)
-
-          // window.location.reload()
         } catch (error) {
           console.error('Error uploading file:', error);
         }
@@ -47,7 +53,7 @@ export default function ProfileData({ user }: any) {
     if (acceptedFiles.length > 0) {
       uploadFiles();
     }
-  }, [acceptedFiles]);
+  }, [acceptedFiles, user?.accessToken]);
 
   return (
     <Box className='md:h-full mt-2'>
@@ -66,7 +72,6 @@ export default function ProfileData({ user }: any) {
         </Box>
 
         <Box className='md:flex space-y-8 md:space-y-0'>
-
           <Box className='space-y-8'>
             <Box className='bg-orange-300 p-4 mx-2 rounded-xl shadow-lg'>
               <Box className='flex items-center'>
@@ -74,7 +79,7 @@ export default function ProfileData({ user }: any) {
                 <Text className='text-tremor-default p-1'>Total completed orders</Text>
               </Box>
               <Box className='bg-white rounded-xl py-4'>
-                <Text className='text-tremor-metric flex justify-center'>12</Text>
+                <Text className='text-tremor-metric flex justify-center'>{completedOrders}</Text>
               </Box>
             </Box>
 
@@ -84,14 +89,16 @@ export default function ProfileData({ user }: any) {
                 <Text className='text-tremor-default p-1'>Total canceled orders</Text>
               </Box>
               <Box className='bg-white rounded-xl py-4'>
-                <Text className='text-tremor-metric flex justify-center'>12</Text>
+                <Text className='text-tremor-metric flex justify-center'>{canceledOrders}</Text>
               </Box>
             </Box>
           </Box>
 
           <Box>
             <DonutChart className="flex justify-center md:w-72 md:items-center md:h-full md:p-10"
-              data={datahero}
+              data={typeData}
+              category="count"
+              index="type"
               showAnimation={true}
               variant="donut"
               colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
@@ -101,87 +108,14 @@ export default function ProfileData({ user }: any) {
       </Box>
       <Box className='md:mt-4 hidden md:block'>
         <BarChart
-          data={chartdata}
-          index="name"
+          data={statusData}
+          index="status"
+          categories={['count']}
           showAnimation={true}
-          categories={['Amount of orders']}
           colors={['orange']}
           valueFormatter={dataFormatter}
           yAxisWidth={48} />
       </Box>
     </Box>
   );
-
 }
-
-const datahero = [
-  {
-    name: 'Coffee',
-    value: 39,
-  },
-  {
-    name: 'Mix',
-    value: 24,
-  },
-  {
-    name: 'Food',
-    value: 21,
-  },
-  {
-    name: 'Beverage',
-    value: 13,
-  },
-];
-
-const chartdata = [
-  {
-    name: 'January',
-    'Amount of orders': 45,
-  },
-  {
-    name: 'February',
-    'Amount of orders': 62,
-  },
-  {
-    name: 'March',
-    'Amount of orders': 37,
-  },
-  {
-    name: 'April',
-    'Amount of orders': 58,
-  },
-  {
-    name: 'May',
-    'Amount of orders': 73,
-  },
-  {
-    name: 'June',
-    'Amount of orders': 29,
-  },
-  {
-    name: 'July',
-    'Amount of orders': 84,
-  },
-  {
-    name: 'August',
-    'Amount of orders': 91,
-  },
-  {
-    name: 'September',
-    'Amount of orders': 33,
-  },
-  {
-    name: 'October',
-    'Amount of orders': 77,
-  },
-  {
-    name: 'November',
-    'Amount of orders': 49,
-  },
-  {
-    name: 'December',
-    'Amount of orders': 65,
-  },
-];
-
-
