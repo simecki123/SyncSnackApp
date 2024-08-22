@@ -38,7 +38,7 @@ export default function HeaderPhone({ activeUser }: any) {
           <Text className="text-2xl font-semibold">SyncSnack</Text>
         </Box>
         <Box className="flex space-x-2 items-center">
-          
+
           <HamburgerMenu isOpen={onOpen} setIsOpen={setIsOpen} />
         </Box>
       </Box>

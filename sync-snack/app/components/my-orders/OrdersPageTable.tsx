@@ -15,7 +15,6 @@ const DotLottieReact = dynamic(
 export default function OrdersPageTable({ accessToken }: any) {
 
   const [orders, setOrders] = useState([])
-  const [isLoading, setLoading] = useState(true)
 
   const [input, setInput] = useState('')
 
@@ -36,23 +35,8 @@ export default function OrdersPageTable({ accessToken }: any) {
       .then((value) => {
         setOrders(value)
         console.log(value, 'orders')
-        setTimeout(async () => setLoading(false), 2000)
       }).catch((e) => { setOrders([]) })
   }, [rateFilter, input, statusFilter, currentPage])
-
-  if (isLoading) {
-    return (
-      <Box className="h-screen w-screen flex items-center justify-center text-white">
-        <DotLottieReact
-          src="/loading.json"
-          loop
-          autoplay
-          className="w-72 h-72 m-44"
-        />
-      </Box>
-    )
-  }
-
 
   return (
     <Box className='grow flex flex-col'>
