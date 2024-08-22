@@ -5,7 +5,7 @@ import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra
 import { useDropzone } from 'react-dropzone'
 import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
 import clsx from 'clsx'
-import { BarChart, DonutChart } from '@tremor/react'
+import { BarChart, DonutChart,LineChart } from '@tremor/react'
 import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import { fetchImproved } from '@/app/fetch'
 

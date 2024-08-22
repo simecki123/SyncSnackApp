@@ -6,6 +6,7 @@ import { Box, Text } from "@chakra-ui/react";
 import HeaderPhone from "../components/header/HeaderPhone";
 import NavLinksWeb from "../components/header/NavLinksWeb";
 import NotificationBell from "../components/notification/NotificationBell";
+import BasketOfOrdersComponent from "../components/basket-of-orders/BasketOfOrdersComponent";
 
 export default async function Layout({
   children,
@@ -26,6 +27,7 @@ export default async function Layout({
         {children}
       </Box>
       <Box className="hidden md:flex md:h-screen">
+         <BasketOfOrdersComponent activeUser={activeUser} />
         <NotificationBell activeUser={activeUser} />
         <Box className="flex flex-col">
           <HeaderLogo />

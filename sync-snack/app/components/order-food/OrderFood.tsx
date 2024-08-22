@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Textarea, VStack, Heading, useColorModeValue, useToast, Select, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Image } from '@chakra-ui/react';
 import { Event, OrderFoodProps } from '@/app/interfaces';
-
+import useNotificationIcreatedOrderStore  from '@/app/store/notificationIcreatedOrderStore';
 import suggarIcon from '@/public/sugar.png';
 import milkIcon from '@/public/milk.png';
 
@@ -10,6 +10,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
   const [sugar, setSugar] = useState(0);
   const [milk, setMilk] = useState(0);
   const toast = useToast();
+  const { setHasNewNotificationIcreatedOrderStore } = useNotificationIcreatedOrderStore();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
       console.log(orderResponse);
 
       if (orderResponse.ok) {
+        setHasNewNotificationIcreatedOrderStore(true);
         toast({
           title: "Order placed successfully",
           status: "success",
