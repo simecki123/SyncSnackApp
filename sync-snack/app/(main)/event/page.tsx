@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/app/auth";
 
 import dynamic from 'next/dynamic';
+import { redirect } from "next/navigation";
 
 const OrdersTable = dynamic(
   () => import('@/app/components/my-events/OrdersTable'),
@@ -42,6 +43,7 @@ export default async function EventPage() {
   } catch (error) {
     eventError = "Failed to fetch event details.";
     console.error("Error fetching event:", error);
+    redirect('/home')
     return (
       <Box textAlign="center" py={10} px={6}>
         <Heading as="h2" size="xl" mb={4} color="red.500">
