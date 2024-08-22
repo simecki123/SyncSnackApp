@@ -166,4 +166,9 @@ export interface SortOptionsProps {
 }
 
 
-
+// Profile page stats
+export interface OrderStats {
+    status: string;
+    type: string;
+    count: number;
+  }
