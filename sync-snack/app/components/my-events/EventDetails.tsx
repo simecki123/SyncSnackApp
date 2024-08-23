@@ -6,6 +6,8 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { EventOrder, EventEvent } from '@/app/interfaces';
 import useNotificationEventPageStore from '@/app/store/notificationEventPageStore';
 import { NavLinksContext } from '@/app/providers';
+import EventCountdownTimer from '../countdown-timer/EventCountdownTimer';
+import InProgressTimer from '../countdown-timer/InProgressTimer';
 
 export default function EventDetails({ startEvent, orders, setStatusOfEvent, fetchActiveEvents }: {
   startEvent: EventEvent,
@@ -14,7 +16,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   fetchActiveEvents: () => Promise<EventEvent>
 }) {
   const toast = useToast();
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
+  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: false });
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
@@ -27,6 +29,8 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     setActionStatus(status);
     setIsDialogOpen(true);
   };
+
+  
 
   const onCloseDialog = () => setIsDialogOpen(false);
 
@@ -69,6 +73,10 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">
       <HStack justifyContent="space-between" mb={4}>
         <Heading as="h2" size="xl" color="orange.600">{event.title}</Heading>
+        <Badge colorScheme="green">PENDING</Badge>
+        <EventCountdownTimer event={event}></EventCountdownTimer>
+        <Badge colorScheme="yellow">IN PROGRESS</Badge>
+        <InProgressTimer event={event}></InProgressTimer>
         <Button onClick={onToggle} variant="ghost">
           {isOpen ? (
             <>Hide Details <Icon as={ChevronUpIcon} ml={2} /></>
@@ -80,7 +88,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       <Collapse in={isOpen} animateOpacity>
         <VStack align="start" spacing={4}>
           <HStack>
-            <Badge colorScheme={event.status === "Pending" ? "yellow" : "green"}>{event.status}</Badge>
+
             <Badge colorScheme="orange">{event.eventType}</Badge>
           </HStack>
           <Box>

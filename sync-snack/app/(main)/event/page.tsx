@@ -40,6 +40,7 @@ export default async function EventPage() {
 
   try {
     event = await fetchActiveEvents();
+    console.log("event ", event)
   } catch (error) {
     eventError = "Failed to fetch event details.";
     console.error("Error fetching event:", error);

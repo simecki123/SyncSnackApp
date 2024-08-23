@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { auth } from '@/app/auth';
-import { Event } from '@/app/interfaces';
+import { Event, EventEvent } from '@/app/interfaces';
 import dynamic from 'next/dynamic';
 
 const FilteredEvents = dynamic(
@@ -34,7 +34,7 @@ export default async function InProgressEvents({ searchParams }: InProgressEvent
       return [];
     }
 
-    const events: Event[] = await eventsResponse.json();
+    const events: EventEvent[] = await eventsResponse.json();
     return events;
   }
 
