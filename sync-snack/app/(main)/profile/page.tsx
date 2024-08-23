@@ -20,7 +20,7 @@ export default async function ProfileDataPage() {
 
   const session = await auth();
   const activeUser: any = session?.user;
-  
+
 
   const user: any = await fetchImproved(`/api/profiles/${activeUser?.userProfileId}`);
   user.email = activeUser?.email;
@@ -39,7 +39,7 @@ export default async function ProfileDataPage() {
     }
   });
 
-  	
+
   const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/stats`, {
     method: 'GET',
     headers: {
@@ -47,25 +47,55 @@ export default async function ProfileDataPage() {
     },
   });
 
-  const userData = await response.json()
-  console.log("user data: ", userData)
-  
-
-  // const client = new Client();
-  // client.brokerURL = 'ws://localhost:8080/ws'
-  //
-  // client.onConnect = function(frame) {
-  //   client.subscribe(`/topic/orders/${activeUser?.userProfileId}`, (message) => {
-  //   });
-  // };
-  //
-  // client.activate()
-
-
   const profilePhotoBuffer = await profilePhotoResponse.arrayBuffer();
   const profilePhotoBase64 = Buffer.from(profilePhotoBuffer).toString('base64');
   const profilePhotoSrc = `data:image/png;base64,${profilePhotoBase64}`;
   user.profilePhoto = profilePhotoSrc;
+
+  const yearlyReportEvents: MonthlyCount[] = await fetch(`${process.env.BACKEND_URL}/api/profiles/monthly-summary/events`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    }
+  }).then((value) => {
+    if (!value.ok) {
+      throw new Error('FAILED TO FETCH')
+    }
+    return value.json()
+  }).catch((e) => { return [] })
+
+  const yearlyReportOrders: MonthlyCount[] = await fetch(`${process.env.BACKEND_URL}/api/profiles/monthly-summary/orders`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    }
+  }).then((value) => {
+    if (!value.ok) {
+      throw new Error('FAILED TO FETCH')
+    }
+    return value.json()
+  }).catch((e) => { return [] })
+
+  console.log(yearlyReportEvents, 'EVENTS FROM LAST YEAR')
+  console.log(yearlyReportOrders, 'EVENTS FROM LAST YEAR')
+
+  // combine the two arrays to get object MonthlyCountFinal
+
+  const monthlyCountFinal: MonthlyCountFinal[] = []
+
+  for (let i = 0; i < 12, i++) {
+    monthlyCountFinal.push({
+      date: `${yearlyReportEvents[i].year}-${yearlyReportEvents[i].month}`,
+      countEvent: yearlyReportEvents[i].count,
+      countOrders: yearlyReportOrders[i].count
+    })
+  }
+
+  console.log(monthlyCountFinal, 'FINAL MONTHLY COUNT')
+
+  const userData = await response.json()
+  console.log("user data: ", userData)
+
 
   return (
     <Box className='md:flex md:h-screen md:justify-center md:items-center'>
@@ -78,4 +108,14 @@ export default async function ProfileDataPage() {
 }
 // <ProfileData user={user} accessToken={activeUser?.accessToken} />
 
+type MonthlyCount = {
+  year: number,
+  month: number,
+  count: number
+}
 
+type MonthlyCountFinal = {
+  date: string,
+  countEvent: number,
+  countOrders: number
+}

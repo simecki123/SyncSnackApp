@@ -5,6 +5,7 @@ import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const GroupButtons = dynamic(
   () => import('@/app/components/group/GroupButtons'),
@@ -66,14 +67,16 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
             )
           })}
         </Box>
-        <Box className="hidden md:flex md:justify-center">
-          <MembersTable
-            members={members}
-            futureMembers={futureMembers}
-            userToken={activeUser?.accessToken}
-            currentPage={currentPage}
-          />
-        </Box>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Box className="hidden md:flex md:justify-center">
+            <MembersTable
+              members={members}
+              futureMembers={futureMembers}
+              userToken={activeUser?.accessToken}
+              currentPage={currentPage}
+            />
+          </Box>
+        </Suspense>
       </Box>
       <Box className="hidden md:flex md:justify-center">
         <GroupOrdersDonut datahero={orderDounuts} />
