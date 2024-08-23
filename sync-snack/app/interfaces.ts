@@ -17,13 +17,13 @@ export interface Event {
 
 // Interface InProgressEventCardProps for that component that contains event and activeUser that is loged in in app.
 export interface InProgressEventCardProps {
-    event: Event;
+    event: EventEvent;
     activeUser: any;
 }
 
 // Order food props is interface that is used in OrderFoodComponent and it carries all needed defined atributes
 export interface OrderFoodProps {
-    event: Event;
+    event: EventEvent;
     activeUser: any;
     onOrderSuccess: () => void;
 }

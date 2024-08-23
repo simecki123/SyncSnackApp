@@ -5,6 +5,7 @@ import logo from '@/public/logo.png';
 import Modal from '../../modals/Modal';
 import OrderFood from '../../order-food/OrderFood';
 import { Event, InProgressEventCardProps } from '@/app/interfaces';
+import EventCountdownTimer from '../../countdown-timer/EventCountdownTimer';
 
 
 export default function InProgressEventCard({ event, activeUser }: InProgressEventCardProps) {
@@ -13,6 +14,7 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
   // Define styles for the box
   const cardBgColor = useColorModeValue('white', 'gray.700');
   const hoverBgColor = useColorModeValue('gray.100', 'gray.600');
+  console.log("event ",event)
 
   // Keyframes for blinking animation
   const blink = keyframes`
@@ -48,10 +50,9 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
           mb={4}
           animation={`${blink} 5s infinite`}
         />
-        <Text fontWeight="bold">
-          Event
-        </Text>
-        <Text mt={2}>{event.description}</Text>
+        
+        <Text fontWeight="bold" mt={2}>{event.description}</Text>
+        <EventCountdownTimer event={event} />
       </Box>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <OrderFood event={event} activeUser={activeUser} onOrderSuccess={closeModal} />

@@ -5,10 +5,10 @@ import { SimpleGrid, Flex, Text, Box, Select } from "@chakra-ui/react";
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InProgressEventCard from '../in-progress-event-card/InProgressEventCard';
-import { Event } from '@/app/interfaces';
+import { EventEvent } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 import useNotificationStore from '@/app/store/notificationStore'; // Import the Zustand store
-import { NavLinksContext } from '@/app/providers';
+import useNotificationIfEventExpiredStore from '@/app/store/notificationIfEventExpired';
 
 export default function FilteredEvents({
   activeUser,
@@ -17,8 +17,8 @@ export default function FilteredEvents({
   initialFilter
 }: {
   activeUser: any,
-  fetchEvents: (filter: string) => Promise<Event[]>,
-  initialEvents: Event[],
+  fetchEvents: (filter: string) => Promise<EventEvent[]>,
+  initialEvents: EventEvent[],
   initialFilter: string
 }) {
   const [events, setEvents] = useState(initialEvents);
@@ -26,6 +26,7 @@ export default function FilteredEvents({
   const { hasNewEventNotification, setHasNewEventNotification } = useNotificationStore(); // Use Zustand to get the state
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { hasNewNotificationIfEventExpiredStore, setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore(); // Use Zustand to get the state
 
   useEffect(() => {
     const currentFilter = searchParams.get('filter') || 'ALL';
@@ -39,12 +40,25 @@ export default function FilteredEvents({
     router.push(`?filter=${newFilter}`, { scroll: false });
   };
 
+  
+
   useEffect(() => {
+    if(hasNewNotificationIfEventExpiredStore !== ''){
+      console.log("Isteka...");
+      const eventIndex = events.findIndex(event => event.eventId === hasNewNotificationIfEventExpiredStore);
+
+      if (eventIndex !== -1) {
+        events.splice(eventIndex, 1);
+        console.log(`Event with ID ${hasNewNotificationIfEventExpiredStore} deleted.`);
+      } else {
+        console.log(`Event with ID ${hasNewNotificationIfEventExpiredStore} not found.`);
+      }
+    }
     if (hasNewEventNotification) {
       fetchEvents(filter).then(setEvents);
       setHasNewEventNotification(false); // Reset the state after fetching new events
     }
-  }, [hasNewEventNotification, fetchEvents, filter]);
+  }, [ hasNewNotificationIfEventExpiredStore, hasNewEventNotification, fetchEvents, filter]);
 
   return (
     <>
