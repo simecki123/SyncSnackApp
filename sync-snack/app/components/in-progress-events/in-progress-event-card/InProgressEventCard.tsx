@@ -42,17 +42,11 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
         justifyContent="center"
         alignItems="center"
       >
-        <Image
-          src={logo.src}
-          alt="App Logo"
-          w="50px"
-          h="50px"
-          mb={4}
-          animation={`${blink} 5s infinite`}
-        />
-        
-        <Text fontWeight="bold" mt={2}>{event.description}</Text>
         <EventCountdownTimer event={event} />
+
+        
+        <Text fontWeight="bold" mt={2}>{event.title}</Text>
+        <Text  mt={2}>{event.title}</Text>
       </Box>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <OrderFood event={event} activeUser={activeUser} onOrderSuccess={closeModal} />
