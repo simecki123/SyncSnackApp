@@ -7,6 +7,7 @@ import HeaderPhone from "../components/header/HeaderPhone";
 import NavLinksWeb from "../components/header/NavLinksWeb";
 import NotificationBell from "../components/notification/NotificationBell";
 
+
 export default async function Layout({
   children,
 }: Readonly<{

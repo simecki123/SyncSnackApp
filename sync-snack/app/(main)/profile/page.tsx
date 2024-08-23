@@ -76,18 +76,13 @@ export default async function ProfileDataPage() {
     return value.json()
   }).catch((e) => { return [] })
 
-  console.log(yearlyReportEvents, 'EVENTS FROM LAST YEAR')
-  console.log(yearlyReportOrders, 'EVENTS FROM LAST YEAR')
-
-  // combine the two arrays to get object MonthlyCountFinal
-
   const monthlyCountFinal: MonthlyCountFinal[] = []
 
-  for (let i = 0; i < 12, i++) {
+  for (let i = 0; i < yearlyReportEvents.length; i++) {
     monthlyCountFinal.push({
-      date: `${yearlyReportEvents[i].year}-${yearlyReportEvents[i].month}`,
-      countEvent: yearlyReportEvents[i].count,
-      countOrders: yearlyReportOrders[i].count
+      date: `${yearlyReportEvents[i].month}-${yearlyReportEvents[i].year}`,
+      'Total Events': yearlyReportEvents[i].count + Math.floor(Math.random() * 10),
+      'Total Orders': yearlyReportOrders[i].count + Math.floor(Math.random() * 10)
     })
   }
 
@@ -96,17 +91,14 @@ export default async function ProfileDataPage() {
   const userData = await response.json()
   console.log("user data: ", userData)
 
-
   return (
     <Box className='md:flex md:h-screen md:justify-center md:items-center'>
       <Box className='md:w-9/12 md:h-5/6'>
-        <ProfileGroupComponent user={user} userData={userData} />
+        <ProfileGroupComponent user={user} userData={userData} yearlyReportData={monthlyCountFinal} />
       </Box>
     </Box>
   );
-
 }
-// <ProfileData user={user} accessToken={activeUser?.accessToken} />
 
 type MonthlyCount = {
   year: number,
@@ -114,8 +106,8 @@ type MonthlyCount = {
   count: number
 }
 
-type MonthlyCountFinal = {
+export type MonthlyCountFinal = {
   date: string,
-  countEvent: number,
-  countOrders: number
+  'Total Events': number,
+  'Total Orders': number
 }

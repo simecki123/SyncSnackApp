@@ -47,8 +47,6 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   const orderDounuts = await fetchImproved(`/api/groups/count`);
 
-
-
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen">
       <Box>

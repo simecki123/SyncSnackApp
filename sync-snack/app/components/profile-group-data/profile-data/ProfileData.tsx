@@ -5,11 +5,15 @@ import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra
 import { useDropzone } from 'react-dropzone'
 import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
 import clsx from 'clsx'
-import { BarChart, DonutChart } from '@tremor/react'
+import { BarChart, DonutChart, LineChart } from '@tremor/react'
 import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import { fetchImproved } from '@/app/fetch'
+import { MonthlyCountFinal } from '@/app/(main)/profile/page'
 
-export default function ProfileData({ user, userData }: {user: any, userData: OrderStats[]}) {
+export default function ProfileData({ user, userData, yearlyReportData }: { yearlyReportData: MonthlyCountFinal[], user: any, userData: OrderStats[] }) {
+
+  const maxNum = findMaxInMonthlyCounts(yearlyReportData)
+
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -54,6 +58,8 @@ export default function ProfileData({ user, userData }: {user: any, userData: Or
       uploadFiles();
     }
   }, [acceptedFiles, user?.accessToken]);
+
+  console.log(yearlyReportData, 'fjkaldjfklajkf')
 
   return (
     <Box className='md:h-full mt-2'>
@@ -107,15 +113,28 @@ export default function ProfileData({ user, userData }: {user: any, userData: Or
         </Box>
       </Box>
       <Box className='md:mt-4 hidden md:block'>
-        <BarChart
-          data={statusData}
-          index="status"
-          categories={['count']}
+        <LineChart
+          className="h-80"
+          data={yearlyReportData}
+          index="date"
+          categories={['Total Events', 'Total Orders']}
+          colors={['orange-600', 'orange-300']}
+          onValueChange={(v) => console.log(v)}
           showAnimation={true}
-          colors={['orange']}
-          valueFormatter={dataFormatter}
-          yAxisWidth={48} />
+          animationDuration={2000}
+          minValue={0}
+          curveType='monotone'
+          allowDecimals={false}
+        />
       </Box>
     </Box>
   );
 }
+
+const findMaxInMonthlyCounts = (list: MonthlyCountFinal[]): number => {
+  return list.reduce((max, current) => {
+    const currentMax = Math.max(current['Total Events'], current['Total Orders']);
+    return currentMax > max ? currentMax : max;
+  }, -Infinity);
+};
+
