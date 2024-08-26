@@ -22,10 +22,10 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const [event, setEvent] = useState(startEvent);
-  const [ eventStatus, ssetEventStatus ] = useState(event.status);
+  const [eventStatus, ssetEventStatus] = useState(event.status);
   const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
   const { hasNewNotificationIfEventExpiredStore, setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore();
-  const [countdown, setCountdown ] = useState(true);
+  const [countdown, setCountdown] = useState(true);
 
   const eventContext = useContext(NavLinksContext)
 
@@ -34,7 +34,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     setIsDialogOpen(true);
   };
 
-  
+
 
   const onCloseDialog = () => setIsDialogOpen(false);
 
@@ -62,12 +62,13 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
         status: "error",
         duration: 3000,
         isClosable: true,
+        colorScheme: 'xred'
       });
     }
   }
 
   useEffect(() => {
-    if(hasNewNotificationIfEventExpiredStore !=='') {
+    if (hasNewNotificationIfEventExpiredStore !== '') {
       fetchActiveEvents().then(setEvent);
       setHasNewNotificationIfEventExpiredStore('');
       setCountdown(false);
@@ -78,7 +79,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       setHasNewEventPageNotification(false); // Reset the state after fetching new events
       setCountdown(true);
     }
-  }, [ hasNewNotificationIfEventExpiredStore, hasNewEventPageNotification, fetchActiveEvents]);
+  }, [hasNewNotificationIfEventExpiredStore, hasNewEventPageNotification, fetchActiveEvents]);
 
   return (
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">

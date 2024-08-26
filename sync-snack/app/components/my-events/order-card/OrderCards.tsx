@@ -32,6 +32,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
           status: "success",
           duration: 3000,
           isClosable: true,
+          colorScheme: 'xblue'
         });
       } else {
         throw new Error(response);
@@ -43,6 +44,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
         status: "error",
         duration: 3000,
         isClosable: true,
+        colorScheme: 'xred'
       });
     }
 

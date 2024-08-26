@@ -10,9 +10,9 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
   const [sugar, setSugar] = useState(0);
   const [milk, setMilk] = useState(0);
   const toast = useToast();
-  
 
-  
+
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -61,6 +61,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         status: "error",
         duration: 3000,
         isClosable: true,
+        colorScheme: 'xred'
       });
     }
   }
@@ -105,12 +106,12 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
     </Box>
   );
 
-  
+
 
   if (event.eventType === "COFFEE") {
     return (
       <Box
-        
+
         p={8}
         width="100%"
         mx="auto"

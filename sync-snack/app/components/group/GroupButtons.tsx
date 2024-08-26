@@ -43,6 +43,14 @@ export default function GroupButtons({ group, activeUser }: any) {
       });
     }
     onClose();
+    toast({
+      title: 'Group Updated',
+      description: 'Group information has been successfully updated.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      colorScheme: 'xblue'
+    });
   };
 
   return (
