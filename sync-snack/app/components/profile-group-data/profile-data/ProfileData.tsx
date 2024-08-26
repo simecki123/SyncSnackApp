@@ -1,22 +1,21 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { OrderStats, ProfileUser } from '@/app/interfaces'
-import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra-ui/react'
-import { useDropzone } from 'react-dropzone'
-import RatingPrettyProfile from '../rating-preatty-profile/RatingPreattyProfile'
-import clsx from 'clsx'
-import { BarChart, DonutChart, LineChart } from '@tremor/react'
-import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
-import { fetchImproved } from '@/app/fetch'
-import { MonthlyCountFinal } from '@/app/(main)/profile/page'
+import { useEffect, useState } from 'react';
+import { OrderStats, ProfileUser } from '@/app/interfaces';
+import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra-ui/react';
+import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { DonutChart, LineChart } from '@tremor/react';
+import Modal from '../../modals/Modal';
+import EditUserComponent from '../../edit-user/EditUserComponent';
 
-export default function ProfileData({ user, userData, yearlyReportData }: { yearlyReportData: MonthlyCountFinal[], user: any, userData: OrderStats[] }) {
 
-  const maxNum = findMaxInMonthlyCounts(yearlyReportData)
 
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl)
+export default function ProfileData({ user, userData, yearlyReportData }: { yearlyReportData: any[], user: any, userData: OrderStats[] }) {
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
 
   // Separate data into two lists: one for type and one for status
@@ -27,53 +26,15 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
   const completedOrders = statusData.find(item => item.status === 'COMPLETED')?.count || 0;
   const canceledOrders = statusData.find(item => item.status === 'CANCELLED')?.count || 0;
 
-  useEffect(() => {
-    const uploadFiles = async () => {
-      for (const file of acceptedFiles) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/edit`, {
-            method: 'PATCH',
-            headers: {
-              'Authorization': `Bearer ${user?.accessToken}`
-            },
-            body: formData
-          });
-
-          if (!response.ok) {
-            throw new Error('File upload failed');
-          }
-
-          const responseFinal = await response.json()
-          setPhotoUrl(responseFinal.photoUrl)
-        } catch (error) {
-          console.error('Error uploading file:', error);
-        }
-      }
-    };
-
-    if (acceptedFiles.length > 0) {
-      uploadFiles();
-    }
-  }, [acceptedFiles, user?.accessToken]);
-
-  console.log(yearlyReportData, 'fjkaldjfklajkf')
-
   return (
     <Box className='md:h-full mt-2'>
       <Box className='space-y-8 md:flex md:items-center md:justify-around'>
         <Box className='flex flex-col items-center space-y-4'>
           <Image className='rounded-full' fallbackSrc='/profile_picture.png' objectFit='cover' src={photoUrl} boxSize={36} />
-          <Text className='text-xl font-semibold'>{user.firstName} {user.lastName}</Text>
+          <Text className='text-xl font-semibold'>{firstName} {lastName}</Text>
           <Text className='italic'>{user.email}</Text>
           <Box className='flex space-x-2'>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <Button className='shadow-lg'>Add Photo</Button>
-            </div>
-            <Button className='shadow-lg'>Edit User</Button>
+            <Button className='shadow-lg' onClick={() => setIsModalOpen(true)}>Edit User</Button>
           </Box>
         </Box>
 
@@ -127,14 +88,10 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           allowDecimals={false}
         />
       </Box>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <EditUserComponent user={user} setPhotoUrl={setPhotoUrl} setFirstName={setFirstName} setLastName={setLastName} onClose={() => setIsModalOpen(false)} />
+      </Modal>
     </Box>
   );
 }
-
-const findMaxInMonthlyCounts = (list: MonthlyCountFinal[]): number => {
-  return list.reduce((max, current) => {
-    const currentMax = Math.max(current['Total Events'], current['Total Orders']);
-    return currentMax > max ? currentMax : max;
-  }, -Infinity);
-};
-
