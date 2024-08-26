@@ -13,7 +13,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
     title: `Event by ${activeUser.firstName}`,
     description: '',
     groupId: activeUser.groupId,
-    eventType: 'ALL',
+    eventType: 'FOOD',
     pendingTime: 5
   });
 
@@ -133,7 +133,6 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           <FormControl id="eventType" isRequired>
             <FormLabel>Select category:</FormLabel>
             <Select focusBorderColor="orange.400" name="eventType" value={eventData.eventType} onChange={handleChange}>
-              <option value='ALL'>ALL</option>
               <option value='FOOD'>Food</option>
               <option value='COFFEE'>Coffee</option>
               <option value='DRINKS'>Drinks</option>

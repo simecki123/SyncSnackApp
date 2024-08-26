@@ -8,6 +8,7 @@ import useNotificationEventPageStore from '@/app/store/notificationEventPageStor
 import { NavLinksContext } from '@/app/providers';
 import EventCountdownTimer from '../countdown-timer/EventCountdownTimer';
 import InProgressTimer from '../countdown-timer/InProgressTimer';
+import useNotificationIfEventExpiredStore from '@/app/store/notificationIfEventExpired';
 
 export default function EventDetails({ startEvent, orders, setStatusOfEvent, fetchActiveEvents }: {
   startEvent: EventEvent,
@@ -21,7 +22,10 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const [event, setEvent] = useState(startEvent);
+  const [ eventStatus, ssetEventStatus ] = useState(event.status);
   const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
+  const { hasNewNotificationIfEventExpiredStore, setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore();
+  const [countdown, setCountdown ] = useState(true);
 
   const eventContext = useContext(NavLinksContext)
 
@@ -63,11 +67,18 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   }
 
   useEffect(() => {
+    if(hasNewNotificationIfEventExpiredStore !=='') {
+      fetchActiveEvents().then(setEvent);
+      setHasNewNotificationIfEventExpiredStore('');
+      setCountdown(false);
+    }
+
     if (hasNewEventPageNotification) {
       fetchActiveEvents().then(setEvent);
       setHasNewEventPageNotification(false); // Reset the state after fetching new events
+      setCountdown(true);
     }
-  }, [hasNewEventPageNotification, fetchActiveEvents]);
+  }, [ hasNewNotificationIfEventExpiredStore, hasNewEventPageNotification, fetchActiveEvents]);
 
   return (
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">
