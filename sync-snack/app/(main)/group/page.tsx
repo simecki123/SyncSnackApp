@@ -47,12 +47,14 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const groupData = await fetchImproved(`/api/groups/${activeUser?.groupId}`);
   const orderDounuts = await fetchImproved(`/api/groups/count`);
 
+  
+
   return (
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen">
       <Box>
         <Text className="flex md:justify-start md:m-6 justify-center mt-2 text-4xl font-semibold">{groupData?.name}</Text>
         <Text className="italic text-tremor-content m-6">{groupData?.description}</Text>
-        <GroupButtons group={groupData} />
+        <GroupButtons group={groupData} activeUser={activeUser} />
       </Box>
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
         <MvpMemberCard user={members[0]} />
