@@ -9,6 +9,7 @@ import { EventEvent } from '@/app/interfaces';
 import FilterButton from '../filter-button/FIlterButton';
 import useNotificationStore from '@/app/store/notificationStore'; // Import the Zustand store
 import useNotificationIfEventExpiredStore from '@/app/store/notificationIfEventExpired';
+import Hanged from '../../animations/Hanged';
 
 export default function FilteredEvents({
   activeUser,
@@ -40,10 +41,10 @@ export default function FilteredEvents({
     router.push(`?filter=${newFilter}`, { scroll: false });
   };
 
-  
+
 
   useEffect(() => {
-    if(hasNewNotificationIfEventExpiredStore !== ''){
+    if (hasNewNotificationIfEventExpiredStore !== '') {
       console.log("Isteka...");
       const eventIndex = events.findIndex(event => event.eventId === hasNewNotificationIfEventExpiredStore);
 
@@ -58,7 +59,7 @@ export default function FilteredEvents({
       fetchEvents(filter).then(setEvents);
       setHasNewEventNotification(false); // Reset the state after fetching new events
     }
-  }, [ hasNewNotificationIfEventExpiredStore, hasNewEventNotification, fetchEvents, filter]);
+  }, [hasNewNotificationIfEventExpiredStore, hasNewEventNotification, fetchEvents, filter]);
 
   return (
     <>
@@ -75,7 +76,7 @@ export default function FilteredEvents({
         </Select>
       </Box>
 
-      <Flex wrap="wrap" justify="center" display={{ base: 'none', md: 'flex' }} mb={6} gap={4}>
+      <Flex className='shadow-lg' wrap="wrap" justify="center" display={{ base: 'none', md: 'flex' }} pb={6} gap={4}>
         <FilterButton filter='ALL' currentFilter={filter} onClick={() => handleFilterChange('ALL')}>
           <Image className='mr-1' src='/orange_drink.png' alt="ALL" width={24} height={24} />
           ALL
@@ -96,9 +97,9 @@ export default function FilteredEvents({
 
       <Box>
         {events.length === 0 ? (
-          <Text className='flex justify-center text-xl font-semibold'>There are no active events right now 😔</Text>
+          <Hanged />
         ) : (
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+          <SimpleGrid className='mt-4' columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {events.map((event) => (
               <InProgressEventCard key={event.eventId} event={event} activeUser={activeUser} />
             ))}

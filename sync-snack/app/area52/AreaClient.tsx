@@ -1,4 +1,5 @@
 import { Box, Button } from "@chakra-ui/react";
+import Hanged from "../components/animations/Hanged";
 
 export default function AreaClient() {
   return (
@@ -6,6 +7,7 @@ export default function AreaClient() {
       <Button colorScheme="xblue">press</Button>
       <Button colorScheme="xorange">press</Button>
       <Button colorScheme="xred">press</Button>
+      <Hanged />
     </Box>
   )
 }

@@ -14,7 +14,7 @@ export default function BrewComponent({ activeUser }: any) {
   return (
     <>
       <Box
-        h="20vh"
+        className='mt-8 mb-8'
         display="flex"
         alignItems="center"
         justifyContent="center"

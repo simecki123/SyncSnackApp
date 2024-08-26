@@ -74,6 +74,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           status: 'success',
           duration: 5000,
           isClosable: true,
+          colorScheme: 'xblue'
         });
         setEventData({
           creatorId: activeUser.id,
