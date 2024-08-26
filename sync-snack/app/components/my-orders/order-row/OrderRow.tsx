@@ -31,7 +31,7 @@ export default function OrderRow({ order, accessToken }: any) {
       desc = `${desc.slice(0, 9)}...`
       return (
         <Box className='flex'>
-          <Text className='cursor-pointer hover:text-yellow-400' onClick={() => setDescriptionModalOpen(true)}>{desc}</Text>
+          <Text className='cursor-pointer hover:text-orange-dark-1' onClick={() => setDescriptionModalOpen(true)}>{desc}</Text>
         </Box>
       )
     } else {
@@ -63,11 +63,11 @@ export default function OrderRow({ order, accessToken }: any) {
             </Box>
           ) : order.status === "IN_PROGRESS" ? (
             <Box className='h-10 flex items-center'>
-              <Text className='text-yellow-400'>Can't rate yet...</Text>
+              <Text className='text-orange-light-1'>Can't rate yet...</Text>
             </Box>
           ) : order.status === "CANCELLED" ? (
             <Box className='h-10 flex items-center'>
-              <Text className='text-red-600' >Can't rate</Text>
+              <Text className='text-orange-dark-2' >Can't rate</Text>
             </Box>
           ) : null}
         </Td>

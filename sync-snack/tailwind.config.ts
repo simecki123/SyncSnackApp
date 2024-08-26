@@ -18,6 +18,12 @@ const config: Config = {
     extend: {
       colors: {
         'prim-cl': '#fbe4c5',
+        'orange-light-1': '#f2a470',
+        'orange-light-2': '#d98068',
+        'orange-dark-1': '#8c3331',
+        'orange-dark-2': '#681615',
+        'blue-1': '#0d2b68',
+        'blue-2': '#15408c',
         // light mode
         tremor: {
           brand: {
@@ -134,6 +140,20 @@ const config: Config = {
       pattern:
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
+    ...["[#d98068]", "[#8c3331]", "[#681615]", "[#f2a470]"].flatMap((customColor) => [
+      `bg-${customColor}`,
+      `border-${customColor}`,
+      `hover:bg-${customColor}`,
+      `hover:border-${customColor}`,
+      `hover:text-${customColor}`,
+      `fill-${customColor}`,
+      `ring-${customColor}`,
+      `stroke-${customColor}`,
+      `text-${customColor}`,
+      `ui-selected:bg-${customColor}`,
+      `ui-selected:border-${customColor}`,
+      `ui-selected:text-${customColor}`,
+    ]),
   ],
   plugins: [require('@headlessui/tailwindcss'), require('@tailwindcss/forms')],
 };

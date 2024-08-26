@@ -40,7 +40,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
 
         <Box className='md:flex space-y-8 md:space-y-0'>
           <Box className='space-y-8'>
-            <Box className='bg-orange-300 p-4 mx-2 rounded-xl shadow-lg'>
+            <Box className='bg-orange-light-1 p-4 mx-2 rounded-xl shadow-lg'>
               <Box className='flex items-center'>
                 <CheckCircleIcon className='size-5' />
                 <Text className='text-tremor-default p-1'>Total completed orders</Text>
@@ -50,7 +50,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
               </Box>
             </Box>
 
-            <Box className='bg-orange-300 p-4 mx-2 rounded-xl shadow-lg'>
+            <Box className='bg-orange-light-1 p-4 mx-2 rounded-xl shadow-lg'>
               <Box className='flex items-center'>
                 <ExclamationCircleIcon className='size-5' />
                 <Text className='text-tremor-default p-1'>Total canceled orders</Text>
@@ -68,7 +68,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
               index="type"
               showAnimation={true}
               variant="donut"
-              colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
+              colors={['#d98068', '#8c3331', '#681615']}
               valueFormatter={dataFormatter} />
           </Box>
         </Box>
@@ -79,7 +79,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           data={yearlyReportData}
           index="date"
           categories={['Total Events', 'Total Orders']}
-          colors={['orange-600', 'orange-300']}
+          colors={['#f2a470', '#681615']}
           onValueChange={(v) => console.log(v)}
           showAnimation={true}
           animationDuration={2000}

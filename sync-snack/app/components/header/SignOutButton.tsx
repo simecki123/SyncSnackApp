@@ -16,7 +16,7 @@ export function SignOutButton() {
   };
 
   return (
-    <Button className="grow m-2" color='orange.400' bgColor='gray.100' onClick={handleSignOut}>
+    <Button className="grow m-2" color='white' bgColor='xblue.500' onClick={handleSignOut}>
       <PowerIcon className="size-5 mr-1" />
       Sign Out
     </Button>

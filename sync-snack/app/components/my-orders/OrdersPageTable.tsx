@@ -38,6 +38,8 @@ export default function OrdersPageTable({ accessToken }: any) {
       }).catch((e) => { setOrders([]) })
   }, [rateFilter, input, statusFilter, currentPage])
 
+  console.log(orders, ' orders in table')
+
   return (
     <Box className='grow flex flex-col'>
       <Box className='flex flex-col items-center'>

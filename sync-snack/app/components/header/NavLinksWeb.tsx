@@ -41,9 +41,9 @@ export default function NavLinksWeb({ token }: any) {
             return (
               <a key={index} href={link.href}>
                 <Box className={clsx(
-                  "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
+                  "flex items-center rounded-xl px-4 py-3 m-2 hover:text-white hover:bg-blue-2",
                   {
-                    'bg-orange-100 text-orange-400': pathname === link.href,
+                    'bg-blue-2 text-white': pathname === link.href,
                   }
                 )}>
                   <IconLink className="h-6 w-6 mr-2" />
@@ -60,9 +60,9 @@ export default function NavLinksWeb({ token }: any) {
           return (
             <Link key={index} href={link.href}>
               <Box className={clsx(
-                "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
+                "flex items-center rounded-xl px-4 py-3 m-2 hover:text-white hover:bg-blue-2",
                 {
-                  'bg-orange-100 text-orange-400': pathname === link.href,
+                  'bg-blue-2 text-white': pathname === link.href,
                 }
               )}>
                 <IconLink className="h-6 w-6 mr-2" />
