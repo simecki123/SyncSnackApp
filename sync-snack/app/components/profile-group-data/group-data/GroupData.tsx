@@ -7,9 +7,10 @@ import { SortOption } from '@/app/types/types';
 import Modal from '../../modals/Modal';
 import EditGroupWindow from '../edit-group-window/EditGroupWindow';
 
-export default function GroupData({groupId, group, initialSortOption, users, setSortOption }: {
-  groupId: any, group: any, initialSortOption: SortOption, users: any, setSortOption: (sortOption: SortOption) => void }) {
-  
+export default function GroupData({ groupId, group, initialSortOption, users, setSortOption }: {
+  groupId: any, group: any, initialSortOption: SortOption, users: any, setSortOption: (sortOption: SortOption) => void
+}) {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -22,6 +23,7 @@ export default function GroupData({groupId, group, initialSortOption, users, set
       status: 'success',
       duration: 3000,
       isClosable: true,
+      colorScheme: 'xblue'
     });
   };
 

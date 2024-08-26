@@ -49,6 +49,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose, access
           status: "success",
           duration: 3000,
           isClosable: true,
+          colorScheme: 'xblue'
         });
 
         // Close the modal after successful submission
@@ -61,6 +62,7 @@ export default function OrderRateModalComponent({ coffeeOrderId, onClose, access
           status: "error",
           duration: 3000,
           isClosable: true,
+          colorScheme: 'xorange'
         });
       }
     } else {

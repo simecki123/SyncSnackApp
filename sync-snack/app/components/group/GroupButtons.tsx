@@ -74,16 +74,24 @@ export default function GroupButtons({ startGroup, activeUser, fetchGroupData }:
       });
     }
     onClose();
+    toast({
+      title: 'Group Updated',
+      description: 'Group information has been successfully updated.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      colorScheme: 'xblue'
+    });
   };
 
   const isAdmin = activeUser?.roles?.includes('ADMIN');
 
   return (
     <Box className="flex justify-around md:justify-center">
-      <Button 
-        className="md:mr-2 shadow-lg" 
-        colorScheme="orange" 
-        mt={4} 
+      <Button
+        className="md:mr-2 shadow-lg"
+        colorScheme="orange"
+        mt={4}
         onClick={() => {
           navigator.clipboard.writeText(`${window.location.origin}/register-link?groupId=${group.id}&groupCode=${group.code}`)
           toast({
@@ -92,12 +100,14 @@ export default function GroupButtons({ startGroup, activeUser, fetchGroupData }:
             status: 'info',
             duration: 2000,
             isClosable: true,
-            position: 'top-right'
+            position: 'top-right',
+            colorScheme: 'xblue'
           });
         }}
       >
         Invite
       </Button>
+
       {isAdmin && (
         <>
           <Button className="md:ml-2 shadow-lg" colorScheme="orange" mt={4} onClick={onOpen}>
@@ -115,3 +125,4 @@ export default function GroupButtons({ startGroup, activeUser, fetchGroupData }:
     </Box>
   );
 }
+

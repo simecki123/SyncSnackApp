@@ -40,7 +40,7 @@ export default async function ProfileDataPage() {
   });
 
 
-  const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/stats`, {
+  const response = await fetch(`${process.env.BACKEND_URL}/api/profiles/orders/stats`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${user?.accessToken}`

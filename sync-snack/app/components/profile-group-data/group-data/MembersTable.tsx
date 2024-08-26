@@ -59,7 +59,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
     return (
       <Th
         className={clsx('hover:cursor-pointer', {
-          ' bg-orange-300': sortStrategy === value,
+          ' bg-orange-light-2': sortStrategy === value,
         })}
         onClick={() => setSortStrategy(value)}>{value}</Th>
     )
@@ -67,10 +67,10 @@ export default function MembersTable({ members, futureMembers, userToken, curren
 
   return (
     <Box className='w-full flex flex-col'>
-      <TableContainer className='w-full p-10'>
+      <TableContainer className='w-full pt-10 pb-4 px-6'>
         <Text className='text-xl font-semibold mb-2 ml-2'>Members</Text>
         <Table variant='simple' className='shadow-lg'>
-          <Thead className='bg-orange-200 text-white'>
+          <Thead className='bg-orange-light-1 text-white'>
             <Tr>
               {['Name', 'Orders', 'Score'].map((header: any, index: number) => (
                 <TableHeader key={index} value={header} />
@@ -99,6 +99,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
             icon={<ChevronLeftIcon />}
             onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
             isDisabled={currentPage === 0}
+            colorScheme='xorange'
             size="sm"
           />
           <IconButton
@@ -107,6 +108,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
             onClick={() => handlePageChange(currentPage + 1)}
             size="sm"
             isDisabled={!hasNextPage}
+            colorScheme='xorange'
           />
         </HStack>
       </Box>

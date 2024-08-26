@@ -74,6 +74,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           status: 'success',
           duration: 5000,
           isClosable: true,
+          colorScheme: 'xblue'
         });
         setEventData({
           creatorId: activeUser.id,
@@ -91,6 +92,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           status: 'error',
           duration: 5000,
           isClosable: true,
+          colorScheme: 'xred'
         });
       } else {
         toast({
@@ -99,6 +101,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           status: 'error',
           duration: 5000,
           isClosable: true,
+          colorScheme: 'xred'
         });
       }
     } catch (error) {
@@ -108,6 +111,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
         status: 'error',
         duration: 5000,
         isClosable: true,
+        colorScheme: 'xred'
       });
     }
   }

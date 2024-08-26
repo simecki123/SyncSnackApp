@@ -24,8 +24,8 @@ export default function RateFilterSlider({ setRateFilter }: any) {
         <SliderMark value={5} {...labelStyles}>
           5
         </SliderMark>
-        <SliderTrack bg='red.100'>
-          <SliderFilledTrack bg='tomato' />
+        <SliderTrack>
+          <SliderFilledTrack bg='xred.500' />
         </SliderTrack>
         <SliderThumb boxSize={6} />
       </Slider>

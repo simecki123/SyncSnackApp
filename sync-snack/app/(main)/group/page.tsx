@@ -59,8 +59,10 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   
 
   return (
+
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen">
       <GroupData initialGroupData={groupData} activeUser={activeUser} fetchGroupData={fetchGroupData}></GroupData>
+
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
         <MvpMemberCard user={members[0]} />
       </Box>
@@ -95,7 +97,7 @@ function MemberCard({ index, user }: any) {
 
   return (
     <Box className={clsx("flex rounded-xl shadow-lg overflow-hidden relative", {
-      "bg-amber-400": userIsMvp,
+      "bg-orange-light-1": userIsMvp,
       "bg-gray-100": !userIsMvp,
     })}>
       <Image
@@ -130,7 +132,7 @@ function MemberCard({ index, user }: any) {
 
 function MvpMemberCard({ user }: any) {
   return (
-    <Box className="flex rounded-xl shadow-lg overflow-hidden relative bg-amber-400">
+    <Box className="flex rounded-xl shadow-lg overflow-hidden relative bg-orange-light-1">
       <Image
         className="h-[150px] w-[150px] rounded-l-xl mr-4"
         src={user.photoUrl}

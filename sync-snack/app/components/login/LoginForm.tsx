@@ -20,7 +20,7 @@ export default function LoginForm() {
 
   const handleLogin = useCallback(async (prevState: any, formData: FormData) => {
     const result = await loginUser(prevState, formData);
-    if (result.success){
+    if (result.success) {
       router.push("/home");
     }
     return { ...result, timestamp: Date.now() }; // Force state update with timestamp
@@ -29,7 +29,7 @@ export default function LoginForm() {
   const [state, formAction] = useFormState(handleLogin, initialState);
 
   useEffect(() => {
-    
+
     if (state.message) {
       toast({
         title: state.message,
@@ -38,12 +38,12 @@ export default function LoginForm() {
         isClosable: true,
         position: "top",
       });
-    } 
+    }
 
     if (state.message === "Your user doesn't have a profile set. Please complete your profile.") {
       router.push(`/setprofile?userId=${state.userId}`)
     }
-    
+
   }, [state.message, state.isVerified, toast, state.timestamp, state.userId, router]);
 
   async function handleForgotYourPassword() {
@@ -52,17 +52,17 @@ export default function LoginForm() {
 
     if (mail && mail.trim() !== "") {
       try {
-        
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/reset-password-request`,{
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              email: mail
-            }),
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/reset-password-request`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: mail
+          }),
         }
-        
+
         )
 
         if (response.ok) {
@@ -73,6 +73,7 @@ export default function LoginForm() {
             duration: 5000,
             isClosable: true,
             position: "top",
+            colorScheme: 'xblue'
           });
 
           window.open("https://mail.google.com/mail/u/0/#inbox", "_blank");
@@ -86,6 +87,7 @@ export default function LoginForm() {
               duration: 5000,
               isClosable: true,
               position: "top",
+              colorScheme: 'xorange'
             });
           } else {
             toast({
@@ -107,6 +109,7 @@ export default function LoginForm() {
           duration: 5000,
           isClosable: true,
           position: "top",
+          colorScheme: 'xorange'
         });
       }
     } else {
@@ -117,6 +120,7 @@ export default function LoginForm() {
         duration: 5000,
         isClosable: true,
         position: "top",
+        colorScheme: 'xorange'
       });
     }
   }
@@ -141,7 +145,7 @@ export default function LoginForm() {
               <SubmitButton />
             </Box>
             <Box className="flex justify-center items-center mt-4">
-              <Text 
+              <Text
                 onClick={handleForgotYourPassword}
                 className="cursor-pointer text-blue-500 hover:text-blue-700"
               >
@@ -187,9 +191,9 @@ function PasswordInput({ state }: { state: any }) {
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button 
-      colorScheme='blue' 
-      type="submit" 
+    <Button
+      colorScheme='blue'
+      type="submit"
       isDisabled={pending}
       className="w-full"
     >

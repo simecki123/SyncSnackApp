@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { ChakraProvider, Box, Button } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import Modal from '../modals/Modal';
 import CreateEvent from '../create-event/CreateEvent';
-import { auth } from '@/app/auth';
 
 export default function BrewComponent({ activeUser }: any) {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -14,18 +13,16 @@ export default function BrewComponent({ activeUser }: any) {
 
   return (
     <>
-      <ChakraProvider>
-        <Box
-          h="20vh"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Button colorScheme="orange" onClick={() => setModalOpen(true)}>
-            Create Event
-          </Button>
-        </Box>
-      </ChakraProvider>
+      <Box
+        className='mt-8 mb-8'
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Button colorScheme='xred' onClick={() => setModalOpen(true)}>
+          Create Event
+        </Button>
+      </Box>
 
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
         <CreateEvent activeUser={activeUser} onCloseModal={handleModalClose} />

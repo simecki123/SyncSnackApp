@@ -20,11 +20,11 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
 
   // Separate data into two lists: one for type and one for status
   const typeData = userData.filter(item => 'type' in item);
-  const statusData = userData.filter(item => 'status' in item);
+  const statusData = userData.filter(item => 'orderStatus' in item);
 
   // Calculate completed and canceled orders
-  const completedOrders = statusData.find(item => item.status === 'COMPLETED')?.count || 0;
-  const canceledOrders = statusData.find(item => item.status === 'CANCELLED')?.count || 0;
+  const completedOrders = statusData[0].count
+  const canceledOrders = statusData[1].count
 
   return (
     <Box className='md:h-full mt-2'>
@@ -40,7 +40,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
 
         <Box className='md:flex space-y-8 md:space-y-0'>
           <Box className='space-y-8'>
-            <Box className='bg-orange-300 p-4 mx-2 rounded-xl shadow-lg'>
+            <Box className='bg-orange-light-1 p-4 mx-2 rounded-xl shadow-lg'>
               <Box className='flex items-center'>
                 <CheckCircleIcon className='size-5' />
                 <Text className='text-tremor-default p-1'>Total completed orders</Text>
@@ -50,7 +50,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
               </Box>
             </Box>
 
-            <Box className='bg-orange-300 p-4 mx-2 rounded-xl shadow-lg'>
+            <Box className='bg-orange-light-1 p-4 mx-2 rounded-xl shadow-lg'>
               <Box className='flex items-center'>
                 <ExclamationCircleIcon className='size-5' />
                 <Text className='text-tremor-default p-1'>Total canceled orders</Text>
@@ -68,7 +68,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
               index="type"
               showAnimation={true}
               variant="donut"
-              colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
+              colors={['#d98068', '#8c3331', '#681615']}
               valueFormatter={dataFormatter} />
           </Box>
         </Box>
@@ -79,7 +79,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           data={yearlyReportData}
           index="date"
           categories={['Total Events', 'Total Orders']}
-          colors={['orange-600', 'orange-300']}
+          colors={['#f2a470', '#681615']}
           onValueChange={(v) => console.log(v)}
           showAnimation={true}
           animationDuration={2000}

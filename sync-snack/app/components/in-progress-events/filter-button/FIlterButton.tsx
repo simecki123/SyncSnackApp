@@ -12,13 +12,14 @@ export default function FilterButton({ filter, currentFilter, onClick, children 
     <Button
       onClick={onClick}
       className={clsx(
-        "bg-gray-200",
+        "bg-gray-100",
         {
-          'bg-orange-200': filter === currentFilter,
+          'bg-orange-light-2 text-white': filter === currentFilter,
         }
       )}
 
-      bg={filter === currentFilter ? 'orange.200' : 'gray.200'}
+      bg={filter === currentFilter ? 'xorange.500' : 'gray.100'}
+      textColor={filter === currentFilter ? 'white' : 'black'}
     >
       {children}
     </Button>

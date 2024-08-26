@@ -3,7 +3,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { DonutChart } from "@tremor/react";
 
-export default function GroupOrdersDonut({datahero}: {datahero: Array<any>}) {
+export default function GroupOrdersDonut({ datahero }: { datahero: Array<any> }) {
   const dataFormatter = (number: number) => Intl.NumberFormat('us').format(number).toString();
   return (
     <Box className="hidden md:block">
@@ -12,7 +12,7 @@ export default function GroupOrdersDonut({datahero}: {datahero: Array<any>}) {
         data={datahero}
         showAnimation={true}
         variant="pie"
-        colors={['orange-100', 'orange-200', 'orange-300', 'orange-400']}
+        colors={['#d98068', '#8c3331', '#681615']}
         valueFormatter={dataFormatter} />
     </Box>
   )
