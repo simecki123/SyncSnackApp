@@ -28,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             'Authorization': `Bearer ${token?.accessToken}`
           },
         })
+        
         if (!user.ok) {
           throw new Error('Fetch on user failed')
         }
