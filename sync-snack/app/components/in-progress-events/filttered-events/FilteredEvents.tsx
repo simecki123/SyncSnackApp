@@ -54,6 +54,7 @@ export default function FilteredEvents({
       } else {
         console.log(`Event with ID ${hasNewNotificationIfEventExpiredStore} not found.`);
       }
+      setHasNewNotificationIfEventExpiredStore('');
     }
     if (hasNewEventNotification) {
       fetchEvents(filter).then(setEvents);

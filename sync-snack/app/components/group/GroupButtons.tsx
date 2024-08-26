@@ -1,13 +1,36 @@
-'use client'
+import React, { useState, useCallback } from 'react';
 import { Box, Button, useDisclosure, useToast } from "@chakra-ui/react";
 import Modal from "../modals/Modal";
 import EditGroupWindow from "../profile-group-data/edit-group-window/EditGroupWindow";
+import useNotificationGroupDataChanged from "@/app/store/notificationGroupDataChanged";
 
-export default function GroupButtons({ group, activeUser }: any) {
+export default function GroupButtons({ startGroup, activeUser, fetchGroupData }: {
+  startGroup: any;
+  activeUser: any;
+  fetchGroupData: () => Promise<any>})
+   {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [group, setGroup] = useState(startGroup);
+  const { setHasNewNotificationGroupDataChanged } = useNotificationGroupDataChanged();
 
-  const handleEditGroup = async (newGroupName: string, newGroupDescription: string) => {
+  const refreshGroupData = useCallback(async () => {
+    try {
+      const newGroup = await fetchGroupData();
+      setGroup(newGroup);
+    } catch (error) {
+      console.error("Error refreshing group data:", error);
+      toast({
+        title: 'Failed to Refresh Group Data',
+        description: 'Unable to fetch the latest group information.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }, [fetchGroupData, toast]);
+
+  const handleEditGroup = async (newGroupName: any, newGroupDescription: any) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/groups/edit`, {
         method: 'PATCH',
@@ -22,6 +45,8 @@ export default function GroupButtons({ group, activeUser }: any) {
       });
 
       if (response.ok) {
+        await refreshGroupData();
+        setHasNewNotificationGroupDataChanged(true);
         toast({
           title: 'Group Updated',
           description: 'Group information has been successfully updated.',
@@ -30,7 +55,13 @@ export default function GroupButtons({ group, activeUser }: any) {
           isClosable: true,
         });
       } else {
-        throw new Error('Failed to update group');
+        toast({
+          title: 'Group Not Updated',
+          description: 'Something went wrong while updating, please try again',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Error: ", error);
@@ -53,6 +84,8 @@ export default function GroupButtons({ group, activeUser }: any) {
     });
   };
 
+  const isAdmin = activeUser?.roles?.includes('ADMIN');
+
   return (
     <Box className="flex justify-around md:justify-center">
       <Button
@@ -74,16 +107,22 @@ export default function GroupButtons({ group, activeUser }: any) {
       >
         Invite
       </Button>
-      <Button className="md:ml-2 shadow-lg" colorScheme="xred" mt={4} onClick={onOpen}>
-        Edit
-      </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <EditGroupWindow
-          groupName={group.name}
-          groupDescription={group.description}
-          handleEditGroup={handleEditGroup}
-        />
-      </Modal>
+
+      {isAdmin && (
+        <>
+          <Button className="md:ml-2 shadow-lg" colorScheme="orange" mt={4} onClick={onOpen}>
+            Edit
+          </Button>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <EditGroupWindow
+              groupName={group.name}
+              groupDescription={group.description}
+              handleEditGroup={handleEditGroup}
+            />
+          </Modal>
+        </>
+      )}
     </Box>
-  )
+  );
 }
+
