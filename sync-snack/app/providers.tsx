@@ -3,7 +3,6 @@ import { Button, ChakraProvider, StyleFunctionProps } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import { createContext, useState } from "react";
 import { extendTheme } from "@chakra-ui/react"
-import { blue } from "tailwindcss/colors";
 
 const theme = extendTheme({
   colors: {

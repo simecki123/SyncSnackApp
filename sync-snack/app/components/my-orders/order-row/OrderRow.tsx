@@ -63,11 +63,11 @@ export default function OrderRow({ order, accessToken }: any) {
             </Box>
           ) : order.status === "IN_PROGRESS" ? (
             <Box className='h-10 flex items-center'>
-              <Text className='text-orange-light-1'>Can't rate yet...</Text>
+              <Text className='text-orange-light-1'>Can&apos;t rate yet...</Text>
             </Box>
           ) : order.status === "CANCELLED" ? (
             <Box className='h-10 flex items-center'>
-              <Text className='text-orange-dark-2' >Can't rate</Text>
+              <Text className='text-orange-dark-2' >Can&apos;t rate</Text>
             </Box>
           ) : null}
         </Td>
