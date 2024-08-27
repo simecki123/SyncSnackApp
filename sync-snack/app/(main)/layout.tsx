@@ -31,7 +31,7 @@ export default async function Layout({
         <Box className="flex flex-col">
           <HeaderLogo />
           <NavLinksWeb token={activeUser.accessToken} />
-          <Box className="flex grow items-end">
+          <Box className="flex grow items-end w-full">
             <SignOutButton />
           </Box>
         </Box>

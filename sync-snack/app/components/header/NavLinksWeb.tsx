@@ -33,7 +33,7 @@ export default function NavLinksWeb({ token }: any) {
   })
 
   return (
-    <Box className="flex flex-col">
+    <Box className="flex flex-col w-full">
       {links.map((link, index) => {
         const IconLink = link.icon;
         if (link.name === 'Event') {
@@ -41,7 +41,7 @@ export default function NavLinksWeb({ token }: any) {
             return (
               <a key={index} href={link.href}>
                 <Box className={clsx(
-                  "flex items-center rounded-xl px-4 py-3 m-2 hover:text-white hover:bg-blue-2",
+                  "w-full flex items-center rounded-xl px-4 py-3 mx-4 my-2 hover:text-white hover:bg-blue-2",
                   {
                     'bg-blue-2 text-white': pathname === link.href,
                   }
@@ -60,7 +60,7 @@ export default function NavLinksWeb({ token }: any) {
           return (
             <Link key={index} href={link.href}>
               <Box className={clsx(
-                "flex items-center rounded-xl px-4 py-3 m-2 hover:text-white hover:bg-blue-2",
+                "w-full flex items-center rounded-xl px-4 py-3 mx-4 my-2 hover:text-white hover:bg-blue-2",
                 {
                   'bg-blue-2 text-white': pathname === link.href,
                 }

@@ -21,14 +21,14 @@ export function SignOutButton() {
     <>
       <IconButton
         variant='outline'
-        className="ml-2 mb-2"
+        className="ml-4 mb-2"
         colorScheme='xblue'
         aria-label='Call Sage'
         fontSize='20px'
         onClick={toggleColorMode}
         icon={colorMode === 'light' ? <SunIcon className="p-1" /> : <MoonIcon className="p-1" />}
       />
-      <Button className="flex justify-center m-2" color='white' bgColor='xblue.500' onClick={handleSignOut}>
+      <Button className="w-full flex justify-center m-2" color='white' bgColor='xblue.500' onClick={handleSignOut}>
         <PowerIcon className="size-5 mr-1" />
         Sign Out
       </Button>
