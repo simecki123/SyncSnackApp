@@ -25,6 +25,8 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
   const completedOrders = statusData[0]?.count ?? 0
   const canceledOrders = statusData[1]?.count ?? 0
 
+  console.log(yearlyReportData, 'f jkafldjflkjafjdf')
+
   return (
     <Box className='md:h-full mt-2'>
       <Box className='space-y-8 md:flex md:items-center md:justify-around'>
