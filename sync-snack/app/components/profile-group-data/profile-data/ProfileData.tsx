@@ -34,7 +34,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           <Text className='text-xl font-semibold'>{firstName} {lastName}</Text>
           <Text className='italic'>{user.email}</Text>
           <Box className='flex space-x-2'>
-            <Button className='shadow-lg' onClick={() => setIsModalOpen(true)}>Edit User</Button>
+            <Button className='shadow-lg' onClick={() => setIsModalOpen(true)} colorScheme='xred'>Edit User</Button>
           </Box>
         </Box>
 

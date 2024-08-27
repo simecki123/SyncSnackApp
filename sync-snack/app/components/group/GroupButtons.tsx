@@ -7,8 +7,8 @@ import useNotificationGroupDataChanged from "@/app/store/notificationGroupDataCh
 export default function GroupButtons({ startGroup, activeUser, fetchGroupData }: {
   startGroup: any;
   activeUser: any;
-  fetchGroupData: () => Promise<any>})
-   {
+  fetchGroupData: () => Promise<any>
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [group, setGroup] = useState(startGroup);
@@ -90,7 +90,7 @@ export default function GroupButtons({ startGroup, activeUser, fetchGroupData }:
     <Box className="flex justify-around md:justify-center">
       <Button
         className="md:mr-2 shadow-lg"
-        colorScheme="orange"
+        colorScheme="xred"
         mt={4}
         onClick={() => {
           navigator.clipboard.writeText(`${window.location.origin}/register-link?groupId=${group.id}&groupCode=${group.code}`)

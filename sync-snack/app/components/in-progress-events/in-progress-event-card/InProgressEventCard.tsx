@@ -14,7 +14,7 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
   // Define styles for the box
   const cardBgColor = useColorModeValue('white', 'gray.700');
   const hoverBgColor = useColorModeValue('gray.100', 'gray.600');
-  console.log("event ",event)
+  console.log("event ", event)
 
   // Keyframes for blinking animation
   const blink = keyframes`
@@ -44,9 +44,9 @@ export default function InProgressEventCard({ event, activeUser }: InProgressEve
       >
         <EventCountdownTimer event={event} />
 
-        
+
         <Text fontWeight="bold" mt={2}>{event.title}</Text>
-        <Text  mt={2}>{event.title}</Text>
+        <Text mt={2}>{event.description}</Text>
       </Box>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <OrderFood event={event} activeUser={activeUser} onOrderSuccess={closeModal} />

@@ -116,12 +116,11 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         width="100%"
         mx="auto"
         my={8}
-        bg={useColorModeValue('gray.100', 'gray.700')}
         borderRadius="md"
         boxShadow="md"
       >
         <VStack spacing={6} as="form" onSubmit={handleSubmit}>
-          <Heading as="h1" size="md" color={useColorModeValue('gray.800', 'white')}>
+          <Heading as="h1" size="md">
             Place your coffee order here:
           </Heading>
           <Box width="full">
@@ -164,12 +163,11 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
       width="100%"
       mx="auto"
       my={8}
-      bg={useColorModeValue('gray.100', 'gray.700')}
       borderRadius="md"
       boxShadow="md"
     >
       <VStack spacing={6} as="form" onSubmit={handleSubmit}>
-        <Heading as="h2" size="xl" color={useColorModeValue('gray.800', 'white')}>
+        <Heading as="h2" size="xl">
           Place your order here:
         </Heading>
         <Textarea

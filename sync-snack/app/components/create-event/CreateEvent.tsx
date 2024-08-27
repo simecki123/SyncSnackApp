@@ -6,6 +6,8 @@ import { orange } from 'tailwindcss/colors';
 export default function CreateEvent({ activeUser, onCloseModal }: any) {
   const toast = useToast();
 
+  const [loading, setLoading] = useState(false);
+
   const eventContext = useContext(NavLinksContext)
 
   const [eventData, setEventData] = useState({
@@ -51,6 +53,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
     }
 
     try {
+      setLoading(true);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/events/create`, {
         method: 'POST',
         headers: {
@@ -63,8 +66,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           eventType: eventData.eventType,
           pendingTime: eventData.pendingTime
         }),
-      });
-
+      }).then((value) => { setLoading(false); return value });
 
       if (response.ok) {
         eventContext.setIsEventLinkShown(true)
@@ -162,6 +164,8 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
             type="submit">
             Create Event
           </Button>
+
+          {loading && <div className='flex justify-center font-semibold'>Please Wait</div>}
         </VStack>
       </form>
     </Box>
