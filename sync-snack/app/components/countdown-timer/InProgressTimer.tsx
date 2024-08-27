@@ -1,44 +1,94 @@
 import React, { useState, useEffect } from 'react';
 import { EventEvent } from '@/app/interfaces';
-import { Badge } from '@chakra-ui/react';
 
-const InProgressTimer = ({ event }: { event: EventEvent }) => {
-  const [timeElapsed, setTimeElapsed] = useState({ minutes: 0, seconds: 0 });
+const InProgressTimer = ({ event, handleStatusChange }: { event: EventEvent, handleStatusChange: () => void }) => {
+  const [timeLeft, setTimeLeft] = useState({ minutes: 1, seconds: 0 });
+  const [progress, setProgress] = useState(100);
+  const [isCountingDown, setIsCountingDown] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const pendingUntil = new Date(event.pendingUntil).getTime();
-      
-      const elapsed = now - pendingUntil;
+    const now = new Date().getTime();
+    const pendingUntil = new Date(event.pendingUntil).getTime();
+    const elapsedSincePending = now - pendingUntil;
+    const countdownDuration = 1 * 60 * 1000; // 5 minutes in milliseconds
 
-      if (elapsed <= 0) {
-        setTimeElapsed({ minutes: 0, seconds: 0 });
+    if (elapsedSincePending >= 0) {
+      setIsCountingDown(true);
+
+      if (elapsedSincePending >= countdownDuration) {
+        // If more than 5 minutes have passed since pending ended
+        setTimeLeft({ minutes: 0, seconds: 0 });
+        setProgress(0);
+        console.log("5-minute countdown ended. Event fires!");
+        handleStatusChange();
       } else {
-        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-        setTimeElapsed({ minutes, seconds });
-      }
-    }, 1000);
+        // Calculate remaining time
+        const remaining = countdownDuration - elapsedSincePending;
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        setTimeLeft({ minutes, seconds });
+        setProgress((remaining / countdownDuration) * 100);
 
-    return () => clearInterval(interval);
-  }, [event]);
+        // Start the countdown from the correct point
+        const countdownInterval = setInterval(() => {
+          setTimeLeft((prevTime) => {
+            if (prevTime.minutes === 0 && prevTime.seconds === 0) {
+              clearInterval(countdownInterval);
+              console.log("5-minute countdown ended. Event fires!");
+              handleStatusChange();
+              return prevTime;
+            }
+
+            const totalSeconds = prevTime.minutes * 60 + prevTime.seconds - 1;
+            const newMinutes = Math.floor(totalSeconds / 60);
+            const newSeconds = totalSeconds % 60;
+            
+            setProgress((totalSeconds / (1 * 60)) * 100);
+            
+            return { minutes: newMinutes, seconds: newSeconds };
+          });
+        }, 1000);
+
+        return () => clearInterval(countdownInterval);
+      }
+    }
+  }, [event, handleStatusChange]);
+
+  const circumference = 2 * Math.PI * 35;
+
+  if (!isCountingDown) {
+    return null; // Don't render anything until the countdown starts
+  }
 
   return (
-    <div className="inline-flex items-center justify-center space-x-1 bg-gradient-to-r from-orange-500 to-red-600 p-2 rounded-lg shadow-lg">
-      
-      <div className="flex flex-col items-center">
-        <div className="w-14 text-center text-3xl font-bold text-white font-mono">
-          {String(timeElapsed.minutes).padStart(2, '0')}
+    <div className="relative w-24 h-24">
+      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 80 80">
+        <circle
+          className="text-orange-200"
+          strokeWidth="8"
+          stroke="currentColor"
+          fill="transparent"
+          r="35"
+          cx="40"
+          cy="40"
+        />
+        <circle
+          className="text-orange-500 transition-all duration-300 ease-in-out"
+          strokeWidth="8"
+          strokeDasharray={circumference}
+          strokeDashoffset={circumference - (progress / 100) * circumference}
+          strokeLinecap="round"
+          stroke="currentColor"
+          fill="transparent"
+          r="35"
+          cx="40"
+          cy="40"
+        />
+      </svg>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+        <div className="text-lg font-bold text-orange-600">
+          {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
         </div>
-        <div className="text-[10px] uppercase text-white">Min</div>
-      </div>
-      <div className="text-2xl font-bold text-white">:</div>
-      <div className="flex flex-col items-center">
-        <div className="w-14 text-center text-3xl font-bold text-white font-mono">
-          {String(timeElapsed.seconds).padStart(2, '0')}
-        </div>
-        <div className="text-[10px] uppercase text-white">Sec</div>
       </div>
     </div>
   );

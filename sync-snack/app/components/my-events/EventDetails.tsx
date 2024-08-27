@@ -1,6 +1,5 @@
-"use client";
+"use client"
 import React, { useContext, useEffect, useState } from 'react';
-
 import { Box, Button, Text, VStack, HStack, Badge, useToast, Collapse, useDisclosure, Icon, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Heading } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { EventOrder, EventEvent } from '@/app/interfaces';
@@ -22,10 +21,10 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const [event, setEvent] = useState(startEvent);
-  const [eventStatus, ssetEventStatus] = useState(event.status);
-  const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
+  const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore();
   const { hasNewNotificationIfEventExpiredStore, setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore();
   const [countdown, setCountdown] = useState(true);
+  const [isPending, setIsPending] = useState(true);
 
   const eventContext = useContext(NavLinksContext)
 
@@ -33,8 +32,6 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     setActionStatus(status);
     setIsDialogOpen(true);
   };
-
-
 
   const onCloseDialog = () => setIsDialogOpen(false);
 
@@ -44,7 +41,6 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       const response = await setStatusOfEvent(actionStatus, event.eventId);
       if (response === "SUCCESS") {
         eventContext.setIsEventLinkShown(false)
-        console.log(eventContext.isEventLinkShown, 'dflkhafdjlhfa')
         toast({
           title: `Event ${actionStatus === "cancel" ? "cancelled" : "finished"}`,
           description: `The event and all its orders have been marked as ${actionStatus}.`,
@@ -72,23 +68,40 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       fetchActiveEvents().then(setEvent);
       setHasNewNotificationIfEventExpiredStore('');
       setCountdown(false);
+      setIsPending(false);
     }
 
     if (hasNewEventPageNotification) {
       fetchActiveEvents().then(setEvent);
-      setHasNewEventPageNotification(false); // Reset the state after fetching new events
+      setHasNewEventPageNotification(false);
       setCountdown(true);
+      setIsPending(true);
     }
   }, [hasNewNotificationIfEventExpiredStore, hasNewEventPageNotification, fetchActiveEvents]);
+
+  useEffect(() => {
+    const checkPendingStatus = () => {
+      const now = new Date().getTime();
+      const pendingUntil = new Date(event.pendingUntil).getTime();
+      setIsPending(now < pendingUntil);
+    };
+
+    checkPendingStatus();
+    const interval = setInterval(checkPendingStatus, 1000);
+
+    return () => clearInterval(interval);
+  }, [event]);
 
   return (
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">
       <HStack justifyContent="space-between" mb={4}>
         <Heading as="h2" size="xl" color="orange.600">{event.title}</Heading>
-        <Badge colorScheme="green">PENDING</Badge>
-        <EventCountdownTimer event={event}></EventCountdownTimer>
-        <Badge colorScheme="yellow">IN PROGRESS</Badge>
-        <InProgressTimer event={event}></InProgressTimer>
+        
+        {isPending ? (
+          <EventCountdownTimer event={event} />
+        ) : (
+          <InProgressTimer event={event} handleStatusChange={() => handleStatusChange("CANCELLED")}/>
+        )}
         <Button onClick={onToggle} variant="ghost">
           {isOpen ? (
             <>Hide Details <Icon as={ChevronUpIcon} ml={2} /></>
@@ -100,7 +113,9 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       <Collapse in={isOpen} animateOpacity>
         <VStack align="start" spacing={4}>
           <HStack>
-
+          <Badge colorScheme={isPending ? "yellow" : "green"}>
+            {isPending ? "PENDING" : "IN PROGRESS"}
+          </Badge>
             <Badge colorScheme="orange">{event.eventType}</Badge>
           </HStack>
           <Box>
@@ -118,7 +133,6 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
         </VStack>
       </Collapse>
 
-      {/* Confirmation Dialog */}
       <AlertDialog
         isOpen={isDialogOpen}
         leastDestructiveRef={cancelRef}
@@ -129,12 +143,9 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Confirm Status Change
             </AlertDialogHeader>
-
             <AlertDialogBody>
               Are you sure you want to change the status of this event to {actionStatus}?
             </AlertDialogBody>
-
-
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onCloseDialog}>
                 Cancel
@@ -148,5 +159,4 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       </AlertDialog>
     </Box>
   );
-
 }
