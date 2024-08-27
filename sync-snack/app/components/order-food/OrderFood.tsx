@@ -52,9 +52,20 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         onOrderSuccess();
 
       } else {
-        throw new Error('Failed to place order');
+        if(orderResponse.status === 409){
+          toast({
+            title: "You already have an order for that event",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            colorScheme: 'xred'
+          });
+        } else {
+          throw new Error('Failed to place order');
+        }
       }
     } catch (error) {
+      
       console.error('Error placing order:', error);
       toast({
         title: "Failed to place order",

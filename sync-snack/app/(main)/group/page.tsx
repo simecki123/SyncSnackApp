@@ -19,6 +19,7 @@ const MembersTable = dynamic(
 export default async function GroupPage({ searchParams }: { searchParams: { page?: string } }) {
   const session = await auth();
   const activeUser: any = session?.user;
+  console.log("user ", activeUser);
 
   const currentPage = searchParams.page ? parseInt(searchParams.page, 10) : 0;
   const pageSize = 4; // You can adjust this as needed
@@ -47,6 +48,15 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
     }
   })
 
+  
+    const orders = await fetchImproved(`/api/profiles/orders/stats`);
+    console.log("orders ", orders);
+    const completedOrders = orders.filter((order: { orderStatus: string }) => order.orderStatus === "COMPLETED");
+    console.log("Completed Orders: ", completedOrders);
+    
+  
+    
+
   const members = await fetchMembers(currentPage);
   const futureMembers = await fetchMembers(currentPage + 1);
   const groupData = await fetchGroupData();
@@ -58,13 +68,13 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
       <GroupData initialGroupData={groupData} activeUser={activeUser} fetchGroupData={fetchGroupData}></GroupData>
 
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
-        <MvpMemberCard user={members[0]} />
+        <MvpMemberCard user={members[0]} orders={completedOrders}/>
       </Box>
       <Box>
         <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
           {members.map((user: any, index: number) => {
             return (
-              <MemberCard user={user} key={index} index={index} />
+              <MemberCard user={user} key={index} index={index} orders={completedOrders} />
             )
           })}
         </Box>
@@ -86,7 +96,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   )
 }
 
-function MemberCard({ index, user }: any) {
+function MemberCard({ index, user, orders }: {index: any, user: any, orders: []}) {
   const userIsMvp = index === 0;
 
   return (
@@ -114,7 +124,7 @@ function MemberCard({ index, user }: any) {
           </Text>
         </Box>
         <Text className="italic">
-          {user.orderCount + 10} Orders Completed
+          {orders} Orders Completed
         </Text>
       </Box>
       {userIsMvp && (
@@ -124,7 +134,9 @@ function MemberCard({ index, user }: any) {
   );
 }
 
-function MvpMemberCard({ user }: any) {
+async function MvpMemberCard({ user, orders }: {user: any, orders: []}) {
+  
+
   return (
     <Box className="flex rounded-xl shadow-lg overflow-hidden relative bg-orange-light-1">
       <Image
@@ -144,7 +156,7 @@ function MvpMemberCard({ user }: any) {
           </Text>
         </Box>
         <Text className="italic">
-          {user.orderCount + 10} Orders Completed
+          {orders.length} Orders Completed
         </Text>
       </Box>
       <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
