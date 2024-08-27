@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Lora } from "next/font/google";
+import { ColorModeScript } from "@chakra-ui/react";
 
 const lora = Lora({ style: 'normal', subsets: ["latin"], weight: ["400"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       </head>
       <body className={`${lora.className} antialiased`}>
+        <ColorModeScript initialColorMode={'light'} />
         <Providers>{children}</Providers>
       </body>
     </html>
