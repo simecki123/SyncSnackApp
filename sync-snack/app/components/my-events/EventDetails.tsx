@@ -88,7 +88,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
         <Badge colorScheme="green">PENDING</Badge>
         <EventCountdownTimer event={event}></EventCountdownTimer>
         <Badge colorScheme="yellow">IN PROGRESS</Badge>
-        <InProgressTimer event={event}></InProgressTimer>
+        <InProgressTimer event={event} handleEventDone={async () => handleStatusChange("CANCELLED")}></InProgressTimer>
         <Button onClick={onToggle} variant="ghost">
           {isOpen ? (
             <>Hide Details <Icon as={ChevronUpIcon} ml={2} /></>
