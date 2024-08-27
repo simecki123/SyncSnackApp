@@ -54,7 +54,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
 
   return (
 
-    <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen">
+    <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen md:ml-6">
       <GroupData initialGroupData={groupData} activeUser={activeUser} fetchGroupData={fetchGroupData}></GroupData>
 
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
