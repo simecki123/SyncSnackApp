@@ -29,9 +29,6 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
     return data;
   }
 
-  
-  
-
   const fetchMembers = async (pageNumber: number): Promise<any[]> => {
     try {
       const response = await fetchImproved(`/api/profiles/group?sortCondition=SCORE&page=${pageNumber}&size=${pageSize}`);
@@ -54,9 +51,6 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const futureMembers = await fetchMembers(currentPage + 1);
   const groupData = await fetchGroupData();
   const orderDounuts = await fetchImproved(`/api/groups/count`);
-
-  
-  
 
   return (
 
