@@ -22,9 +22,16 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
   const typeData = userData.filter(item => 'type' in item);
   const statusData = userData.filter(item => 'orderStatus' in item);
 
+  let completedOrders = 0;
+  let canceledOrders = 0;
+
+  console.log("status data ",statusData)
   // Calculate completed and canceled orders
-  const completedOrders = statusData[0].count
-  const canceledOrders = statusData[1].count
+  if(statusData.length > 0) {
+    completedOrders = statusData[0].count;
+    canceledOrders = statusData[1].count;
+  }
+  
 
   return (
     <Box className='md:h-full mt-2'>
