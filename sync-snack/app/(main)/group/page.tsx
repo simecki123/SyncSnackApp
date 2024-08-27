@@ -152,7 +152,7 @@ function MvpMemberCard({ user }: any) {
           </Text>
         </Box>
         <Text className="italic">
-          10 Orders Completed
+          {user.orderCount} Orders Completed
         </Text>
       </Box>
       <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
