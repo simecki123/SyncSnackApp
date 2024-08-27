@@ -4,15 +4,14 @@ import { Event, OrderFoodProps } from '@/app/interfaces';
 
 import suggarIcon from '@/public/sugar.png';
 import milkIcon from '@/public/milk.png';
+import RadioButtonsCoffeeType from './RadioButtonsCoffeeType';
 
 export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFoodProps) {
   const [orderText, setOrderText] = useState('');
   const [sugar, setSugar] = useState(0);
   const [milk, setMilk] = useState(0);
   const toast = useToast();
-
-
-
+  const [value, setValue] = useState('latte')
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -28,6 +27,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           userProfileId: activeUser?.userProfileId,
           eventId: event.eventId,
           additionalOptions: {
+            coffeeType: value,
             description: orderText,
             sugar,
             milk,
@@ -70,7 +70,6 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
 
   const renderSlider = (value: number, setValue: (val: number) => void, icon: string, label: string, color: string) => (
     <Box width="full" position="relative" height="40px">
-      <Text>{label}: {value}</Text>
       <Slider
         aria-label={`${label.toLowerCase()}-slider`}
         defaultValue={0}
@@ -80,7 +79,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         value={value}
         onChange={setValue}
       >
-        <SliderTrack bg={`${color}.100`}>
+        <SliderTrack bg={`gray.100`}>
           <SliderFilledTrack bg={color} />
         </SliderTrack>
         <SliderThumb boxSize="20px">
@@ -111,29 +110,18 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
   if (event.eventType === "COFFEE") {
     return (
       <Box
-
         p={8}
         width="100%"
         mx="auto"
         my={8}
         borderRadius="md"
-        boxShadow="md"
       >
         <VStack spacing={6} as="form" onSubmit={handleSubmit}>
-          <Heading as="h1" size="md">
-            Place your coffee order here:
-          </Heading>
-          <Box width="full">
-            <Select defaultValue="Latte">
-              <option value="Latte">Latte</option>
-              <option value="Turkish">Turkish</option>
-              <option value="Macchiato">Macchiato</option>
-            </Select>
-          </Box>
-          {renderSlider(sugar, setSugar, suggarIcon.src, "Sugar", "tomato")}
-          {renderSlider(milk, setMilk, milkIcon.src, "Milk", "blue.500")}
+          <RadioButtonsCoffeeType value={value} setValue={setValue} />
+          {renderSlider(sugar, setSugar, suggarIcon.src, "Sugar", "xorange.500")}
+          {renderSlider(milk, setMilk, milkIcon.src, "Milk", "xblue.500")}
           <Textarea
-            placeholder="Enter your order details here..."
+            placeholder="Details..."
             size="md"
             resize="none"
             maxHeight="150px"
@@ -143,7 +131,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
             maxLength={80}
           />
           <Button
-            colorScheme="orange"
+            colorScheme="xorange"
             size="lg"
             width="full"
             type="submit"
@@ -164,7 +152,6 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
       mx="auto"
       my={8}
       borderRadius="md"
-      boxShadow="md"
     >
       <VStack spacing={6} as="form" onSubmit={handleSubmit}>
         <Heading as="h2" size="xl">
@@ -175,7 +162,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           size="lg"
           resize="none"
           minHeight="150px"
-          focusBorderColor="orange.400"
+          focusBorderColor="xorange.500"
           value={orderText}
           onChange={(e) => setOrderText(e.target.value)}
           maxLength={80}

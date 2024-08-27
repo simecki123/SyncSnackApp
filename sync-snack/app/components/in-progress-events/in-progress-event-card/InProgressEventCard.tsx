@@ -11,17 +11,14 @@ import EventCountdownTimer from '../../countdown-timer/EventCountdownTimer';
 export default function InProgressEventCard({ event, activeUser }: InProgressEventCardProps) {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  // Define styles for the box
   const cardBgColor = useColorModeValue('white', 'gray.700');
   const hoverBgColor = useColorModeValue('gray.100', 'gray.600');
   console.log("event ", event)
 
-  // Keyframes for blinking animation
   const blink = keyframes`
     50% { opacity: 0.5; }
   `;
 
-  // Function to close the modal
   const closeModal = () => {
     setModalOpen(false);
   };
