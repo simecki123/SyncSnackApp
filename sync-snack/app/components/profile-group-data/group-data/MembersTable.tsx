@@ -10,9 +10,9 @@ import {
   Text,
   Image,
   Box,
-  Button,
   HStack,
   IconButton,
+  Flex,
 } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import clsx from 'clsx'
@@ -25,7 +25,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
   const [data, setData] = useState(members)
   const [hasNextPage, setHasNextPage] = useState(true)
 
-  console.log("Members ",members)
+  console.log("Members ", members)
 
   useEffect(() => {
     let strategyModifed = "SCORE"
@@ -68,33 +68,35 @@ export default function MembersTable({ members, futureMembers, userToken, curren
   }
 
   return (
-    <Box className='w-full flex flex-col'>
-      <TableContainer className='w-full pt-10 pb-4 px-6'>
-        <Text className='text-xl font-semibold mb-2 ml-2'>Members</Text>
-        <Table variant='simple' className='shadow-lg'>
-          <Thead className='bg-orange-light-1 text-white'>
-            <Tr>
-              {['Name', 'Orders', 'Score'].map((header: any, index: number) => (
-                <TableHeader key={index} value={header} />
-              ))}
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((member: any, index: number) => (
-              <Tr key={index}>
-                <Td className='flex items-center'>
-                  <Image src={member.photoUrl} fallbackSrc='/profile_picture.png'
-                    objectFit='cover' className='size-10 rounded-full mr-2' />
-                  <Text>{member.firstName} {member.lastName}</Text>
-                </Td>
-                <Td>{member.orderCount}</Td>
-                <Td>{member.score.toFixed(2)}</Td>
+    <Flex direction="column" minHeight="calc(100vh - 100px)" className='w-full'>
+      <Box flex="1" overflowY="auto" className='w-full px-6'>
+        <TableContainer className='w-full pt-10 pb-4'>
+          <Text className='text-xl font-semibold mb-2 ml-2'>Members</Text>
+          <Table variant='simple' className='shadow-lg'>
+            <Thead className='bg-orange-light-1 text-white'>
+              <Tr>
+                {['Name', 'Orders', 'Score'].map((header: any, index: number) => (
+                  <TableHeader key={index} value={header} />
+                ))}
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <Box mt={4} className='mr-4 mb-2 grow flex justify-center items-start'>
+            </Thead>
+            <Tbody>
+              {data.map((member: any, index: number) => (
+                <Tr key={index}>
+                  <Td className='flex items-center'>
+                    <Image src={member.photoUrl} fallbackSrc='/profile_picture.png'
+                      objectFit='cover' className='size-10 rounded-full mr-2' />
+                    <Text>{member.firstName} {member.lastName}</Text>
+                  </Td>
+                  <Td>{member.orderCount}</Td>
+                  <Td>{member.score.toFixed(2)}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <Box mt={4} className='mr-4 mb-2 flex justify-center items-center py-4'>
         <HStack spacing={2}>
           <IconButton
             aria-label="Previous page"
@@ -114,6 +116,6 @@ export default function MembersTable({ members, futureMembers, userToken, curren
           />
         </HStack>
       </Box>
-    </Box>
+    </Flex>
   )
 }
