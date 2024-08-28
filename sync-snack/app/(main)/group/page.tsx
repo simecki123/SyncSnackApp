@@ -1,15 +1,21 @@
 import { auth } from "@/app/auth";
-import GroupData from "@/app/components/group/GroupData";
-import GroupOrdersDonut from "@/app/components/profile-group-data/group-data/GroupOrdersDonut";
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 const MembersTable = dynamic(
   () => import('@/app/components/profile-group-data/group-data/MembersTable'),
+  { ssr: false }
+);
+
+const GroupData = dynamic(
+  () => import('@/app/components/group/GroupData'),
+  { ssr: false }
+);
+
+const GroupOrdersDonut = dynamic(
+  () => import('@/app/components/profile-group-data/group-data/GroupOrdersDonut'),
   { ssr: false }
 );
 
@@ -51,9 +57,6 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const completedOrders = orders.filter((order: { orderStatus: string }) => order.orderStatus === "COMPLETED");
   console.log("Completed Orders: ", completedOrders);
 
-
-
-
   const members = await fetchMembers(currentPage);
   const futureMembers = await fetchMembers(currentPage + 1);
   const groupData = await fetchGroupData();
@@ -89,16 +92,14 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
             )
           })}
         </Box>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Box className="hidden md:flex md:justify-center">
-            <MembersTable
-              members={members}
-              futureMembers={futureMembers}
-              userToken={activeUser?.accessToken}
-              currentPage={currentPage}
-            />
-          </Box>
-        </Suspense>
+        <Box className="hidden md:flex md:justify-center">
+          <MembersTable
+            members={members}
+            futureMembers={futureMembers}
+            user={activeUser}
+            currentPage={currentPage}
+          />
+        </Box>
       </Box>
       <Box className="hidden md:flex md:justify-center">
         <GroupOrdersDonut datahero={orderDounuts} />
@@ -134,9 +135,6 @@ function MemberCard({ index, user, orders }: { index: any, user: any, orders: []
             {user.score.toFixed(2)}⭐
           </Text>
         </Box>
-        <Text className="italic">
-          {orders.map((order) => <p>hello</p>)} Orders Completed
-        </Text>
       </Box>
       {userIsMvp && (
         <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>

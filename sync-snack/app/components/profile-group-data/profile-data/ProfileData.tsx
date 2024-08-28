@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { OrderStats, ProfileUser } from '@/app/interfaces';
 import { Box, Button, Text, Flex, VStack, Heading, HStack, Image } from '@chakra-ui/react';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { DonutChart, LineChart } from '@tremor/react';
+import { AreaChart, DonutChart, LineChart } from '@tremor/react';
 import Modal from '../../modals/Modal';
 import EditUserComponent from '../../edit-user/EditUserComponent';
 
@@ -77,7 +77,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
         </Box>
       </Box>
       <Box className='md:mt-4 hidden md:block'>
-        <LineChart
+        <AreaChart
           className="h-80"
           data={yearlyReportData}
           index="date"
@@ -87,7 +87,6 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           showAnimation={true}
           animationDuration={2000}
           minValue={0}
-          curveType='monotone'
           allowDecimals={false}
         />
       </Box>
