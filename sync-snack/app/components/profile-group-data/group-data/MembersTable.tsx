@@ -13,19 +13,39 @@ import {
   Button,
   HStack,
   IconButton,
+  useDisclosure,
+  Input,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { GrUserAdmin } from "react-icons/gr";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+} from '@chakra-ui/react'
+import React from 'react'
 
-export default function MembersTable({ members, futureMembers, userToken, currentPage }: any) {
+export default function MembersTable({ members, futureMembers, user, currentPage }: any) {
   const router = useRouter();
   const [sortStrategy, setSortStrategy] = useState('Score')
   const [data, setData] = useState(members)
   const [hasNextPage, setHasNextPage] = useState(true)
 
-  console.log("Members ",members)
+  const { isOpen: isKickOpen, onOpen: onKickOpen, onClose: onKickClose } = useDisclosure()
+  const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure()
+  const cancelRef = React.useRef()
+
+  console.log("Members ", members)
 
   useEffect(() => {
     let strategyModifed = "SCORE"
@@ -43,7 +63,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/profiles/group?sortCondition=${strategyModifed}&page=${currentPage}&size=4`, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userToken}`
+        'Authorization': `Bearer ${user.accessToken}`
       },
     })
       .then((response) => response.json())
@@ -51,7 +71,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
         setData(data);
         setHasNextPage(futureMembers.length > 0);
       });
-  }, [sortStrategy, currentPage, userToken]);
+  }, [sortStrategy, currentPage]);
 
   const handlePageChange = (newPage: number) => {
     router.push(`/group?page=${newPage}`);
@@ -67,6 +87,15 @@ export default function MembersTable({ members, futureMembers, userToken, curren
     )
   }
 
+  function AdminButtons() {
+    return (
+      <Box className='flex space-x-2 w-full justify-around'>
+        <IconButton onClick={onKickOpen} aria-label='Kick User' colorScheme='xred' variant='outline' icon={<XMarkIcon />} />
+        <IconButton onClick={onAddOpen} aria-label='Give Admin' colorScheme='xblue' variant='outline' icon={<GrUserAdmin />} />
+      </Box>
+    )
+  }
+
   return (
     <Box className='w-full flex flex-col'>
       <TableContainer className='w-full pt-10 pb-4 px-6'>
@@ -77,6 +106,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
               {['Name', 'Orders', 'Score'].map((header: any, index: number) => (
                 <TableHeader key={index} value={header} />
               ))}
+              {user.roles.includes('ADMIN') && <TableHeader value={'Actions'} />}
             </Tr>
           </Thead>
           <Tbody>
@@ -89,6 +119,7 @@ export default function MembersTable({ members, futureMembers, userToken, curren
                 </Td>
                 <Td>{member.orderCount}</Td>
                 <Td>{member.score.toFixed(2)}</Td>
+                {user.roles.includes('ADMIN') && <Td className='w-56'><AdminButtons /></Td>}
               </Tr>
             ))}
           </Tbody>
@@ -114,6 +145,58 @@ export default function MembersTable({ members, futureMembers, userToken, curren
           />
         </HStack>
       </Box>
+      <AlertDialog
+        isOpen={isKickOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onKickClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Kick User
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onKickClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='xred' onClick={onKickClose} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+      <AlertDialog
+        isOpen={isAddOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onAddClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Give Admin To User
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to give admin rights to this user?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onAddClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='xblue' ml={3}>
+                Give Admin
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   )
 }

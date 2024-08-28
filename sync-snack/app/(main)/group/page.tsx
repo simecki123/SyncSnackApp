@@ -1,15 +1,21 @@
 import { auth } from "@/app/auth";
-import GroupData from "@/app/components/group/GroupData";
-import GroupOrdersDonut from "@/app/components/profile-group-data/group-data/GroupOrdersDonut";
 import { fetchImproved } from "@/app/fetch";
 import { Text, Image, Box } from "@chakra-ui/react";
 import clsx from "clsx";
 import dynamic from 'next/dynamic';
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 const MembersTable = dynamic(
   () => import('@/app/components/profile-group-data/group-data/MembersTable'),
+  { ssr: false }
+);
+
+const GroupData = dynamic(
+  () => import('@/app/components/group/GroupData'),
+  { ssr: false }
+);
+
+const GroupOrdersDonut = dynamic(
+  () => import('@/app/components/profile-group-data/group-data/GroupOrdersDonut'),
   { ssr: false }
 );
 
@@ -89,16 +95,14 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
             )
           })}
         </Box>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Box className="hidden md:flex md:justify-center">
-            <MembersTable
-              members={members}
-              futureMembers={futureMembers}
-              userToken={activeUser?.accessToken}
-              currentPage={currentPage}
-            />
-          </Box>
-        </Suspense>
+        <Box className="hidden md:flex md:justify-center">
+          <MembersTable
+            members={members}
+            futureMembers={futureMembers}
+            user={activeUser}
+            currentPage={currentPage}
+          />
+        </Box>
       </Box>
       <Box className="hidden md:flex md:justify-center">
         <GroupOrdersDonut datahero={orderDounuts} />

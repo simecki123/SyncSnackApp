@@ -110,7 +110,7 @@ export default function GroupButtons({ startGroup, activeUser, fetchGroupData }:
 
       {isAdmin && (
         <>
-          <Button className="md:ml-2 shadow-lg" colorScheme="orange" mt={4} onClick={onOpen}>
+          <Button className="md:ml-2 shadow-lg" colorScheme="xred" mt={4} onClick={onOpen}>
             Edit
           </Button>
           <Modal isOpen={isOpen} onClose={onClose}>
