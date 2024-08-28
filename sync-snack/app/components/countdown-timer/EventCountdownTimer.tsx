@@ -41,7 +41,7 @@ const CircularTimer = ({ event }: { event: EventEvent }) => {
     <div className="relative w-24 h-24"> {/* Reduced size to 6rem (96px) */}
       <svg className="w-full h-full transform -rotate-90" viewBox="0 0 80 80"> {/* Adjusted viewBox */}
         <circle
-          className="text-orange-200"
+          className="text-blue-100"
           strokeWidth="8"
           stroke="currentColor"
           fill="transparent"
@@ -50,7 +50,7 @@ const CircularTimer = ({ event }: { event: EventEvent }) => {
           cy="40"
         />
         <circle
-          className="text-orange-500 transition-all duration-300 ease-in-out"
+          className="text-blue-2 transition-all duration-300 ease-in-out"
           strokeWidth="8"
           strokeDasharray={circumference}
           strokeDashoffset={circumference - (progress / 100) * circumference}
@@ -63,7 +63,7 @@ const CircularTimer = ({ event }: { event: EventEvent }) => {
         />
       </svg>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-        <div className="text-lg font-bold text-orange-600">
+        <div className="text-lg font-bold text-blue-1">
           {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
         </div>
       </div>
