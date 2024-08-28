@@ -57,9 +57,6 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const completedOrders = orders.filter((order: { orderStatus: string }) => order.orderStatus === "COMPLETED");
   console.log("Completed Orders: ", completedOrders);
 
-
-
-
   const members = await fetchMembers(currentPage);
   const futureMembers = await fetchMembers(currentPage + 1);
   const groupData = await fetchGroupData();
@@ -138,9 +135,6 @@ function MemberCard({ index, user, orders }: { index: any, user: any, orders: []
             {user.score.toFixed(2)}⭐
           </Text>
         </Box>
-        <Text className="italic">
-          {orders.map((order) => <p>hello</p>)} Orders Completed
-        </Text>
       </Box>
       {userIsMvp && (
         <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
