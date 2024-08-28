@@ -93,7 +93,7 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
       </Box>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <EditUserComponent user={user} setPhotoUrl={setPhotoUrl} setFirstName={setFirstName} setLastName={setLastName} onClose={() => setIsModalOpen(false)} />
+        <EditUserComponent user={user} startPhotoUrl={photoUrl} startFirstName={firstName} startLastName={lastName} setPhotoUrl={setPhotoUrl} setFirstName={setFirstName} setLastName={setLastName} onClose={() => setIsModalOpen(false)} />
       </Modal>
     </Box>
   );
