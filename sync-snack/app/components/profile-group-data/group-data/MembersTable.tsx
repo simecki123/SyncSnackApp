@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import clsx from 'clsx'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { GrUserAdmin } from "react-icons/gr";
@@ -43,7 +43,7 @@ export default function MembersTable({ members, futureMembers, user, currentPage
 
   const { isOpen: isKickOpen, onOpen: onKickOpen, onClose: onKickClose } = useDisclosure()
   const { isOpen: isAddOpen, onOpen: onAddOpen, onClose: onAddClose } = useDisclosure()
-  const cancelRef = React.useRef()
+  const cancelRef = useRef<HTMLButtonElement>(null)
 
   console.log("Members ", members)
 
@@ -149,6 +149,7 @@ export default function MembersTable({ members, futureMembers, user, currentPage
         isOpen={isKickOpen}
         leastDestructiveRef={cancelRef}
         onClose={onKickClose}
+        isCentered
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -175,6 +176,7 @@ export default function MembersTable({ members, futureMembers, user, currentPage
         isOpen={isAddOpen}
         leastDestructiveRef={cancelRef}
         onClose={onAddClose}
+        isCentered
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -190,7 +192,7 @@ export default function MembersTable({ members, futureMembers, user, currentPage
               <Button ref={cancelRef} onClick={onAddClose}>
                 Cancel
               </Button>
-              <Button colorScheme='xblue' ml={3}>
+              <Button colorScheme='xblue' ml={3} onClick={onAddClose}>
                 Give Admin
               </Button>
             </AlertDialogFooter>
