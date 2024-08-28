@@ -25,6 +25,8 @@ export default function MembersTable({ members, futureMembers, userToken, curren
   const [data, setData] = useState(members)
   const [hasNextPage, setHasNextPage] = useState(true)
 
+  console.log("Members ",members)
+
   useEffect(() => {
     let strategyModifed = "SCORE"
     switch (sortStrategy) {

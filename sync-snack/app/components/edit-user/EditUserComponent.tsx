@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, Input, Text, VStack, Image, FormControl, FormLabel, useToast } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 export default function EditUserComponent({ user, setPhotoUrl, setFirstName, setLastName,  onClose }: {
@@ -9,14 +9,36 @@ export default function EditUserComponent({ user, setPhotoUrl, setFirstName, set
      setPhotoUrl: (url: string) => void,
      setFirstName:(firstName: string) => void,
      setLastName: (lastName: string) => void,
-     onClose: () => void })
-      {
+     onClose: () => void }) {
+  
   const [firstName, setNewFirstName] = useState(user.firstName);
   const [lastName, setNewLastName] = useState(user.lastName);
   const [isLoading, setIsLoading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const toast = useToast();
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: {
+      'image/*': []
+    },
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
+        const preview = URL.createObjectURL(file);
+        setPreviewUrl(preview);
+      }
+    }
+  });
+  
+
+  useEffect(() => {
+    // Revoke the data URI to avoid memory leaks when the component unmounts
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const submitFunction = async () => {
     if (acceptedFiles.length > 0 || firstName !== user.firstName || lastName !== user.lastName) {
@@ -84,7 +106,7 @@ export default function EditUserComponent({ user, setPhotoUrl, setFirstName, set
         <Image
           borderRadius="full"
           boxSize="150px"
-          src={user.photoUrl || '/profile_picture.png'}
+          src={previewUrl || user.photoUrl || '/profile_picture.png'}
           alt={`${firstName} ${lastName}`}
           objectFit="cover"
           mx="auto"
@@ -114,7 +136,11 @@ export default function EditUserComponent({ user, setPhotoUrl, setFirstName, set
           <FormLabel>Profile Image</FormLabel>
           <div {...getRootProps()} className="p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
             <input {...getInputProps()} />
-            <Text textAlign="center">Drag & drop or click to select a new profile picture</Text>
+            {previewUrl ? (
+              <Image src={previewUrl} alt="Image Preview" boxSize="100px" objectFit="cover" mx="auto" />
+            ) : (
+              <Text textAlign="center">Drag & drop or click to select a new profile picture</Text>
+            )}
           </div>
         </FormControl>
 
