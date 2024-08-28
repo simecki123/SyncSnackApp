@@ -4,15 +4,18 @@ import { Box, Button, Input, Text, VStack, Image, FormControl, FormLabel, useToa
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export default function EditUserComponent({ user, setPhotoUrl, setFirstName, setLastName,  onClose }: {
+export default function EditUserComponent({ user, startPhotoUrl, startFirstName, startLastName, setPhotoUrl, setFirstName, setLastName,  onClose }: {
      user: any,
+     startPhotoUrl: any,
+     startFirstName: any,
+     startLastName: any,
      setPhotoUrl: (url: string) => void,
      setFirstName:(firstName: string) => void,
      setLastName: (lastName: string) => void,
      onClose: () => void }) {
   
-  const [firstName, setNewFirstName] = useState(user.firstName);
-  const [lastName, setNewLastName] = useState(user.lastName);
+  const [firstName, setNewFirstName] = useState(startFirstName);
+  const [lastName, setNewLastName] = useState(startLastName);
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const toast = useToast();
@@ -41,7 +44,7 @@ export default function EditUserComponent({ user, setPhotoUrl, setFirstName, set
   }, [previewUrl]);
 
   const submitFunction = async () => {
-    if (acceptedFiles.length > 0 || firstName !== user.firstName || lastName !== user.lastName) {
+    if (acceptedFiles.length > 0 || firstName !== startFirstName || lastName !== startLastName) {
       setIsLoading(true);
       const formData = new FormData();
       formData.append('firstName', firstName);
@@ -106,7 +109,7 @@ export default function EditUserComponent({ user, setPhotoUrl, setFirstName, set
         <Image
           borderRadius="full"
           boxSize="150px"
-          src={previewUrl || user.photoUrl || '/profile_picture.png'}
+          src={previewUrl || startPhotoUrl || '/profile_picture.png'}
           alt={`${firstName} ${lastName}`}
           objectFit="cover"
           mx="auto"
