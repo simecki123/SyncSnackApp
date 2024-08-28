@@ -8,9 +8,6 @@ import dynamic from 'next/dynamic';
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-
-
-
 const MembersTable = dynamic(
   () => import('@/app/components/profile-group-data/group-data/MembersTable'),
   { ssr: false }
@@ -62,13 +59,26 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   const groupData = await fetchGroupData();
   const orderDounuts = await fetchImproved(`/api/groups/count`);
 
+  const mvpMemberRes = await fetch(`${process.env.BACKEND_URL}/api/groups/top-scorer`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${activeUser?.accessToken}`
+    }
+  })
+
+  const mvpMem = await mvpMemberRes.json()
+
+  console.log(mvpMem, 'mvp')
+
   return (
 
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen md:ml-6">
       <GroupData initialGroupData={groupData} activeUser={activeUser} fetchGroupData={fetchGroupData}></GroupData>
 
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
+
         <MvpMemberCard user={members[0]} orders={completedOrders}/>
+
       </Box>
       <Box>
         <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
@@ -156,7 +166,9 @@ async function MvpMemberCard({ user, orders }: {user: any, orders: []}) {
           </Text>
         </Box>
         <Text className="italic">
+
           {orders.length} Orders Completed
+
         </Text>
       </Box>
       <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
