@@ -49,5 +49,5 @@ const links = [
   { name: 'Orders', href: '/orders', icon: CommandLineIcon },
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },
   { name: 'Group', href: '/group', icon: UserGroupIcon },
-  { name: 'Admin', href: '/admin', icon: ChartBarIcon }, // Added Admin link
+  { name: 'Admin', href: '/group-admin', icon: ChartBarIcon }, 
 ];
