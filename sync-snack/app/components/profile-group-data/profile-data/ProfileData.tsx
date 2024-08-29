@@ -76,9 +76,9 @@ export default function ProfileData({ user, userData, yearlyReportData }: { year
           </Box>
         </Box>
       </Box>
-      <Box className='md:mt-4 hidden md:block'>
+      <Box className='mt-4 w-full'>
         <AreaChart
-          className="h-80"
+          className="h-60 sm:h-80"
           data={yearlyReportData}
           index="date"
           categories={['Total Events', 'Total Orders']}
