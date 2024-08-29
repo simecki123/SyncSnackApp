@@ -22,7 +22,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
   const [actionStatus, setActionStatus] = React.useState("");
   const cancelRef = React.useRef<HTMLButtonElement>(null);
   const [event, setEvent] = useState(startEvent);
-  const [eventStatus, ssetEventStatus] = useState(event.status);
+  const [eventStatus, setEventStatus] = useState(event.status);
   const { hasNewEventPageNotification, setHasNewEventPageNotification } = useNotificationEventPageStore(); // Use Zustand to get the state
   const { hasNewNotificationIfEventExpiredStore, setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore();
   const [countdown, setCountdown] = useState(true);
@@ -85,10 +85,14 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
     <Box borderWidth={1} borderRadius="lg" p={6} boxShadow="md" bg="white">
       <HStack justifyContent="space-between" mb={4}>
         <Heading as="h2" size="xl" color="orange.600">{event.title}</Heading>
-        <Badge colorScheme="green">PENDING</Badge>
-        <EventCountdownTimer event={event}></EventCountdownTimer>
-        <Badge colorScheme="yellow">IN PROGRESS</Badge>
-        <InProgressTimer event={event} handleEventDone={async () => handleStatusChange("CANCELLED")}></InProgressTimer>
+        {eventStatus === "PENDING" ? (
+          <EventCountdownTimer event={event} setEventStatus={setEventStatus} />
+        ) : eventStatus === "IN_PROGRESS" ? (
+          <InProgressTimer event={event} handleEventDone={async () => handleStatusChange("CANCELLED")} />
+        ) : null}
+        
+        
+        
         <Button onClick={onToggle} variant="ghost">
           {isOpen ? (
             <>Hide Details <Icon as={ChevronUpIcon} ml={2} /></>
@@ -100,7 +104,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
       <Collapse in={isOpen} animateOpacity>
         <VStack align="start" spacing={4}>
           <HStack>
-
+            <Badge colorScheme="green">{eventStatus}</Badge>
             <Badge colorScheme="orange">{event.eventType}</Badge>
           </HStack>
           <Box>

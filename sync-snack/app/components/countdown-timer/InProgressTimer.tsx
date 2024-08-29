@@ -48,7 +48,7 @@ const InProgressTimer = ({ event, handleEventDone }: { event: EventEvent, handle
             const newMinutes = Math.floor(totalSeconds / 60);
             const newSeconds = totalSeconds % 60;
             
-            setProgress((totalSeconds / (1 * 60)) * 100);
+            setProgress((totalSeconds / (20 * 60)) * 100);
             
             return { minutes: newMinutes, seconds: newSeconds };
           });
