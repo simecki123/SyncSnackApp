@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { EventEvent } from '@/app/interfaces';
 import useNotificationIfEventExpiredStore from '@/app/store/notificationIfEventExpired';
 
-const CircularTimer = ({ event }: { event: EventEvent }) => {
+const CircularTimer = ({ event, setEventStatus }: { event: EventEvent, setEventStatus: (newStatus: string) => void }) => {
   const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 });
   const { setHasNewNotificationIfEventExpiredStore } = useNotificationIfEventExpiredStore();
   const [hasExpired, setHasExpired] = useState(false);
@@ -21,6 +21,7 @@ const CircularTimer = ({ event }: { event: EventEvent }) => {
         setProgress(0);
         if (!hasExpired) {
           console.log("Event has expired");
+          setEventStatus("IN_PROGRESS");
           setHasNewNotificationIfEventExpiredStore(event.eventId);
           setHasExpired(true);
         }
