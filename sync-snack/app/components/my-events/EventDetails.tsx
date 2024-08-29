@@ -139,7 +139,7 @@ export default function EventDetails({ startEvent, orders, setStatusOfEvent, fet
               <Button ref={cancelRef} onClick={onCloseDialog}>
                 Cancel
               </Button>
-              <Button colorScheme="orange" onClick={handleConfirmStatusChange} ml={3}>
+              <Button colorScheme="xorange" onClick={handleConfirmStatusChange} ml={3}>
                 Confirm
               </Button>
             </AlertDialogFooter>

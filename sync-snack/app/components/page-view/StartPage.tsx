@@ -38,13 +38,13 @@ export default function StartPage() {
                 </Text>
               </Box>
               <VStack spacing={4} align="stretch" mt={{ base: 4, md: 0 }}>
-                <Button colorScheme="orange" variant="outline" width={{ base: 'full', md: 'auto' }}>
+                <Button colorScheme="xorange" variant="outline" width={{ base: 'full', md: 'auto' }}>
                   Buy us a coffee
                 </Button>
-                <Button colorScheme="orange" onClick={handleLogin} width={{ base: 'full', md: 'auto' }}>
+                <Button colorScheme="xorange" onClick={handleLogin} width={{ base: 'full', md: 'auto' }}>
                   Login
                 </Button>
-                <Button colorScheme="orange" onClick={handleRegister} width={{ base: 'full', md: 'auto' }}>
+                <Button colorScheme="xorange" onClick={handleRegister} width={{ base: 'full', md: 'auto' }}>
                   Register
                 </Button>
               </VStack>

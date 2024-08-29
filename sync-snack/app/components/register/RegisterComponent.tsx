@@ -135,7 +135,7 @@ export default function RegisterComponent() {
       </FormControl>
       <Flex justifyContent="center" mt={6}>
         <Button
-          colorScheme="orange"
+          colorScheme="xorange"
           onClick={handleSubmit}
           isDisabled={isLoading || !(formData.email && formData.password && formData.password === formData.confirmPassword)}
           isLoading={isLoading}

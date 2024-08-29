@@ -94,7 +94,7 @@ export default function OrderCards({ order, setStatusOfTheOrder }: {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="orange" onClick={patchOrderStatus} ml={3}>
+              <Button colorScheme="xorange" onClick={patchOrderStatus} ml={3}>
                 Confirm
               </Button>
             </AlertDialogFooter>

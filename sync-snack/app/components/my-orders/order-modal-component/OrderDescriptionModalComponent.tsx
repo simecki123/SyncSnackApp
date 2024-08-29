@@ -4,13 +4,13 @@ import { OrderModalComponentProps } from '@/app/interfaces';
 
 export default function OrderDescriptionModalComponent({ description, onClose }: OrderModalComponentProps) {
   return (
-    <Box 
-      
+    <Box
+
     >
       <VStack spacing={4} align="stretch">
         <Heading size="lg" textAlign="center">Description</Heading>
         <Text fontSize="md" textAlign="justify">{description}</Text>
-        <Button colorScheme="orange" onClick={onClose}>
+        <Button colorScheme="xorange" onClick={onClose}>
           Close
         </Button>
       </VStack>

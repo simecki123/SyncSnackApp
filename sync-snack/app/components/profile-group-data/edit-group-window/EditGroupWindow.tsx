@@ -21,21 +21,21 @@ export default function EditGroupWindow({
     <VStack spacing={4} align="stretch">
       <Box>
         <Text mb={2}>Enter new group name:</Text>
-        <Input 
-          value={newGroupName} 
-          onChange={(e) => setNewGroupName(e.target.value)} 
+        <Input
+          value={newGroupName}
+          onChange={(e) => setNewGroupName(e.target.value)}
           placeholder='New name'
         />
       </Box>
       <Box>
         <Text mb={2}>Enter new group description:</Text>
-        <Input 
-          value={newGroupDescription} 
-          onChange={(e) => setNewGroupDescription(e.target.value)} 
+        <Input
+          value={newGroupDescription}
+          onChange={(e) => setNewGroupDescription(e.target.value)}
           placeholder='New description'
         />
       </Box>
-      <Button colorScheme="orange" onClick={handleSubmit}>Submit</Button>
+      <Button colorScheme="xorange" onClick={handleSubmit}>Submit</Button>
     </VStack>
   )
 }

@@ -184,14 +184,14 @@ export default function SetProfileComponent() {
         </Button>
         {activeStep === steps.length - 1 ? (
           <Button
-            colorScheme="orange"
+            colorScheme="xorange"
             onClick={handleSubmit}
             isDisabled={!isStepComplete(activeStep)}
           >
             Setup Profile
           </Button>
         ) : (
-          <Button colorScheme="orange" onClick={handleNext} isDisabled={!isStepComplete(activeStep)}>
+          <Button colorScheme="xorange" onClick={handleNext} isDisabled={!isStepComplete(activeStep)}>
             Next
           </Button>
         )}

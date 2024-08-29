@@ -29,7 +29,9 @@ export default function NavLinksWeb({ user }: any) {
     }).catch((_) => {
       console.log('no current event')
     });
+  },)
 
+  useEffect(() => {
     if (user.roles.includes('ADMIN')) {
       eventContext.setIsAdminLinkShown(true)
     }

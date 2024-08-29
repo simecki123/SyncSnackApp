@@ -103,8 +103,7 @@ function objectToString(obj: any): string {
     .join('\n');
 }
 
-// utils/dateUtils.js
-export function formatDate(dateString: string): string {
+function formatDate(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();
 
@@ -116,9 +115,11 @@ export function formatDate(dateString: string): string {
   if (diff < 7 * oneDay) return "A few days ago";
   if (diff < 14 * oneDay) return "Last week";
   if (diff < 30 * oneDay) return "Last month";
-  if (diff < 365 * oneDay) return "More than a month ago";
+  if (diff < 40 * oneDay) return "More then a month ago";
+  if (diff < 90 * oneDay) return "More then 2 months ago";
+  if (diff < 140 * oneDay) return "More then a 3 months ago";
+  if (diff < 365 * oneDay) return "More than a 6 months ago";
   return "More than a year ago";
 }
-
 
 

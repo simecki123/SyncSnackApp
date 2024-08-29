@@ -4,16 +4,17 @@ import { Box, Button, Input, Text, VStack, Image, FormControl, FormLabel, useToa
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export default function EditUserComponent({ user, startPhotoUrl, startFirstName, startLastName, setPhotoUrl, setFirstName, setLastName,  onClose }: {
-     user: any,
-     startPhotoUrl: any,
-     startFirstName: any,
-     startLastName: any,
-     setPhotoUrl: (url: string) => void,
-     setFirstName:(firstName: string) => void,
-     setLastName: (lastName: string) => void,
-     onClose: () => void }) {
-  
+export default function EditUserComponent({ user, startPhotoUrl, startFirstName, startLastName, setPhotoUrl, setFirstName, setLastName, onClose }: {
+  user: any,
+  startPhotoUrl: any,
+  startFirstName: any,
+  startLastName: any,
+  setPhotoUrl: (url: string) => void,
+  setFirstName: (firstName: string) => void,
+  setLastName: (lastName: string) => void,
+  onClose: () => void
+}) {
+
   const [firstName, setNewFirstName] = useState(startFirstName);
   const [lastName, setNewLastName] = useState(startLastName);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +33,7 @@ export default function EditUserComponent({ user, startPhotoUrl, startFirstName,
       }
     }
   });
-  
+
 
   useEffect(() => {
     // Revoke the data URI to avoid memory leaks when the component unmounts
@@ -148,7 +149,7 @@ export default function EditUserComponent({ user, startPhotoUrl, startFirstName,
         </FormControl>
 
         <Button
-          colorScheme="orange"
+          colorScheme="xorange"
           onClick={submitFunction}
           isLoading={isLoading}
           loadingText="Updating..."

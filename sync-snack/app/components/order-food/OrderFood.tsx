@@ -52,7 +52,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         onOrderSuccess();
 
       } else {
-        if(orderResponse.status === 409){
+        if (orderResponse.status === 409) {
           toast({
             title: "You already have an order for that event",
             status: "error",
@@ -65,7 +65,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
         }
       }
     } catch (error) {
-      
+
       console.error('Error placing order:', error);
       toast({
         title: "Failed to place order",
@@ -179,7 +179,7 @@ export default function OrderFood({ event, activeUser, onOrderSuccess }: OrderFo
           maxLength={80}
         />
         <Button
-          colorScheme="orange"
+          colorScheme="xorange"
           size="lg"
           width="full"
           type="submit"

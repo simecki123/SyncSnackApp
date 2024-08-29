@@ -159,7 +159,7 @@ export default function CreateEvent({ activeUser, onCloseModal }: any) {
           </FormControl>
 
           <Button
-            colorScheme="orange"
+            colorScheme="xorange"
             width="100%"
             type="submit">
             Create Event

@@ -97,7 +97,7 @@ export default function MembersTable({ members, futureMembers, user, currentPage
   }
 
   return (
-    <Box className='w-full flex flex-col'>
+    <Box className='w-full flex flex-col h-full'>
       <TableContainer className='w-full pt-10 pb-4 px-6'>
         <Text className='text-xl font-semibold mb-2 ml-2'>Members</Text>
         <Table variant='simple' className='shadow-lg'>

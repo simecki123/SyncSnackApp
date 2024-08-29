@@ -92,7 +92,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
             )
           })}
         </Box>
-        <Box className="hidden md:flex md:justify-center">
+        <Box className="hidden md:flex md:justify-center h-full">
           <MembersTable
             members={members}
             futureMembers={futureMembers}

@@ -41,8 +41,8 @@ export default function GroupData({ groupId, group, initialSortOption, users, se
               <Text fontWeight="bold">Description:</Text>
               <Text>{group.description}</Text>
             </Box>
-            <Button colorScheme="orange" mt={4} onClick={onOpen}>Edit</Button>
-            <Button colorScheme="orange" mt={4} onClick={() => {
+            <Button colorScheme="xorange" mt={4} onClick={onOpen}>Edit</Button>
+            <Button colorScheme="xorange" mt={4} onClick={() => {
               navigator.clipboard.writeText(`http://localhost:3000/register-link?groupId=${groupId}&groupCode=12345678`)
               toast({
                 title: 'Invite',

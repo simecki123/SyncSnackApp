@@ -39,6 +39,7 @@ export default function OrderRowMobile({ order, accessToken }: any) {
           <Text
             className="font-semibold text-xl"
             color={useColorModeValue("gray.900", "white")}
+
           >
             <OrderTypePretty orderType={order.eventType} />
           </Text>
@@ -63,6 +64,7 @@ export default function OrderRowMobile({ order, accessToken }: any) {
             <Button
               colorScheme="yellow"
               size="sm"
+
               variant="outline"
               onClick={() => setRateModalOpen(true)}
             >
@@ -118,6 +120,7 @@ function objectToString(obj: any): string {
 
 // utils/dateUtils.js
 export function formatDate(dateString: string): string {
+  console.log(dateString, 'fjalkdfjkljfakldf')
   const date = new Date(dateString);
   const now = new Date();
 
@@ -129,6 +132,8 @@ export function formatDate(dateString: string): string {
   if (diff < 7 * oneDay) return "A few days ago";
   if (diff < 14 * oneDay) return "Last week";
   if (diff < 30 * oneDay) return "Last month";
-  if (diff < 365 * oneDay) return "More than a month ago";
+  if (diff < 90 * oneDay) return "More then a month ago";
+  if (diff < 140 * oneDay) return "More then a 3 months ago";
+  if (diff < 365 * oneDay) return "More than a 6 months ago";
   return "More than a year ago";
 }

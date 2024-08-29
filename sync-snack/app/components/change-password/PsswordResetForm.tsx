@@ -9,7 +9,7 @@ export default function PasswordResetForm({ searchParams }: { searchParams: any 
   const router = useRouter();
 
   async function handleSubmit(formData: FormData) {
-    
+
 
     const newPassword = formData.get('newPassword') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
@@ -17,7 +17,7 @@ export default function PasswordResetForm({ searchParams }: { searchParams: any 
     console.log("new password: ", newPassword);
     console.log("confirm password: ", confirmPassword);
     console.log(searchParams)
-    
+
 
     if (newPassword === confirmPassword) {
       try {
@@ -35,53 +35,53 @@ export default function PasswordResetForm({ searchParams }: { searchParams: any 
         });
 
         console.log("Response ", response);
-        
+
         if (response.ok) {
-            toast({
-                title: "Success",
-                description: "Your new password has been successfully updated",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "top",
-              });
-            router.push('/login');
-          
+          toast({
+            title: "Success",
+            description: "Your new password has been successfully updated",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+          router.push('/login');
+
         } else {
-            toast({
-                title: "Server error",
-                description: "Your new password cant be updated please try again later",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-                position: "top",
-              });
+          toast({
+            title: "Server error",
+            description: "Your new password cant be updated please try again later",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
         }
       } catch (error) {
         toast({
-            title: "Error",
-            description: "Something went wrong, please try again",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-          });
+          title: "Error",
+          description: "Something went wrong, please try again",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       }
     } else {
-        toast({
-            title: "Error",
-            description: "Your new password and confirm password must be the same",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-          });
+      toast({
+        title: "Error",
+        description: "Your new password and confirm password must be the same",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
     }
 
-    
+
   }
 
-  
+
 
   return (
     <form action={handleSubmit}>
@@ -110,7 +110,7 @@ export default function PasswordResetForm({ searchParams }: { searchParams: any 
         </Box>
         <Button
           type="submit"
-          colorScheme="orange"
+          colorScheme="xorange"
           width="100%"
           mt={4}
         >
