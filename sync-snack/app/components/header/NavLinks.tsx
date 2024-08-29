@@ -6,19 +6,29 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function NavLinks({ setIsOpen }: any) {
+export default function NavLinks({ setIsOpen, IsEventLinkShown, IsAdminLinkShown }: {
+  setIsOpen: (isOpen: boolean) => void;
+  IsEventLinkShown: boolean;
+  IsAdminLinkShown: boolean;
+}) {
   const pathname = usePathname();
+
+  const filteredLinks = links.filter(link => {
+    if (link.name === 'Event' && !IsEventLinkShown) return false;
+    if (link.name === 'Admin' && !IsAdminLinkShown) return false;
+    return true;
+  });
 
   return (
     <Box className="flex flex-col">
-      {links.map((link, index) => {
+      {filteredLinks.map((link, index) => {
         const IconLink = link.icon;
         return (
           <Link key={index} href={link.href}>
             <Box onClick={() => setIsOpen(false)} className={clsx(
-              "flex items-center rounded-xl px-4 py-3 m-2 hover:text-orange-400 hover:bg-orange-100",
+              "flex items-center rounded-xl px-4 py-3 m-2 hover:text-white hover:bg-blue-2",
               {
-                'bg-orange-100 text-orange-400': pathname === link.href,
+                'bg-blue-2 text-white': pathname === link.href,
               }
             )}>
               <IconLink className="h-6 w-6 mr-2" />
@@ -39,4 +49,5 @@ const links = [
   { name: 'Orders', href: '/orders', icon: CommandLineIcon },
   { name: 'Profile', href: '/profile', icon: UserCircleIcon },
   { name: 'Group', href: '/group', icon: UserGroupIcon },
+  { name: 'Admin', href: '/admin', icon: ChartBarIcon }, // Added Admin link
 ];
