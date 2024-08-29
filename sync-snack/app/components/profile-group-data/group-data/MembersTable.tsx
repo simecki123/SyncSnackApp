@@ -34,6 +34,7 @@ import {
   AlertDialogCloseButton,
 } from '@chakra-ui/react'
 import React from 'react'
+import MemberCard from './MemberCard'
 
 export default function MembersTable({ members, futureMembers, user, currentPage }: any) {
   const router = useRouter();
@@ -97,7 +98,16 @@ export default function MembersTable({ members, futureMembers, user, currentPage
   }
 
   return (
-    <Box className='w-full flex flex-col h-full'>
+    <>
+    <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
+          {members.map((user: any, index: number) => {
+            return (
+              <MemberCard user={user} key={index} index={index}></MemberCard>
+            )
+          })}
+      </Box>
+
+    <Box className='hidden md:flex md:justify-center w-full flex-col h-full  '>
       <TableContainer className='w-full pt-10 pb-4 px-6'>
         <Text className='text-xl font-semibold mb-2 ml-2'>Members</Text>
         <Table variant='simple' className='shadow-lg'>
@@ -200,5 +210,9 @@ export default function MembersTable({ members, futureMembers, user, currentPage
         </AlertDialogOverlay>
       </AlertDialog>
     </Box>
+    </>
   )
 }
+
+
+

@@ -78,28 +78,25 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
 
     <Box className="md:grid md:grid-cols-2 md:gap-10 md:grid-rows-[1fr_70%] md:h-screen md:ml-6">
       <GroupData initialGroupData={groupData} activeUser={activeUser} fetchGroupData={fetchGroupData}></GroupData>
+      
+      <Box className="md:hidden mt-4">
+        <GroupOrdersDonut datahero={orderDounuts} />
+      </Box>
 
       <Box className="hidden md:flex md:h-full md:items-center md:justify-center">
 
         <MvpMemberCard user={mvpMem} orders={completedOrders} />
 
       </Box>
+      
       <Box>
-        <Box className="md:hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-10">
-          {members.map((user: any, index: number) => {
-            return (
-              <MemberCard user={user} key={index} index={index} orders={completedOrders} />
-            )
-          })}
-        </Box>
-        <Box className="hidden md:flex md:justify-center h-full">
-          <MembersTable
+        
+        <MembersTable
             members={members}
             futureMembers={futureMembers}
             user={activeUser}
             currentPage={currentPage}
           />
-        </Box>
       </Box>
       <Box className="hidden md:flex md:justify-center">
         <GroupOrdersDonut datahero={orderDounuts} />
@@ -108,40 +105,7 @@ export default async function GroupPage({ searchParams }: { searchParams: { page
   )
 }
 
-function MemberCard({ index, user, orders }: { index: any, user: any, orders: [] }) {
-  const userIsMvp = index === 0;
 
-  return (
-    <Box className={clsx("flex rounded-xl shadow-lg overflow-hidden relative", {
-      "bg-orange-light-1": userIsMvp,
-      "bg-gray-100": !userIsMvp,
-    })}>
-      <Image
-        className="h-[150px] w-[150px] rounded-l-xl mr-4"
-        src={user.photoUrl}
-        alt="Profile picture"
-        objectFit='cover'
-      />
-      <Box className="grow flex flex-col justify-center space-y-2 p-4">
-        <Text className="font-semibold">
-          {user.firstName} {user.lastName}
-        </Text>
-        <Box className={clsx("", {
-          "flex": userIsMvp,
-        })}>
-          <Text className={clsx("mr-1 italic", {
-            "bg-white p-1 rounded-md font-semibold": userIsMvp,
-          })}>
-            {user.score.toFixed(2)}⭐
-          </Text>
-        </Box>
-      </Box>
-      {userIsMvp && (
-        <Box className="absolute top-0 h-full w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-slide"></Box>
-      )}
-    </Box>
-  );
-}
 
 async function MvpMemberCard({ user, orders }: { user: any, orders: [] }) {
 
